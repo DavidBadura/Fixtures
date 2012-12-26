@@ -1,0 +1,7 @@
+group:
+  properties:
+    class: DavidBadura\Fixtures\TestObjects\Group
+  data:
+    developer:
+      name: Developer
+      leader: "@@user:david"

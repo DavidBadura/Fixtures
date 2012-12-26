@@ -1,0 +1,24 @@
+{
+    "name": "davidbadura/fixtures",
+    "description": "A library to load yaml fixtures. Easy extendable, resolve object dependency and validate objects.",
+    "keywords": ["fixtures", "faker", "doctrine", "yaml", "database", "orm"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+        "name" : "David Badura",
+        "email" : "d.badura@gmx.de"
+    }],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/yaml" : ">=2.0",
+        "symfony/console" : ">=2.0",
+        "symfony/event-dispatcher" : ">=2.0",
+        "symfony/finder" : ">=2.0",
+        "doctrine/common": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "DavidBadura\\Fixtures\\": "src"
+        }
+    }
+}

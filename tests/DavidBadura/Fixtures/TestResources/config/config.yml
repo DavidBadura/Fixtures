@@ -1,0 +1,4 @@
+david_badura_fixtures:
+  bundles:
+    - DavidBaduraFixtures
+  persister: orm
