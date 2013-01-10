@@ -15,10 +15,4 @@ interface LoaderInterface
      * @return Fixture[]
      */
     public function load($path);
-
-    /**
-     *
-     * @return string
-     */
-    public function getPattern();
 }

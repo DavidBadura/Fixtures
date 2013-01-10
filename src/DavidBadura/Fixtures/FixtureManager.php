@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Logger\Logger;
 use DavidBadura\Fixtures\Logger\NullLogger;
+use DavidBadura\Fixtures\Loader\LoaderInterface;
 
 /**
  *
@@ -19,9 +20,9 @@ class FixtureManager
 
     /**
      *
-     * @var FixtureLoader
+     * @var LoaderInterface
      */
-    private $fixtureLoader;
+    private $loader;
 
     /**
      *
@@ -45,11 +46,11 @@ class FixtureManager
      *
      * @param PersisterInterface $persister
      */
-    public function __construct(FixtureLoader $fixtureLoader,
+    public function __construct(LoaderInterface $loader,
         FixtureFactory $fixtureFactory, ExecutorInterface $executor,
         EventDispatcherInterface $eventDispatcher)
     {
-        $this->fixtureLoader = $fixtureLoader;
+        $this->loader = $loader;
         $this->fixtureFactory = $fixtureFactory;
         $this->executor = $executor;
         $this->eventDispatcher = $eventDispatcher;
@@ -57,11 +58,11 @@ class FixtureManager
 
     /**
      *
-     * @return FixtureFactory
+     * @return LoaderInterface
      */
-    public function getFixtureLoader()
+    public function getLoader()
     {
-        return $this->fixtureLoader;
+        return $this->loader;
     }
 
     /**
@@ -98,7 +99,7 @@ class FixtureManager
 
         $logger->headline('search fixture files...');
 
-        $data = $this->fixtureLoader->loadFixtures($options['fixtures'], $logger);
+        $data = $this->loader->load($options['fixtures']);
 
         $event = new PostFixtureLoadEvent($data, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPostFixtureLoad, $event);

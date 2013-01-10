@@ -20,7 +20,7 @@ class YamlLoader implements LoaderInterface
     public function load($path)
     {
         $finder = new Finder();
-        $finder->in($path)->name($this->getPattern());
+        $finder->in($path)->name('*.yml');
 
         $fixtures = array();
         foreach ($finder->files() as $file) {
@@ -29,15 +29,6 @@ class YamlLoader implements LoaderInterface
         }
 
         return $fixtures;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getPattern()
-    {
-        return '*.yml';
     }
 
 }
