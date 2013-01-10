@@ -1,8 +1,8 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\Converter;
 
-use DavidBadura\Fixtures\FixtureConverter\FixtureConverterInterface;
+use DavidBadura\Fixtures\Converter\ConverterInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
@@ -34,7 +34,7 @@ class ConverterRepository
 
     /**
      *
-     * @var FixtureConverterInterface[]
+     * @var ConverterInterface[]
      */
     private $converters = array();
 
@@ -68,11 +68,11 @@ class ConverterRepository
 
     /**
      *
-     * @param  FixtureConverterInterface                  $converter
+     * @param  ConverterInterface                  $converter
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */
-    public function addConverter(FixtureConverterInterface $converter)
+    public function addConverter(ConverterInterface $converter)
     {
         $name = $converter->getName();
         if (isset($this->converters[$name])) {
@@ -100,7 +100,7 @@ class ConverterRepository
     /**
      *
      * @param  string                    $name
-     * @return FixtureConverterInterface
+     * @return ConverterInterface
      * @throws \Exception
      */
     public function getConverter($name)
@@ -151,8 +151,8 @@ class ConverterRepository
         foreach ($this->bundles as $name) {
             $bundle = $this->kernel->getBundle($name);
 
-            if (file_exists($bundle->getPath() . '/FixtureConverter')) {
-                $paths[] = $bundle->getPath() . '/FixtureConverter';
+            if (file_exists($bundle->getPath() . '/Converter')) {
+                $paths[] = $bundle->getPath() . '/Converter';
             }
         }
 
@@ -198,7 +198,7 @@ class ConverterRepository
 
         $interfaces = class_implements($className);
 
-        return in_array('DavidBadura\Fixtures\FixtureConverter\FixtureConverterInterface', $interfaces) ? false : true;
+        return in_array('DavidBadura\Fixtures\Converter\ConverterInterface', $interfaces) ? false : true;
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures;
 
-use DavidBadura\Fixtures\FixtureConverter\FixtureConverterInterface;
+use DavidBadura\Fixtures\Converter\ConverterInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
@@ -38,7 +38,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @var FixtureConverterInterface
+     * @var ConverterInterface
      */
     private $converter;
 
@@ -57,11 +57,11 @@ class Fixture implements \IteratorAggregate, \Countable
     /**
      *
      * @param string                    $name
-     * @param FixtureConverterInterface $converter
+     * @param ConverterInterface $converter
      * @param type                      $persister
      * @param array                     $data
      */
-    public function __construct($name, FixtureConverterInterface $converter)
+    public function __construct($name, ConverterInterface $converter)
     {
         $this->name = $name;
         $this->converter = $converter;
@@ -189,7 +189,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @return FixtureConverterInterface
+     * @return ConverterInterface
      */
     public function getConverter()
     {

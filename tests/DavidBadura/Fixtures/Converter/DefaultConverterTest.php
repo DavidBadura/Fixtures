@@ -1,9 +1,9 @@
 <?php
 
-namespace DavidBadura\Fixtures\FixtureConverter;
+namespace DavidBadura\Fixtures\Converter;
 
 use DavidBadura\Fixtures\FixtureData;
-use DavidBadura\Fixtures\FixtureConverter\DefaultConverter;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
 
 /**
  *

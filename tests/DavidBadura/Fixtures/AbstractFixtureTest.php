@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures;
 
-use DavidBadura\Fixtures\FixtureConverter\DefaultConverter;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
 use DavidBadura\Fixtures\Fixture;
 use DavidBadura\Fixtures\FixtureData;
 

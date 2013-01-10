@@ -1,16 +1,16 @@
 <?php
 
-namespace DavidBadura\Fixtures\FixtureConverter;
+namespace DavidBadura\Fixtures\Converter;
 
 use DavidBadura\Fixtures\FixtureData;
-use DavidBadura\Fixtures\Exception\FixtureConverterException;
+use DavidBadura\Fixtures\Exception\ConverterException;
 use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class DefaultConverter extends FixtureConverter
+class DefaultConverter implements ConverterInterface
 {
 
     public function createObject(FixtureData $fixtureData)
@@ -18,7 +18,7 @@ class DefaultConverter extends FixtureConverter
         $properties = $fixtureData->getProperties();
 
         if (!isset($properties['class'])) {
-            throw new FixtureConverterException('Missing fixture "class" property');
+            throw new ConverterException('Missing fixture "class" property');
         }
 
         $class = $properties['class'];
@@ -45,7 +45,7 @@ class DefaultConverter extends FixtureConverter
                 $arg = ($optional) ? substr($arg, 1) : $arg;
 
                 if (!isset($data[$arg]) && !$optional) {
-                    throw new FixtureConverterException(sprintf('Missing "%s" attribute', $arg));
+                    throw new ConverterException(sprintf('Missing "%s" attribute', $arg));
                 } elseif (isset($data[$arg])) {
 
                     $value = $data[$arg];

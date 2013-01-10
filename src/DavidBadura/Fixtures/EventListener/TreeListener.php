@@ -91,7 +91,7 @@ class TreeListener
     protected function validate($data)
     {
         $converter = $this->converterRepository->getConverter($data['converter']);
-        if (!$converter instanceof \DavidBadura\Fixtures\FixtureConverter\ConverterDataValidate) {
+        if (!$converter instanceof \DavidBadura\Fixtures\Converter\ConverterDataValidate) {
             return $data;
         }
 

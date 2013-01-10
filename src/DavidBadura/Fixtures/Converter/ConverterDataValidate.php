@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidBadura\Fixtures\FixtureConverter;
+namespace DavidBadura\Fixtures\Converter;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 

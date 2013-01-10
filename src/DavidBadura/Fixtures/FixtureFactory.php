@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures;
 
+use DavidBadura\Fixtures\Converter\ConverterRepository;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**

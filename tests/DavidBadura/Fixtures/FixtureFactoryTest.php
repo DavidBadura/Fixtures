@@ -3,8 +3,8 @@
 namespace DavidBadura\Fixtures;
 
 use DavidBadura\Fixtures\FixtureFactory;
-use DavidBadura\Fixtures\ConverterRepository;
-use DavidBadura\Fixtures\FixtureConverter\DefaultConverter;
+use DavidBadura\Fixtures\Converter\ConverterRepository;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
 
 /**
  *
