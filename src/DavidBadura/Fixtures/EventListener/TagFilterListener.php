@@ -17,7 +17,7 @@ class TagFilterListener
      */
     public function onPreExecute(PreExecuteEvent $event)
     {
-        $fixtures = $event->getFixtures();
+        $collection = $event->getCollection();
         $options = $event->getOptions();
 
         if (empty($options['tags'])) {
@@ -28,13 +28,21 @@ class TagFilterListener
             $options['tags'] = array($options['tags']);
         }
 
-        foreach ($fixtures as $fixture) {
-            foreach ($fixture->getTags() as $tag) {
+        /* @var $fixture Fixture */
+        foreach ($collection as $fixture) {
+
+            $properties = $fixture->getProperties();
+            if(!isset($properties['tags']) || !is_array($properties['tags'])) {
+                $collection->remove($fixture->getName());
+                continue;
+            }
+
+            foreach ($properties['tags'] as $tag) {
                 if (in_array($tag, $options['tags'])) {
                     continue 2;
                 }
             }
-            $fixtures->remove($fixture->getName());
+            $collection->remove($fixture->getName());
         }
     }
 

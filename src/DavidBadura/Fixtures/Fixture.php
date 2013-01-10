@@ -2,7 +2,6 @@
 
 namespace DavidBadura\Fixtures;
 
-use DavidBadura\Fixtures\Converter\ConverterInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
@@ -20,25 +19,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @var string[]
-     */
-    private $tags = array();
-
-    /**
-     *
-     * @var boolean
-     */
-    private $enableValidation = true;
-
-    /**
-     *
-     * @var array|null
-     */
-    private $validationGroups = null;
-
-    /**
-     *
-     * @var ConverterInterface
+     * @var array
      */
     private $converter;
 
@@ -61,10 +42,11 @@ class Fixture implements \IteratorAggregate, \Countable
      * @param type                      $persister
      * @param array                     $data
      */
-    public function __construct($name, ConverterInterface $converter)
+    public function __construct($name, $converter, array $properties = array())
     {
         $this->name = $name;
         $this->converter = $converter;
+        $this->properties = $properties;
     }
 
     /**
@@ -77,115 +59,7 @@ class Fixture implements \IteratorAggregate, \Countable
     }
 
     /**
-     *
-     * @return string[]
-     */
-    public function getTags()
-    {
-        return array_keys($this->tags);
-    }
 
-    /**
-     *
-     * @param  type                                $tags
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function addTags(array $tags)
-    {
-        foreach ($tags as $tag) {
-            $this->addTag($tag);
-        }
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param  string                              $tag
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function addTag($tag)
-    {
-        $this->tags[$tag] = true;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param  string  $tag
-     * @return boolean
-     */
-    public function hasTag($tag)
-    {
-        return isset($this->tags[$tag]);
-    }
-
-    /**
-     *
-     * @param  string                              $tag
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function removeTag($tag)
-    {
-        if (isset($this->tags[$tag])) {
-            unset($this->tags[$tag]);
-        }
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return boolean
-     */
-    public function isEnableValidation()
-    {
-        return $this->enableValidation;
-    }
-
-    /**
-     *
-     * @param  type                                $enableValidation
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function setEnableValidation($enableValidation)
-    {
-        $this->enableValidation = $enableValidation;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getValidationGroups()
-    {
-        return $this->validationGroups;
-    }
-
-    /**
-     *
-     * @param  string                              $validationGroup
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function setValidationGroups($validationGroups)
-    {
-        if (is_null($validationGroups)) {
-            $this->validationGroups = null;
-
-            return $this;
-        }
-
-        if (!is_array($validationGroups)) {
-            $validationGroups = array($validationGroups);
-        }
-
-        $this->validationGroups = $validationGroups;
-
-        return $this;
-    }
 
     /**
      *
@@ -292,6 +166,27 @@ class Fixture implements \IteratorAggregate, \Countable
     public function count()
     {
         return count($this->fixtureData);
+    }
+
+
+    static public function create($name, array $data)
+    {
+        $converter = (isset($data['converter'])) ? $data['converter'] : 'default' ;
+        $fixture = new Fixture($name, $converter);
+
+        if (!isset($data['data'])) {
+            throw new FixtureException("missing data property");
+        }
+
+        foreach ($data['data'] as $key => $value) {
+            $fixture->addFixtureData(new FixtureData($key, $value));
+        }
+
+        if (isset($data['properties'])) {
+            $fixture->setProperties($data['properties']);
+        }
+
+        return $fixture;
     }
 
 }

@@ -16,7 +16,7 @@ class PostExecuteEvent extends Event
      *
      * @var FixtureCollection
      */
-    private $fixtures;
+    private $collection;
 
     /**
      *
@@ -26,12 +26,12 @@ class PostExecuteEvent extends Event
 
     /**
      *
-     * @param FixtureCollection $fixtures
+     * @param FixtureCollection $collection
      * @param array             $options
      */
-    public function __construct(FixtureCollection $fixtures, array $options = array())
+    public function __construct(FixtureCollection $collection, array $options = array())
     {
-        $this->fixtures = $fixtures;
+        $this->collection = $collection;
         $this->options = $options;
     }
 
@@ -39,19 +39,19 @@ class PostExecuteEvent extends Event
      *
      * @return FixtureCollection
      */
-    public function getFixtures()
+    public function getCollection()
     {
-        return $this->fixtures;
+        return $this->collection;
     }
 
     /**
      *
-     * @param  FixtureCollection                                  $fixtures
+     * @param  FixtureCollection $collection
      * @return \DavidBadura\Fixtures\Event\PostExecuteEvent
      */
-    public function setFixtures(FixtureCollection $fixtures)
+    public function setCollection(FixtureCollection $collection)
     {
-        $this->fixtures = $fixtures;
+        $this->collection = $collection;
 
         return $this;
     }

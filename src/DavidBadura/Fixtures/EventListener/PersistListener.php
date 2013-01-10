@@ -47,9 +47,9 @@ class PersistListener
             return;
         }
 
-        $fixtures = $event->getFixtures();
+        $collection = $event->getCollection();
 
-        foreach ($fixtures as $fixture) {
+        foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
                 $this->persister->addObject($data->getObject());
             }

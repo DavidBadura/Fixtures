@@ -2,38 +2,12 @@
 
 namespace DavidBadura\Fixtures;
 
-use DavidBadura\Fixtures\FixtureFactory;
-use DavidBadura\Fixtures\Converter\ConverterRepository;
-use DavidBadura\Fixtures\Converter\DefaultConverter;
-
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class FixtureFactoryTest extends \PHPUnit_Framework_TestCase
+class FixtureCollectionTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     *
-     * @var FixtureFactory
-     */
-    private $factory;
-
-    /**
-     *
-     * @var DefaultConverter
-     */
-    private $converter;
-
-    public function setUp()
-    {
-        $this->converter = new DefaultConverter();
-
-        $repo = new ConverterRepository();
-        $repo->addConverter($this->converter);
-
-        $this->factory = new FixtureFactory($repo);
-    }
 
     public function testCreateFixtures()
     {
@@ -69,8 +43,8 @@ class FixtureFactoryTest extends \PHPUnit_Framework_TestCase
                 'properties' =>
                 array(
                     'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
+                    'tags' => array('install', 'test')
                 ),
-                'tags' => array('install', 'test'),
                 'data' =>
                 array(
                     'developer' =>
@@ -85,8 +59,8 @@ class FixtureFactoryTest extends \PHPUnit_Framework_TestCase
                 'properties' =>
                 array(
                     'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
+                    'tags' => array('test')
                 ),
-                'tags' => array('test'),
                 'data' =>
                 array(
                     'admin' =>
@@ -101,7 +75,7 @@ class FixtureFactoryTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $fixtures = $this->factory->createFixtures($data);
+        $fixtures = FixtureCollection::create($data);
 
         $this->assertEquals(3, count($fixtures));
 
@@ -109,22 +83,25 @@ class FixtureFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('group', $fixtures->get('group')->getName());
         $this->assertEquals('role', $fixtures->get('role')->getName());
 
-        $this->assertEquals($this->converter, $fixtures->get('user')->getConverter());
-        $this->assertEquals($this->converter, $fixtures->get('group')->getConverter());
-        $this->assertEquals($this->converter, $fixtures->get('role')->getConverter());
+        $this->assertEquals('default', $fixtures->get('user')->getConverter());
+        $this->assertEquals('default', $fixtures->get('group')->getConverter());
+        $this->assertEquals('default', $fixtures->get('role')->getConverter());
 
-        $this->assertEquals(array(), $fixtures->get('user')->getTags());
-        $this->assertEquals(array('install', 'test'), $fixtures->get('group')->getTags());
-        $this->assertEquals(array('test'), $fixtures->get('role')->getTags());
+        $this->assertEquals(array(
+            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
+            'constructor' => array('name', 'email')
+            ), $fixtures->get('user')->getProperties());
 
-        $this->assertEquals(array('class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
-            'constructor' => array('name', 'email')),
-            $fixtures->get('user')->getProperties());
-
-        $this->assertEquals(array('class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group'),
+        $this->assertEquals(array(
+            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
+            'tags' => array('install', 'test')
+            ),
             $fixtures->get('group')->getProperties());
 
-        $this->assertEquals(array('class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role'),
+        $this->assertEquals(array(
+            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
+            'tags' => array('test')
+            ),
             $fixtures->get('role')->getProperties());
 
     }

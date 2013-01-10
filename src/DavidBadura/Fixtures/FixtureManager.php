@@ -4,11 +4,8 @@ namespace DavidBadura\Fixtures;
 
 use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use DavidBadura\Fixtures\Event\PostExecuteEvent;
-use DavidBadura\Fixtures\Event\PostFixtureLoadEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
-use DavidBadura\Fixtures\Logger\Logger;
-use DavidBadura\Fixtures\Logger\NullLogger;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
 
 /**
@@ -23,12 +20,6 @@ class FixtureManager
      * @var LoaderInterface
      */
     private $loader;
-
-    /**
-     *
-     * @var FixtureFactory
-     */
-    private $fixtureFactory;
 
     /**
      *
@@ -47,11 +38,10 @@ class FixtureManager
      * @param PersisterInterface $persister
      */
     public function __construct(LoaderInterface $loader,
-        FixtureFactory $fixtureFactory, ExecutorInterface $executor,
+        ExecutorInterface $executor,
         EventDispatcherInterface $eventDispatcher)
     {
         $this->loader = $loader;
-        $this->fixtureFactory = $fixtureFactory;
         $this->executor = $executor;
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -67,15 +57,6 @@ class FixtureManager
 
     /**
      *
-     * @return FixtureFactory
-     */
-    public function getFixtureFactory()
-    {
-        return $this->fixtureFactory;
-    }
-
-    /**
-     *
      * @return ExecutorInterface
      */
     public function getExecutor()
@@ -85,53 +66,56 @@ class FixtureManager
 
     /**
      *
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     *
      * @param array $options
      */
-    public function load(array $options = array(), Logger $logger = null)
+    public function load($path, array $options = array())
     {
-        if(!$logger) {
-            $logger = new NullLogger();
-        }
+        $collection = $this->loader->load($path);
 
-        $options = array_merge(array(
-            'fixtures' => array()
-        ), $options);
-
-        $logger->headline('search fixture files...');
-
-        $data = $this->loader->load($options['fixtures']);
-
-        $event = new PostFixtureLoadEvent($data, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPostFixtureLoad, $event);
-
-        $logger->headline('load fixtures...');
-
-        $data = $event->getData();
-        $options = $event->getOptions();
-
-        $fixtures = $this->fixtureFactory->createFixtures($data);
-
-        $event = new PreExecuteEvent($fixtures, $options);
+        $event = new PreExecuteEvent($collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
 
-        $fixtures = $event->getFixtures();
+        $collection = $event->getCollection();
         $options = $event->getOptions();
 
-        foreach($fixtures as $fixture) {
-            $logger->log($fixture->getName());
-        }
+        $this->executor->execute($collection);
 
-        $this->executor->execute($fixtures);
-
-        $event = new PostExecuteEvent($fixtures, $options);
+        $event = new PostExecuteEvent($collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPostExecute, $event);
 
-        $fixtures = $event->getFixtures();
+        $collection = $event->getCollection();
         $options = $event->getOptions();
 
-        $logger->headline('done!');
+        return $collection;
+    }
 
-        return $fixtures;
+    /**
+     *
+     * @return FixtureManager
+     */
+    static public function createDefaultFixtureManager()
+    {
+        $yamlLoader = new Loader\YamlLoader();
+        $arrayLoader = new Loader\ArrayLoader();
+        $loader = new Loader\LoaderChain(array($yamlLoader, $arrayLoader));
+
+        $executor = new Executor\Executor();
+
+        $tagFilterListener = new EventListener\TagFilterListener();
+
+        $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+        $eventDispatcher->addListener('davidbadura_fixtures.listener.tag_filter', $tagFilterListener);
+
+        return new self($loader, $executor, $eventDispatcher);
     }
 
 }

@@ -42,10 +42,13 @@ class ValidationListener
      */
     public function onPostExecute(PostExecuteEvent $event)
     {
-        $fixtures = $event->getFixtures();
+        $collection = $event->getCollection();
 
-        foreach ($fixtures as $fixture) {
-            if (!$fixture->isEnableValidation()) {
+        foreach ($collection as $fixture) {
+
+            $properties = $fixture->getProperties();
+
+            if (!isset($properties['validation_enabled']) || !$properties['validation_enabled']) {
                 continue;
             }
 

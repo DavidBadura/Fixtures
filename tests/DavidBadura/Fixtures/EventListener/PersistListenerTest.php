@@ -38,12 +38,12 @@ class PersistListenerTest extends AbstractFixtureTest
 
     public function testPersistListener()
     {
-        $fixtures = new FixtureCollection(array(
-            $this->createFixture('test1', array('key1' => 'data1')),
-            $this->createFixture('test2', array('key2' => 'data2'))
+        $collection = FixtureCollection::create(array(
+            'test1'=> array('data' => array('key1' => 'data1')),
+            'test2'=> array('data' => array('key2' => 'data2'))
         ));
 
-        $event = new PostExecuteEvent($fixtures, array());
+        $event = new PostExecuteEvent($collection, array());
         $this->listener->onPostExecute($event);
     }
 

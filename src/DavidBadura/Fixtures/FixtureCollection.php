@@ -101,4 +101,19 @@ class FixtureCollection implements \IteratorAggregate, \Countable
         return count($this->fixtures);
     }
 
+    /**
+     *
+     * @param array $data
+     * @return self
+     */
+    public static function create(array $data)
+    {
+        $collection = new self();
+        foreach ($data as $name => $info) {
+            $collection->add(Fixture::create($name, $info));
+        }
+
+        return $collection;
+    }
+
 }

@@ -12,7 +12,7 @@ interface LoaderInterface
     /**
      *
      * @param  mixed     $path
-     * @return Fixture[]
+     * @return FixtureCollection
      */
     public function load($path);
 }

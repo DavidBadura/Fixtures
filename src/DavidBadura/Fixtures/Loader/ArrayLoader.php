@@ -2,15 +2,14 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\FixtureCollection;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
+use DavidBadura\Fixtures\FixtureCollection;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class YamlLoader implements LoaderInterface
+class ArrayLoader implements LoaderInterface
 {
 
     /**
@@ -21,11 +20,11 @@ class YamlLoader implements LoaderInterface
     public function load($path)
     {
         $finder = new Finder();
-        $finder->in($path)->name('*.yml');
+        $finder->in($path)->name('*.php');
 
         $fixtures = array();
         foreach ($finder->files() as $file) {
-            $data = Yaml::parse($file->getPathname());
+            $data = include $file->getPathname();
             $fixtures = array_merge_recursive($fixtures, $data);
         }
 
