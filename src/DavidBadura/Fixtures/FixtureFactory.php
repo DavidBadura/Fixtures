@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures;
 
-use DavidBadura\Fixtures\Converter\ConverterRepository;
+use DavidBadura\Fixtures\Converter\ConverterRepositoryInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
@@ -14,15 +14,15 @@ class FixtureFactory
 
     /**
      *
-     * @var ConverterRepository
+     * @var ConverterRepositoryInterface
      */
     private $converterRepository;
 
     /**
      *
-     * @param ConverterRepository $repository
+     * @param ConverterRepositoryInterface $repository
      */
-    public function __construct(ConverterRepository $repository)
+    public function __construct(ConverterRepositoryInterface $repository)
     {
         $this->converterRepository = $repository;
     }

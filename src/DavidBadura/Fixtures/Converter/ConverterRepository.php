@@ -3,34 +3,14 @@
 namespace DavidBadura\Fixtures\Converter;
 
 use DavidBadura\Fixtures\Converter\ConverterInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\KernelInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ConverterRepository
+class ConverterRepository implements ConverterRepositoryInterface
 {
-
-    /**
-     *
-     * @var KernelInterface
-     */
-    private $kernel;
-
-    /**
-     *
-     * @var array
-     */
-    private $bundles;
-
-    /**
-     *
-     * @var boolean
-     */
-    private $loaded = false;
 
     /**
      *
@@ -44,27 +24,6 @@ class ConverterRepository
      */
     private $classes = array();
 
-    /**
-     *
-     * @param KernelInterface $kernel
-     * @param array           $bundles
-     */
-    public function __construct(KernelInterface $kernel = null, array $bundles = array())
-    {
-        $this->kernel = $kernel;
-        $this->bundles = $bundles;
-    }
-
-    /**
-     *
-     * @param array $converters
-     */
-    public function addConverters(array $converters = array())
-    {
-        foreach ($converters as $converter) {
-            $this->addConverter($converter);
-        }
-    }
 
     /**
      *
@@ -92,8 +51,6 @@ class ConverterRepository
      */
     public function hasConverter($name)
     {
-        $this->init();
-
         return isset($this->converters[$name]);
     }
 
@@ -105,7 +62,6 @@ class ConverterRepository
      */
     public function getConverter($name)
     {
-        $this->init();
         if (!isset($this->converters[$name])) {
             return null;
         }
@@ -121,84 +77,12 @@ class ConverterRepository
      */
     public function removeConverter($name)
     {
-        $this->init();
         if (isset($this->converters[$name])) {
             unset($this->converters[$name]);
             unset($this->classes[get_class($this->converters[$name])]);
         }
 
         return $this;
-    }
-
-    /**
-     *
-     *
-     */
-    public function init()
-    {
-        if ($this->loaded)
-
-            return;
-
-        if (!$this->kernel || empty($this->bundles)) {
-            $this->loaded = true;
-
-            return;
-        }
-
-        $paths = array();
-
-        foreach ($this->bundles as $name) {
-            $bundle = $this->kernel->getBundle($name);
-
-            if (file_exists($bundle->getPath() . '/Converter')) {
-                $paths[] = $bundle->getPath() . '/Converter';
-            }
-        }
-
-        if (empty($paths)) {
-            $this->loaded = true;
-
-            return;
-        }
-
-        $finder = new Finder();
-        $finder->in($paths)->name('*Converter.php');
-
-        foreach ($finder->files() as $file) {
-            require_once $file->getRealpath();
-        }
-
-        $declared = get_declared_classes();
-
-        foreach ($declared as $class) {
-
-            if (isset($this->classes[$class]) || $this->isTransient($class)) {
-                continue;
-            }
-
-            $converter = new $class;
-            $this->addConverter($converter);
-        }
-
-        $this->loaded = true;
-    }
-
-    /**
-     *
-     * @param  string  $className
-     * @return boolean
-     */
-    public function isTransient($className)
-    {
-        $rc = new \ReflectionClass($className);
-        if ($rc->isAbstract())
-
-            return true;
-
-        $interfaces = class_implements($className);
-
-        return in_array('DavidBadura\Fixtures\Converter\ConverterInterface', $interfaces) ? false : true;
     }
 
 }
