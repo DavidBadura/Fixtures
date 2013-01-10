@@ -1,14 +1,14 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\FixtureLoader;
+use DavidBadura\Fixtures\Loader\FixtureLoader;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
+class YamlLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -19,7 +19,7 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loader = new FixtureLoader();
+        $this->loader = new YamlLoader();
     }
 
     public function testLoadFixturesByPath()
@@ -103,10 +103,7 @@ class FixtureLoaderTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $logger = $this->getMock('DavidBadura\Fixtures\Logger\Logger');
-        $logger->expects($this->exactly(3))->method('log');
-
-        $data = $this->loader->loadFixtures(__DIR__ . '/TestResources/fixtures', $logger);
+        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures');
         $this->assertEquals($expects, $data);
     }
 
