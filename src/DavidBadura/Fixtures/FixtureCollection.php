@@ -104,7 +104,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
     /**
      *
      * @param array $data
-     * @return self
+     * @return FixtureCollection
      */
     public static function create(array $data)
     {

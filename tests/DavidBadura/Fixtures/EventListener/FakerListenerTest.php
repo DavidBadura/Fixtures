@@ -3,10 +3,11 @@
 namespace DavidBadura\Fixtures\EventListener;
 
 use DavidBadura\Fixtures\EventListener\FakerListener;
-use DavidBadura\Fixtures\Event\PostFixtureLoadEvent;
+use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 use Faker\Generator;
 use Faker\Factory;
+use DavidBadura\Fixtures\FixtureCollection;
 
 /**
  *
@@ -28,11 +29,6 @@ class FakerListenerTest extends AbstractFixtureTest
 
     public function setUp()
     {
-        if(!class_exists('Faker\Factory')) {
-            $this->markTestSkipped();
-            return;
-        }
-
         parent::setUp();
         $this->faker = Factory::create();
 
@@ -50,23 +46,29 @@ class FakerListenerTest extends AbstractFixtureTest
                     array(
                         'name' => '<name()>',
                         'email' => '<email()>',
-                        'random' => 'blubb{6..12}test',
+                        'random' => 'blubbtest',
                         'text' => '<sentence(3)>'
                     ),
                 ),
             ),
         );
 
+        $collection = FixtureCollection::create($data);
 
-        $event = new PostFixtureLoadEvent($data);
-        $this->listener->onPostFixtureLoad($event);
 
-        $newData = $event->getData();
+        $event = new PreExecuteEvent($collection);
+        $this->listener->onPreExecuteEvent($event);
 
-        $this->assertEquals(3, count($newData['user']['data']));
-        $this->assertTrue(strpos($newData['user']['data']['user0']['email'], '@') !== false);
-        $this->assertTrue(strpos($newData['user']['data']['user1']['email'], '@') !== false);
-        $this->assertTrue(strpos($newData['user']['data']['user2']['email'], '@') !== false);
+        $fixture = $collection->get('user');
+        $user0 = $fixture->getFixtureData('user0')->getData();
+        $user1 = $fixture->getFixtureData('user1')->getData();
+        $user2 = $fixture->getFixtureData('user2')->getData();
+
+
+        $this->assertEquals(3, count($fixture));
+        $this->assertTrue(strpos($user0['email'], '@') !== false);
+        $this->assertTrue(strpos($user1['email'], '@') !== false);
+        $this->assertTrue(strpos($user2['email'], '@') !== false);
     }
 
 }

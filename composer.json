@@ -11,11 +11,13 @@
     "require": {
         "php": ">=5.3.0",
         "symfony/event-dispatcher" : ">=2.0",
-        "symfony/finder" : ">=2.0",
-        "doctrine/common": "*"
+        "symfony/finder" : ">=2.0"
     },
     "require-dev": {
-        "symfony/yaml" : ">=2.0"
+        "symfony/yaml" : ">=2.0",
+        "symfony/validator": ">=2.0",
+        "fzaninotto/faker": "*",
+        "doctrine/common": "*"
     },
     "autoload": {
         "psr-0": {

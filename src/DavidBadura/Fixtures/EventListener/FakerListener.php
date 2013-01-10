@@ -2,7 +2,9 @@
 
 namespace DavidBadura\Fixtures\EventListener;
 
-use DavidBadura\Fixtures\Event\PostFixtureLoadEvent;
+use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\FixtureData;
+use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use Faker\Generator;
 
 /**
@@ -41,39 +43,45 @@ class FakerListener
 
     /**
      *
-     * @param PostExecuteEvent $event
+     * @param PreExecuteEvent $event
      */
-    public function onPostFixtureLoad(PostFixtureLoadEvent $event)
+    public function onPreExecuteEvent(PreExecuteEvent $event)
     {
-        $data = $event->getData();
+        $collection = $event->getCollection();
 
-        $data = $this->replaceMultiPlaceholder($data);
-        $data = $this->replaceFakerPlaceholder($data);
-
-        $event->setData($data);
+        $this->replaceMultiPlaceholder($collection);
+        $this->replaceFakerPlaceholder($collection);
     }
 
-    protected function replaceFakerPlaceholder($data)
+    protected function replaceFakerPlaceholder(FixtureCollection $collection)
     {
         $faker = $this->faker;
 
-        array_walk_recursive($data, function(&$item, &$key) use ($faker) {
-                $matches = array();
-                if (preg_match(FakerListener::FAKER_PLACEHOLDER_PATTERN, $item, $matches)) {
-                    $attributes = explode(',', $matches[2]);
-                    $item = call_user_func_array(array($faker, $matches[1]), $attributes);
-                }
-            });
+        foreach($collection as $fixture) {
+            foreach ($fixture as $fixtureData) {
+                $data = $fixtureData->getData();
 
-        return $data;
+                array_walk_recursive($data, function(&$item, &$key) use ($faker) {
+                    $matches = array();
+                    if (preg_match(FakerListener::FAKER_PLACEHOLDER_PATTERN, $item, $matches)) {
+                        $attributes = explode(',', $matches[2]);
+                        $item = call_user_func_array(array($faker, $matches[1]), $attributes);
+                    }
+                });
+
+                $fixtureData->setData($data);
+
+            }
+        }
+
     }
 
-    protected function replaceMultiPlaceholder($fixtures)
+    protected function replaceMultiPlaceholder(FixtureCollection $collection)
     {
-        foreach ($fixtures as $key1 => $fixture) {
-            foreach ($fixture['data'] as $key2 => $data) {
+        foreach ($collection as $fixture) {
+            foreach ($fixture as $fixtureData) {
                 $matches = array();
-                if (preg_match(FakerListener::MULTI_PLACEHOLDER_PATTERN, $key2, $matches)) {
+                if (preg_match(FakerListener::MULTI_PLACEHOLDER_PATTERN, $fixtureData->getKey(), $matches)) {
 
                     $from = $matches[1];
                     $to = $matches[2];
@@ -83,30 +91,15 @@ class FakerListener
                     }
 
                     for ($i = $from; $i <= $to; $i++) {
-                        $fixtures[$key1]['data'][str_replace($matches[0], $i, $key2)] = $data;
+                        $newKey = str_replace($matches[0], $i, $fixtureData->getKey());
+                        $newFixture = new FixtureData($newKey, $fixtureData->getData());
+                        $fixture->addFixtureData($newFixture);
                     }
 
-                    unset($fixtures[$key1]['data'][$key2]);
+                    $fixture->removeFixtureData($fixtureData);
                 }
             }
         }
-
-        array_walk_recursive($fixtures, function(&$item, &$key) {
-                $matches = array();
-                if (preg_match(FakerListener::MULTI_PLACEHOLDER_PATTERN, $item, $matches)) {
-
-                    $from = $matches[1];
-                    $to = $matches[2];
-
-                    if ($from > $to) {
-                        throw new \Exception();
-                    }
-
-                    $item = str_replace($matches[0], rand($from, $to), $item);
-                }
-            });
-
-        return $fixtures;
     }
 
 }
