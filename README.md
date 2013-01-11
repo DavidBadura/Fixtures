@@ -7,7 +7,7 @@ davidbadura \ fixtures
 
 
 This is a porting of [DavidBaduraFixturesBundle](https://github.com/DavidBadura/FixturesBundle).
-In the first step, the main components are moved into a separate [davidbadura\fixtures](https://github.com/DavidBadura/Fixtures) library.
+In the first step, the main components are moved into a separate library.
 After that must write a lot of tests...
 
 Features:
