@@ -4,6 +4,7 @@ namespace DavidBadura\Fixtures\Converter;
 
 use DavidBadura\Fixtures\FixtureData;
 use DavidBadura\Fixtures\Converter\DefaultConverter;
+use DavidBadura\Fixtures\Fixture\ParameterBag;
 
 /**
  *
@@ -26,7 +27,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     public function testDefaultConverterCreateObject()
     {
 
-        $data = $this->getMock('DavidBadura\Fixtures\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
             'test',
             array(
                 'name' => 'test_name',
@@ -35,10 +36,10 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
             'class' => 'DavidBadura\Fixtures\TestObjects\User',
             'constructor' => array('name', 'email')
-        )));
+        ))));
 
         $object = $this->converter->createObject($data);
 
@@ -54,7 +55,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     public function testDefaultConverterCreateObject_UniqueId()
     {
 
-        $data = $this->getMock('DavidBadura\Fixtures\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
             'test',
             array(
                 'name' => 'test_name {unique_id}',
@@ -63,10 +64,10 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
             'class' => 'DavidBadura\Fixtures\TestObjects\User',
             'constructor' => array('name', 'email')
-        )));
+        ))));
 
         $object = $this->converter->createObject($data);
 
@@ -82,7 +83,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     public function testDateTimeConstructor()
     {
 
-        $data = $this->getMock('DavidBadura\Fixtures\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
             'test',
             array(
                 'name' => 'test_name',
@@ -90,10 +91,10 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
             'class' => 'DavidBadura\Fixtures\TestObjects\Post',
             'constructor' => array('name', 'date')
-        )));
+        ))));
 
         $object = $this->converter->createObject($data);
 

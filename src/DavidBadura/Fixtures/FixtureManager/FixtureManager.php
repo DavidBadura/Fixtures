@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\FixtureManager;
 
 use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use DavidBadura\Fixtures\Event\PostExecuteEvent;
@@ -12,7 +12,7 @@ use DavidBadura\Fixtures\Loader\LoaderInterface;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class FixtureManager
+class FixtureManager implements FixtureManagerInterface
 {
 
     /**
@@ -108,7 +108,7 @@ class FixtureManager
         $arrayLoader = new Loader\ArrayLoader();
         $loader = new Loader\LoaderChain(array($yamlLoader, $arrayLoader));
 
-        $executor = new Executor\Executor();
+        $executor = Executor\Executor::createDefaultExecutor();
 
         $tagFilterListener = new EventListener\TagFilterListener();
 

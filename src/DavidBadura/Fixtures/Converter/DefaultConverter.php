@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\Converter;
 
-use DavidBadura\Fixtures\FixtureData;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Exception\ConverterException;
 use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
 
@@ -16,15 +16,13 @@ class DefaultConverter implements ConverterInterface
     public function createObject(FixtureData $fixtureData)
     {
         $properties = $fixtureData->getProperties();
-
-        if (!isset($properties['class'])) {
-            throw new ConverterException('Missing fixture "class" property');
-        }
-
-        $class = $properties['class'];
+        $class = $properties->get('class');
+        $constructor = $properties->get('constructor', array());
         $data = $fixtureData->getData();
 
-        $constructor = (isset($properties['constructor'])) ? $properties['constructor'] : array();
+        if (!$class) {
+            throw new ConverterException('Missing fixture "class" property');
+        }
 
         $object = null;
         if (empty($constructor)) {
@@ -32,7 +30,7 @@ class DefaultConverter implements ConverterInterface
         } else {
             $reflection = new \ReflectionClass($class);
 
-            if($reflection->hasMethod('__construct')) {
+            if ($reflection->hasMethod('__construct')) {
                 $constParams = $reflection->getMethod('__construct')->getParameters();
             } else {
                 $constParams = array();
@@ -53,7 +51,7 @@ class DefaultConverter implements ConverterInterface
                     if (is_string($value)) {
                         $value = str_replace('{unique_id}', uniqid(), $value);
 
-                        if(isset($constParams[$key])
+                        if (isset($constParams[$key])
                             && $constParams[$key]->getClass()
                             && $constParams[$key]->getClass()->getName() == 'DateTime') {
                             $value = new \DateTime($value);
@@ -75,7 +73,7 @@ class DefaultConverter implements ConverterInterface
         $properties = $fixtureData->getProperties();
         $data = $fixtureData->getData();
 
-        $constructor = (isset($properties['constructor'])) ? $properties['constructor'] : array();
+        $constructor = $properties->get('constructor', array());
         $args = array();
 
         if (!empty($constructor)) {

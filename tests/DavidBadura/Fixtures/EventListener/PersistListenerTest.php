@@ -5,7 +5,7 @@ namespace DavidBadura\Fixtures\EventListener;
 use DavidBadura\Fixtures\EventListener\PersistListener;
 use DavidBadura\Fixtures\Event\PostExecuteEvent;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 
 /**

@@ -46,9 +46,9 @@ class ValidationListener
 
         foreach ($collection as $fixture) {
 
-            $properties = $fixture->getProperties();
+            $validationEnabled = $fixture->getProperties()->get('validation_enabled', false);
 
-            if (!isset($properties['validation_enabled']) || !$properties['validation_enabled']) {
+            if (!$validationEnabled) {
                 continue;
             }
 
@@ -59,7 +59,8 @@ class ValidationListener
                     continue;
                 }
 
-                $violationList = $this->validator->validate($object, $fixture->getValidationGroups());
+                $validationGroup = $fixture->getProperties()->get('validation_group', 'default');
+                $violationList = $this->validator->validate($object, $validationGroup);
 
                 if (count($violationList) != 0) {
                     throw new ValidationException($fixture->getName(), $data->getKey(), $violationList);

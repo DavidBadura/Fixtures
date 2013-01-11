@@ -3,9 +3,10 @@
 namespace DavidBadura\Fixtures\Executor;
 
 use DavidBadura\Fixtures\Executor\Executor;
-use DavidBadura\Fixtures\FixtureData;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
+use DavidBadura\Fixtures\Converter\ConverterRepository;
 
 /**
  *
@@ -20,10 +21,15 @@ class ExecutorTest extends AbstractFixtureTest
      */
     private $executor;
 
+
+
     public function setUp()
     {
         parent::setUp();
-        $this->executor = new Executor();
+        $repository = new ConverterRepository();
+        $repository->addConverter(new DefaultConverter());
+
+        $this->executor = new Executor($repository);
     }
 
     public function testSimpleFixture()
@@ -38,8 +44,8 @@ class ExecutorTest extends AbstractFixtureTest
         $fixtures = new FixtureCollection(array($userFixture));
         $this->executor->execute($fixtures);
 
-        $this->assertTrue($fixtures->get('user')->hasFixtureData('david'));
-        $fixtureData = $fixtures->get('user')->getFixtureData('david');
+        $this->assertTrue($fixtures->get('user')->has('david'));
+        $fixtureData = $fixtures->get('user')->get('david');
         $this->assertTrue($fixtureData->hasObject());
         $object = $fixtureData->getObject();
         $this->assertInstanceOf('DavidBadura\Fixtures\TestObjects\User', $object);
@@ -66,8 +72,8 @@ class ExecutorTest extends AbstractFixtureTest
         $fixtures = new FixtureCollection(array($userFixture, $roleFixture));
         $this->executor->execute($fixtures);
 
-        $david = $fixtures->get('user')->getFixtureData('david')->getObject();
-        $admin = $fixtures->get('role')->getFixtureData('admin')->getObject();
+        $david = $fixtures->get('user')->get('david')->getObject();
+        $admin = $fixtures->get('role')->get('admin')->getObject();
 
         $this->assertEquals(array($admin), $david->getRoles());
     }
@@ -92,8 +98,8 @@ class ExecutorTest extends AbstractFixtureTest
         $fixtures = new FixtureCollection(array($userFixture, $groupFixture));
         $this->executor->execute($fixtures);
 
-        $david = $fixtures->get('user')->getFixtureData('david')->getObject();
-        $users = $fixtures->get('group')->getFixtureData('users')->getObject();
+        $david = $fixtures->get('user')->get('david')->getObject();
+        $users = $fixtures->get('group')->get('users')->getObject();
 
         $this->assertEquals(array($users), $david->getGroups());
         $this->assertEquals($david, $users->leader);

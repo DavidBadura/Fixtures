@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\Fixture;
 
 /**
  *
@@ -87,21 +87,21 @@ class FixtureCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('default', $fixtures->get('group')->getConverter());
         $this->assertEquals('default', $fixtures->get('role')->getConverter());
 
-        $this->assertEquals(array(
+        $this->assertEquals(new ParameterBag(array(
             'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
             'constructor' => array('name', 'email')
-            ), $fixtures->get('user')->getProperties());
+            )), $fixtures->get('user')->getProperties());
 
-        $this->assertEquals(array(
+        $this->assertEquals(new ParameterBag(array(
             'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
             'tags' => array('install', 'test')
-            ),
+            )),
             $fixtures->get('group')->getProperties());
 
-        $this->assertEquals(array(
+        $this->assertEquals(new ParameterBag(array(
             'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
             'tags' => array('test')
-            ),
+            )),
             $fixtures->get('role')->getProperties());
 
     }

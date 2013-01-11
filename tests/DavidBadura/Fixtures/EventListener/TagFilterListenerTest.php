@@ -5,7 +5,7 @@ namespace DavidBadura\Fixtures\EventListener;
 use DavidBadura\Fixtures\EventListener\TagFilterListener;
 use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use DavidBadura\Fixtures\AbstractFixtureTest;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *

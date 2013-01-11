@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\Executor;
 
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *

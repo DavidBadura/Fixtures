@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *

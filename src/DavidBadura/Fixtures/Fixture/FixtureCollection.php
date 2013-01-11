@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\Fixture;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 

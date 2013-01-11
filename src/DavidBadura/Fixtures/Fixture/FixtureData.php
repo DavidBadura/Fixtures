@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidBadura\Fixtures;
+namespace DavidBadura\Fixtures\Fixture;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 
@@ -16,12 +16,6 @@ class FixtureData
      * @var string
      */
     protected $key;
-
-    /**
-     *
-     * @var mixed
-     */
-    protected $dirty;
 
     /**
      *
@@ -43,21 +37,9 @@ class FixtureData
 
     /**
      *
-     * @var int
-     */
-    private $order;
-
-    /**
-     *
      * @var boolean
      */
     private $loaded = false;
-
-    /**
-     *
-     * @var array
-     */
-    private $params = array();
 
     /**
      *
@@ -68,7 +50,6 @@ class FixtureData
     {
         $this->key = $key;
         $this->data = $data;
-        $this->dirty = $data;
     }
 
     /**
@@ -99,15 +80,6 @@ class FixtureData
         $this->data = $data;
 
         return $this;
-    }
-
-    /**
-     *
-     * @return mixed
-     */
-    public function getDirtyData()
-    {
-        return $this->dirty;
     }
 
     /**
@@ -176,27 +148,6 @@ class FixtureData
 
     /**
      *
-     * @param  int                                 $order
-     * @return \DavidBadura\Fixtures\Fixture
-     */
-    public function setOrder($order)
-    {
-        $this->order = $order;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return int
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
-     *
      * @param  boolean                                 $loaded
      * @return \DavidBadura\Fixtures\FixtureData
      */
@@ -216,38 +167,29 @@ class FixtureData
         return $this->loaded;
     }
 
-    /**
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function getParam($key)
+
+    public function get($key)
     {
-        if (!isset($this->params[$key])) {
+        if(!$this->has($key)) {
             return null;
         }
-
-        return $this->params[$key];
+        return $this->data[$key];
     }
 
-    /**
-     *
-     * @param  string  $key
-     * @return boolean
-     */
-    public function hasParam($key)
+    public function has($key)
     {
-        return isset($this->params[$key]);
+        return isset($this->data[$key]);
     }
 
-    /**
-     *
-     * @param string $key
-     * @param string $value
-     */
-    public function setParam($key, $value)
+    public function set($key, $value)
     {
-        $this->params[$key] = $value;
+        $this->data[$key] = $value;
     }
 
+    public function remove($key)
+    {
+        if($this->has($key)) {
+            unset($this->data[$key]);
+        }
+    }
 }

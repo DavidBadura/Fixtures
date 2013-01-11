@@ -2,8 +2,8 @@
 
 namespace DavidBadura\Fixtures\EventListener;
 
-use DavidBadura\Fixtures\FixtureCollection;
-use DavidBadura\Fixtures\FixtureData;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use Faker\Generator;
 
@@ -93,10 +93,10 @@ class FakerListener
                     for ($i = $from; $i <= $to; $i++) {
                         $newKey = str_replace($matches[0], $i, $fixtureData->getKey());
                         $newFixture = new FixtureData($newKey, $fixtureData->getData());
-                        $fixture->addFixtureData($newFixture);
+                        $fixture->add($newFixture);
                     }
 
-                    $fixture->removeFixtureData($fixtureData);
+                    $fixture->remove($fixtureData);
                 }
             }
         }

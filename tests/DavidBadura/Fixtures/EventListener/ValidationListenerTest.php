@@ -5,7 +5,7 @@ namespace DavidBadura\Fixtures\EventListener;
 use DavidBadura\Fixtures\EventListener\ValidationListener;
 use DavidBadura\Fixtures\Event\PostExecuteEvent;
 use Symfony\Component\Validator\ValidatorInterface;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 
 /**

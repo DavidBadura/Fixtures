@@ -7,7 +7,7 @@ use DavidBadura\Fixtures\Event\PreExecuteEvent;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 use Faker\Generator;
 use Faker\Factory;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
@@ -60,9 +60,9 @@ class FakerListenerTest extends AbstractFixtureTest
         $this->listener->onPreExecuteEvent($event);
 
         $fixture = $collection->get('user');
-        $user0 = $fixture->getFixtureData('user0')->getData();
-        $user1 = $fixture->getFixtureData('user1')->getData();
-        $user2 = $fixture->getFixtureData('user2')->getData();
+        $user0 = $fixture->get('user0')->getData();
+        $user1 = $fixture->get('user1')->getData();
+        $user2 = $fixture->get('user2')->getData();
 
 
         $this->assertEquals(3, count($fixture));

@@ -31,13 +31,13 @@ class TagFilterListener
         /* @var $fixture Fixture */
         foreach ($collection as $fixture) {
 
-            $properties = $fixture->getProperties();
-            if(!isset($properties['tags']) || !is_array($properties['tags'])) {
+            $tags = $fixture->getProperties()->get('tags');
+            if(!$tags || !is_array($tags)) {
                 $collection->remove($fixture->getName());
                 continue;
             }
 
-            foreach ($properties['tags'] as $tag) {
+            foreach ($tags as $tag) {
                 if (in_array($tag, $options['tags'])) {
                     continue 2;
                 }

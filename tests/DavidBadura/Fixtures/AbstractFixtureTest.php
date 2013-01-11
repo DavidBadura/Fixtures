@@ -3,8 +3,9 @@
 namespace DavidBadura\Fixtures;
 
 use DavidBadura\Fixtures\Converter\DefaultConverter;
-use DavidBadura\Fixtures\Fixture;
-use DavidBadura\Fixtures\FixtureData;
+use DavidBadura\Fixtures\Fixture\Fixture;
+use DavidBadura\Fixtures\Fixture\FixtureData;
+use DavidBadura\Fixtures\Fixture\ParameterBag;
 
 /**
  *
@@ -45,12 +46,12 @@ abstract class AbstractFixtureTest extends \PHPUnit_Framework_TestCase
 
     protected function createFixture($name, $data = array(), $properties = array())
     {
-        $fixture = new Fixture($name, $this->converter);
+        $fixture = new Fixture($name, 'default');
         foreach ($data as $key => $value) {
-            $fixture->addFixtureData(new FixtureData($key, $value));
+            $fixture->add(new FixtureData($key, $value));
         }
 
-        $fixture->setProperties($properties);
+        $fixture->setProperties(new ParameterBag($properties));
 
         return $fixture;
     }
