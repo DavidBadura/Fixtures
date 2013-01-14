@@ -20,26 +20,18 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @var array
-     */
-    private $classes = array();
-
-
-    /**
-     *
-     * @param  ConverterInterface                  $converter
+     * @param  ConverterInterface $converter
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */
     public function addConverter(ConverterInterface $converter)
     {
         $name = $converter->getName();
-        if (isset($this->converters[$name])) {
+        if ($this->hasConverter($name)) {
             throw new FixtureException(sprintf('Converter with the name "%s" already exists', $name));
         }
 
         $this->converters[$name] = $converter;
-        $this->classes[get_class($converter)] = true;
 
         return $this;
     }
@@ -56,13 +48,13 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string                    $name
+     * @param  string $name
      * @return ConverterInterface
      * @throws \Exception
      */
     public function getConverter($name)
     {
-        if (!isset($this->converters[$name])) {
+        if (!$this->hasConverter($name)) {
             return null;
         }
 
@@ -71,15 +63,14 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string                                     $name
+     * @param  string $name
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */
     public function removeConverter($name)
     {
-        if (isset($this->converters[$name])) {
+        if ($this->hasConverter($name)) {
             unset($this->converters[$name]);
-            unset($this->classes[get_class($this->converters[$name])]);
         }
 
         return $this;
