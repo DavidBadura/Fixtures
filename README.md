@@ -27,6 +27,11 @@ Todos:
 * Write documentation
 
 
+Documentation
+-------------
+
+* [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md)
+* [Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
 
 Useage
 ------
@@ -110,9 +115,11 @@ Now, you can load the fixtures, crate the objects and persist in the database
 
 ```php
 
-// $objectManager can be Doctrine ORM Entity Manager, Doctrine MongoDb DocumentManager or null
-$fixtureManager = DavidBadura\Fixtures\FixtureManager\FixtureManager::createDefaultFixtureManager($objectManager);
+use DavidBadura\Fixtures\FixtureManager\FixtureManager;
 
-fixtureManager->load('path/to/fixtures');
+// $objectManager can be Doctrine ORM Entity Manager, Doctrine MongoDb DocumentManager or null
+$fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
+
+$fixtureManager->load('path/to/fixtures');
 
 ```
