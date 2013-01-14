@@ -17,7 +17,15 @@
         "symfony/yaml" : ">=2.0",
         "symfony/validator": ">=2.0",
         "fzaninotto/faker": "*",
-        "doctrine/common": "*"
+        "doctrine/common": "*",
+        "doctrine/mongodb-odm": "@beta"
+    },
+    "suggests": {
+        "symfony/yaml" : ">=2.0",
+        "symfony/validator": ">=2.0",
+        "fzaninotto/faker": "*",
+        "doctrine/orm": "*",
+        "doctrine/mongodb-odm": "@beta"
     },
     "autoload": {
         "psr-0": {

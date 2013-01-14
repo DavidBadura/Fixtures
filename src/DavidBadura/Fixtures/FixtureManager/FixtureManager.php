@@ -7,6 +7,8 @@ use DavidBadura\Fixtures\Event\PostExecuteEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
+use DavidBadura\Fixtures\Persister\PersisterInterface;
+use DavidBadura\Fixtures\FixtureEvents;
 
 /**
  *
@@ -102,18 +104,30 @@ class FixtureManager implements FixtureManagerInterface
      *
      * @return FixtureManager
      */
-    static public function createDefaultFixtureManager()
+    static public function createDefaultFixtureManager($objectManager = null)
     {
-        $yamlLoader = new Loader\YamlLoader();
-        $arrayLoader = new Loader\ArrayLoader();
-        $loader = new Loader\LoaderChain(array($yamlLoader, $arrayLoader));
+        $yamlLoader = new \DavidBadura\Fixtures\Loader\YamlLoader();
+        $arrayLoader = new \DavidBadura\Fixtures\Loader\ArrayLoader();
+        $jsonLoader = new \DavidBadura\Fixtures\Loader\JsonLoader();
+        $loader = new \DavidBadura\Fixtures\Loader\ChainLoader(array($yamlLoader, $arrayLoader, $jsonLoader));
 
-        $executor = Executor\Executor::createDefaultExecutor();
+        $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
 
-        $tagFilterListener = new EventListener\TagFilterListener();
+        $tagFilterListener = new \DavidBadura\Fixtures\EventListener\TagFilterListener();
 
         $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-        $eventDispatcher->addListener('davidbadura_fixtures.listener.tag_filter', $tagFilterListener);
+        $eventDispatcher->addListener(FixtureEvents::onPreExecute ,$tagFilterListener);
+
+        if($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
+            $persister = new \DavidBadura\Fixtures\Persister\MongoDBPersister($objectManager);
+        } elseif($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
+            $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
+        }
+
+        if($persister) {
+            $persisterListener = new \DavidBadura\Fixtures\EventListener\PersistListener($persister);
+            $eventDispatcher->addListener(FixtureEvents::onPostExecute, $persisterListener);
+        }
 
         return new self($loader, $executor, $eventDispatcher);
     }
