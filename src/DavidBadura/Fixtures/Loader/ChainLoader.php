@@ -2,11 +2,13 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
+
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class LoaderChain implements LoaderInterface
+class ChainLoader implements LoaderInterface
 {
 
     /**
@@ -33,14 +35,15 @@ class LoaderChain implements LoaderInterface
 
     public function load($path)
     {
-        $fixtures = array();
+
+        $collection = new FixtureCollection();
 
         foreach ($this->loaders as $loader) {
             $data = $loader->load($path);
-            $fixtures = array_merge_recursive($fixtures, $data);
+            $collection->merge($data);
         }
 
-        return $fixtures;
+        return $collection;
     }
 
 }

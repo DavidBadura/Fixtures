@@ -2,14 +2,17 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Loader\ChainLoader;
 use DavidBadura\Fixtures\Loader\YamlLoader;
+use DavidBadura\Fixtures\Loader\JsonLoader;
+use DavidBadura\Fixtures\Loader\ArrayLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class YamlLoaderTest extends \PHPUnit_Framework_TestCase
+class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -20,7 +23,11 @@ class YamlLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loader = new YamlLoader();
+        $this->loader = new ChainLoader(array(
+            new JsonLoader(),
+            new ArrayLoader(),
+            new YamlLoader()
+        ));
     }
 
     public function testLoadFixturesByPath()
@@ -105,7 +112,7 @@ class YamlLoaderTest extends \PHPUnit_Framework_TestCase
 
         $collection = FixtureCollection::create($expects);
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures');
+        $data = $this->loader->load(__DIR__ . '/../TestResources/chainFixtures');
 
         $this->assertEquals($collection, $data);
     }

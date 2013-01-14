@@ -2,14 +2,14 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\YamlLoader;
+use DavidBadura\Fixtures\Loader\ArrayLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class YamlLoaderTest extends \PHPUnit_Framework_TestCase
+class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class YamlLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loader = new YamlLoader();
+        $this->loader = new ArrayLoader();
     }
 
     public function testLoadFixturesByPath()

@@ -103,6 +103,17 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
+     * @param FixtureCollection $collection
+     */
+    public function merge(FixtureCollection $collection)
+    {
+        foreach($collection as $fixture) {
+            $this->add($fixture);
+        }
+    }
+
+    /**
+     *
      * @param array $data
      * @return FixtureCollection
      */

@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 

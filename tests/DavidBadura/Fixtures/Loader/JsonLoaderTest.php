@@ -2,14 +2,14 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\YamlLoader;
+use DavidBadura\Fixtures\Loader\JsonLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class YamlLoaderTest extends \PHPUnit_Framework_TestCase
+class JsonLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class YamlLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loader = new YamlLoader();
+        $this->loader = new JsonLoader();
     }
 
     public function testLoadFixturesByPath()

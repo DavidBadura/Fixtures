@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\Loader;
 
 use Symfony\Component\Finder\Finder;
-use DavidBadura\Fixtures\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
