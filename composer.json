@@ -1,7 +1,7 @@
 {
     "name": "davidbadura/fixtures",
-    "description": "A library to load yaml fixtures. Easy extendable, resolve object dependency and validate objects.",
-    "keywords": ["fixtures", "faker", "doctrine", "yaml", "database", "orm"],
+    "description": "A library to load yaml, json or php fixtures. Easy extendable, resolve object dependency and validate objects.",
+    "keywords": ["fixtures", "yaml", "json", "events", "database", "doctrine", "mongodb", "orm", "faker"],
     "type": "library",
     "license": "MIT",
     "authors": [{
