@@ -17,8 +17,7 @@
         "symfony/yaml" : ">=2.0",
         "symfony/validator": ">=2.0",
         "fzaninotto/faker": "*",
-        "doctrine/common": "*",
-        "doctrine/mongodb-odm": "@beta"
+        "doctrine/common": "*"
     },
     "suggests": {
         "symfony/yaml" : ">=2.0",
