@@ -16,7 +16,7 @@ class ConverterRepository implements ConverterRepositoryInterface
      *
      * @var ConverterInterface[]
      */
-    private $converters = array();
+    protected $converters = array();
 
     /**
      *
