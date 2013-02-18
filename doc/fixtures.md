@@ -1,54 +1,61 @@
 Fixtures
 ========
 
+Fixtures können aus vielseitigen Formaten geladen werden.
+Welche Formate unterstützt werden findet Ihr unter Loader.
+Hier wird als Beispiel das Yaml Format verwendet.
+
+In der Standard Konfiguration des FixtureManagers wird der DefaultConverter verwendet.
+
 Simple fixtures
 ---------------
 
-``` yaml
-# @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            david:
-                name: David
-                email: "d.badura@gmx.de"
-```
+Ein ganz simples Beispiel sieht wie folgt aus:
 
-The fixture files will be automatically loaded from the `Resources\fixtures` folder.
+``` yaml
+# install.yml
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        david:
+            name: David
+            email: "d.badura@gmx.de"
+```
 
 References
 ----------
 
-You can add references in your fixtures with a `@` prefix.
+You can add references to other fixture.
+This can you do with the `@` prefix, like this example:
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            david:
-                name: David
-                email: "d.badura@gmx.de"
-                groups: ["@group:admin"] # <- reference to group.admin
+# install.yml
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        david:
+            name: David
+            email: "d.badura@gmx.de"
+            groups: ["@group:admin"] # <- reference to group.admin
 
-    group:
-        properties:
-            class: "YourBundle\Entity\Group"
-        data:
-            admin:
-                name: Admin
-            member:
-                name: Member
+group:
+    properties:
+        class: "YourBundle\Entity\Group"
+    data:
+        admin:
+            name: Admin
+        member:
+            name: Member
 ```
 
 Bidrectional references
 -----------------------
 
-To add bidrectional references you can add a `@@` prefix.
+To add bidrectional references you can use the `@@` prefix.
+First, the executor resolve the "single @" references,
+then the "double @" reference.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
@@ -94,7 +101,9 @@ fixtures:
 Change converter
 ----------------
 
-To change the converter you must change the `converter` property.
+
+In der Standard Konfiguration des FixtureManagers wird der DefaultConverter verwendet.
+This can you change over the `converter` property.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
@@ -106,27 +115,11 @@ fixtures:
 
 You can read more about converter in [Converter](converter.md).
 
-Object validation
------------------
-
-Object validation is enabled by default.
-To disable validation `validation.enable` must be set `false`.
-You can also define validation groups.
-
-``` yaml
-# @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        validation:
-            enable: true
-            groups: [Default]
-        data: #...
-```
-
 Tags
 ----
 
-You can give your fixtures some tags, then you can filter these.
+You can give your fixtures some tags.
+Over the Tags you can filter the fixtures.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
@@ -134,4 +127,14 @@ fixtures:
     user:
         tags: [install, test]
         data: #...
+```
+
+So kann man die Tags verwenden:
+
+``` php
+use DavidBadura\Fixtures\FixtureManager\FixtureManager;
+
+$fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
+
+$fixtureManager->load('path/to/fixtures', array('tags' => array('install')));
 ```

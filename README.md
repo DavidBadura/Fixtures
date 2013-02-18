@@ -7,7 +7,7 @@ This is a porting of [DavidBaduraFixturesBundle](https://github.com/DavidBadura/
 
 Features:
 
-* [fzaninotto/Faker](https://github.com/fzaninotto/Faker), a PHP library that generates fake data for you.
+* Use Services like [fzaninotto/Faker](https://github.com/fzaninotto/Faker), a PHP library that generates fake data for you.
 * Resolve object dependency automatically (also bidirectional references).
 * Configurable default fixture converter (constructor, properties, set* and add* methods).
 * Easy to create your own converter.
@@ -30,8 +30,10 @@ Todos:
 Documentation
 -------------
 
+* [Fixtures](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixtures.md)
 * [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md)
 * [Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
+* [ServiceProvider](https://github.com/DavidBadura/Fixtures/blob/master/doc/service_provider.md)
 
 Useage
 ------
