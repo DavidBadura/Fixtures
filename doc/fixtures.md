@@ -59,26 +59,25 @@ then the "double @" reference.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            david:
-                name: David
-                email: "d.badura@gmx.de"
-                groups: ["@group:admin"]
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        david:
+            name: David
+            email: "d.badura@gmx.de"
+            groups: ["@group:admin"]
 
-    group:
-        properties:
-            class: "YourBundle\Entity\Group"
-        data:
-            admin:
-                ladder: "@@user:david"
-                name: Admin
-            member:
-                ladder: "@@user:david"
-                name: Member
+group:
+    properties:
+        class: "YourBundle\Entity\Group"
+    data:
+        admin:
+            ladder: "@@user:david"
+            name: Admin
+        member:
+            ladder: "@@user:david"
+            name: Member
 ```
 
 Unique IDs
@@ -88,14 +87,13 @@ To generate a unique ID you can use the `{unique_id}` snippet.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            david:
-                name: Random {unique_id}
-                email: "{unique_id}@example.com"
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        david:
+            name: Random {unique_id}
+            email: "{unique_id}@example.com"
 ```
 
 Change converter
@@ -107,10 +105,9 @@ This can you change over the `converter` property.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        converter: default
-        data: #...
+user:
+    converter: default
+    data: #...
 ```
 
 You can read more about converter in [Converter](converter.md).
@@ -123,10 +120,9 @@ Over the Tags you can filter the fixtures.
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        tags: [install, test]
-        data: #...
+user:
+    tags: [install, test]
+    data: #...
 ```
 
 So kann man die Tags verwenden:

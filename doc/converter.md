@@ -12,25 +12,23 @@ It can also works with classes that have a constructor and has some more feature
 The default converter needs the `class` property so that it knows which class to be initialized.
 
 ``` yaml
-fixtures:
-    user:
-        properties:
-            class: 'YourBundle\Entity\User'
-        data:
-            # ...
+user:
+    properties:
+        class: 'YourBundle\Entity\User'
+    data:
+        # ...
 ```
 
 The converter handles all attributes and he trying to pass values ​​to the object.
 
 ``` yaml
-fixtures:
-    user:
-        properties:
-            class: 'YourBundle\Entity\User'
-        data:
-            david:
-                name: 'David Badura'
-                email: 'd.badura@gmx.de'
+user:
+    properties:
+        class: 'YourBundle\Entity\User'
+    data:
+        david:
+            name: 'David Badura'
+            email: 'd.badura@gmx.de'
 ```
 
 Order to pass data:
@@ -43,28 +41,26 @@ Order to pass data:
 If you have a class with a constructor you can add the `constructor` property.
 
 ``` yaml
-fixtures:
-    user:
-        properties:
-            class: 'YourBundle\Entity\User'
-            constructor: [name, email]
-        data:
-            david:
-                name: 'David Badura'
-                email: 'd.badura@gmx.de'
+user:
+    properties:
+        class: 'YourBundle\Entity\User'
+        constructor: [name, email]
+    data:
+        david:
+            name: 'David Badura'
+            email: 'd.badura@gmx.de'
 ```
 
 Also you can mark optional constructor attributes with a `?` symbole.
 
 ``` yaml
-fixtures:
-    user:
-        properties:
-            class: 'YourBundle\Entity\User'
-            constructor: [name, ?email]
-        data:
-            david:
-                name: 'David Badura'
+user:
+    properties:
+        class: 'YourBundle\Entity\User'
+        constructor: [name, ?email]
+    data:
+        david:
+            name: 'David Badura'
 ```
 
 The DefaultConverter support \DateTime parameters in setter and adder methods:
@@ -73,15 +69,14 @@ The DefaultConverter support \DateTime parameters in setter and adder methods:
 Method example `$object->setCreateDate(\DateTime $date)`
 
 ``` yaml
-fixtures:
-    user:
-        properties:
-            class: 'YourBundle\Entity\User'
-            constructor: [name, ?email]
-        data:
-            david:
-                name: 'David Badura'
-                createDate: 'now'
+user:
+    properties:
+        class: 'YourBundle\Entity\User'
+        constructor: [name, ?email]
+    data:
+        david:
+            name: 'David Badura'
+            createDate: 'now'
 ```
 
 
@@ -124,21 +119,19 @@ class UserConverter extends FixtureConverter
 In your fixture files your fixtures must add/change the converter property in `user`.
 
 ``` yaml
-fixtures:
-    user:
-        converter: user
-        data: # ...
+user:
+    converter: user
+    data: # ...
 ```
 
 Your converter can also access the properties section.
 
 ``` yaml
-fixtures:
-    user:
-        converter: user
-        properties:
-            foo: bar
-        data: # ...
+user:
+    converter: user
+    properties:
+        foo: bar
+    data: # ...
 ```
 
 ``` php

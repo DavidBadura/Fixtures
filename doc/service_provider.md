@@ -61,53 +61,51 @@ Ein komplexeres Beispiel:
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            user{0..1}:
-                name: <faker::name()>
-                email: <faker::email()>
-                groups: ["@group:group{0..1}"]
-                notice: "<faker::sentence(5)>"
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        user{0..1}:
+            name: <faker::name()>
+            email: <faker::email()>
+            groups: ["@group:group{0..1}"]
+            notice: "<faker::sentence(5)>"
 
-    group:
-        properties:
-            class: "YourBundle\Entity\Group"
-        data:
-            group{0..1}:
-                name: <faker::name()>
+group:
+    properties:
+        class: "YourBundle\Entity\Group"
+    data:
+        group{0..1}:
+            name: <faker::name()>
 ```
 
 will be convertet to:
 
 ``` yaml
 # @YourBundle/Resource/fixtures/install.yml
-fixtures:
-    user:
-        properties:
-            class: "YourBundle\Entity\User"
-        data:
-            user0:
-                name: Max Mustermann
-                email: test@googlemail.com
-                groups: ["@group:group1"]
-                notice: "Sit vitae voluptas sint non voluptates."
-            user1:
-                name: Franz Müller
-                email: example@yahoo.com
-                groups: ["@group:group1"]
-                notice: "Sit vitae voluptas sint non voluptates."
+user:
+    properties:
+        class: "YourBundle\Entity\User"
+    data:
+        user0:
+            name: Max Mustermann
+            email: test@googlemail.com
+            groups: ["@group:group1"]
+            notice: "Sit vitae voluptas sint non voluptates."
+        user1:
+            name: Franz Müller
+            email: example@yahoo.com
+            groups: ["@group:group1"]
+            notice: "Sit vitae voluptas sint non voluptates."
 
-    group:
-        properties:
-            class: "YourBundle\Entity\Group"
-        data:
-            group0:
-                name: Test
-            group1:
-                name: Admin
+group:
+    properties:
+        class: "YourBundle\Entity\Group"
+    data:
+        group0:
+            name: Test
+        group1:
+            name: Admin
 ```
 
 The Faker Generator has a lot of methods. For more information read the [documentation](https://github.com/fzaninotto/Faker).
