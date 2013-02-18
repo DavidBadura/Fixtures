@@ -58,7 +58,7 @@ First, the executor resolve the "single @" references,
 then the "double @" reference.
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
@@ -86,7 +86,7 @@ Unique IDs
 To generate a unique ID you can use the `{unique_id}` snippet.
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
@@ -104,7 +104,7 @@ In der Standard Konfiguration des FixtureManagers wird der DefaultConverter verw
 This can you change over the `converter` property.
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     converter: default
     data: #...
@@ -119,7 +119,7 @@ You can give your fixtures some tags.
 Over the Tags you can filter the fixtures.
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     tags: [install, test]
     data: #...

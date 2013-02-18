@@ -27,11 +27,12 @@ Use a service
 -------------
 
 Nach dem der Service registriert worde ist, kann diese im Fixture mit folgenden Schema
-verwenden <[ServiceName]::[MethodName]([Attributes])>
+verwenden <{ServiceName}::{MethodName}({Attributes]}>
 
 Hier ist ein Beispiel:
 
 ``` yaml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
@@ -44,6 +45,7 @@ user:
 Dies wird wie folgt umgewandelt:
 
 ``` yaml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
@@ -60,7 +62,7 @@ Complex usecase
 Ein komplexeres Beispiel:
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
@@ -82,7 +84,7 @@ group:
 will be convertet to:
 
 ``` yaml
-# @YourBundle/Resource/fixtures/install.yml
+# install.yml
 user:
     properties:
         class: "YourBundle\Entity\User"
