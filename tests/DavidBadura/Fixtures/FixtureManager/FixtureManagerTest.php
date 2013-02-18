@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
-use DavidBadura\Fixtures\FixtureManager\FixtureManager;
+use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
@@ -19,7 +19,7 @@ class FixtureManagerTest extends AbstractFixtureTest
 
     /**
      *
-     * @var FixtureManager
+     * @var FixtureManagerPublicMethods
      */
     private $fixtureManager;
 
@@ -42,6 +42,12 @@ class FixtureManagerTest extends AbstractFixtureTest
 
     /**
      *
+     * @var ServiceProviderInterface
+     */
+    private $provider;
+
+    /**
+     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -52,29 +58,37 @@ class FixtureManagerTest extends AbstractFixtureTest
         parent::setUp();
 
         $this->loader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
-        $this->loader->expects($this->once())->method('load')->will($this->returnValue(new FixtureCollection()));
+        $this->loader->expects($this->any())->method('load')->will($this->returnValue(new FixtureCollection()));
 
         $this->executor = $this->getMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
-        $this->executor->expects($this->once())->method('execute');
+        $this->executor->expects($this->any())->method('execute');
 
         $this->persister = $this->getMock('DavidBadura\Fixtures\Persister\PersisterInterface');
         $this->persister->expects($this->any())->method('addObject');
-        $this->persister->expects($this->once())->method('save');
+        $this->persister->expects($this->any())->method('save');
+
+        $this->provider = $this->getMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
+        $this->provider->expects($this->any())->method('get');
 
         $this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
+        $this->eventDispatcher->expects($this->any())->method('dispatch');
 
-        $this->fixtureManager = new FixtureManager($this->loader, $this->executor, $this->persister, $this->eventDispatcher);
+        $this->fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor,
+            $this->persister, $this->provider, $this->eventDispatcher);
     }
 
     public function testFixtureManager()
     {
+        $this->loader->expects($this->once())->method('load')->will($this->returnValue(new FixtureCollection()));
+        $this->executor->expects($this->once())->method('execute');
+        $this->persister->expects($this->once())->method('save');
+        $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
+
         $this->fixtureManager->load(null);
     }
 
     public function testFilterByTags()
     {
-        $this->markTestIncomplete();
         $fixture1 = $this->createFixture('test1', array(), array(
             'tags' => array('test', 'install')
         ));
@@ -89,29 +103,58 @@ class FixtureManagerTest extends AbstractFixtureTest
 
         $fixture4 = $this->createFixture('test4');
 
-        $event = new PreExecuteEvent(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), array('tags' => array()));
-        $this->listener->onPreExecute($event);
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), $event->getCollection());
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $this->fixtureManager->publicFilterByTags($collection, array());
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), $collection);
 
-        $event = new PreExecuteEvent(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), array('tags' => array('install')));
-        $this->listener->onPreExecute($event);
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture3)), $event->getCollection());
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $this->fixtureManager->publicFilterByTags($collection, array('install'));
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture3)), $collection);
 
-        $event = new PreExecuteEvent(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), array('tags' => array('install', 'test')));
-        $this->listener->onPreExecute($event);
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3)), $event->getCollection());
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $this->fixtureManager->publicFilterByTags($collection, array('install', 'test'));
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3)), $collection);
     }
 
-    public function testPersistListener()
+    public function testServiceProvider()
     {
-        $this->markTestIncomplete();
-        $collection = FixtureCollection::create(array(
-            'test1'=> array('data' => array('key1' => 'data1')),
-            'test2'=> array('data' => array('key2' => 'data2'))
-        ));
+        $serviceProvicer = new \DavidBadura\Fixtures\ServiceProvider\ServiceProvider();
+        $fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor, $this->persister, $serviceProvicer, $this->eventDispatcher);
 
-        $event = new PostExecuteEvent($collection, array());
-        $this->listener->onPostExecute($event);
+        $faker =  \Faker\Factory::create();
+        $fixtureManager->addService('faker', $faker);
+
+        $data = array(
+            'user' =>
+            array(
+                'data' =>
+                array(
+                    'user{0..2}' =>
+                    array(
+                        'name' => '<faker::name()>',
+                        'email' => '<faker::email()>',
+                        'random' => 'blubbtest',
+                        'text' => '<faker::sentence(3)>'
+                    ),
+                ),
+            ),
+        );
+
+        $collection = FixtureCollection::create($data);
+
+        $fixtureManager->publicReplaceMultiPlaceholder($collection);
+        $fixtureManager->publicReplaceServicePlaceholder($collection);
+
+        $fixture = $collection->get('user');
+        $user0 = $fixture->get('user0')->getData();
+        $user1 = $fixture->get('user1')->getData();
+        $user2 = $fixture->get('user2')->getData();
+
+
+        $this->assertEquals(3, count($fixture));
+        $this->assertTrue(strpos($user0['email'], '@') !== false);
+        $this->assertTrue(strpos($user1['email'], '@') !== false);
+        $this->assertTrue(strpos($user2['email'], '@') !== false);
     }
 
 }

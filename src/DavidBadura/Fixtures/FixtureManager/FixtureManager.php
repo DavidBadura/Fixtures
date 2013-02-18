@@ -2,15 +2,19 @@
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
+use DavidBadura\Fixtures\Exception\RuntimeException;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Loader\LoaderInterface;
+use DavidBadura\Fixtures\Executor\ExecutorInterface;
+use DavidBadura\Fixtures\Persister\PersisterInterface;
+use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
+use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
+use DavidBadura\Fixtures\FixtureEvents;
 use DavidBadura\Fixtures\Event\FixtureEvent;
 use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use DavidBadura\Fixtures\Executor\ExecutorInterface;
-use DavidBadura\Fixtures\Loader\LoaderInterface;
-use DavidBadura\Fixtures\Persister\PersisterInterface;
-use DavidBadura\Fixtures\FixtureEvents;
-use DavidBadura\Fixtures\Exception\RuntimeException;
 
 /**
  *
@@ -18,6 +22,18 @@ use DavidBadura\Fixtures\Exception\RuntimeException;
  */
 class FixtureManager implements FixtureManagerInterface
 {
+
+    /**
+     * <service::name()>
+     * <service::numberBetween(5,6)>
+     */
+    const SERVICE_PLACEHOLDER_PATTERN = '#<([^>]+)::([^>]+)\(([^>]*)\)>#';
+
+    /**
+     *
+     * {0..5}
+     */
+    const MULTI_PLACEHOLDER_PATTERN = '#\{([0-9][0-9]*)\.\.([0-9][0-9]*)\}#';
 
     /**
      *
@@ -39,6 +55,12 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
+     * @var ServiceProviderInterface
+     */
+    private $serviceProvider;
+
+    /**
+     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -50,11 +72,16 @@ class FixtureManager implements FixtureManagerInterface
     public function __construct(LoaderInterface $loader,
         ExecutorInterface $executor,
         PersisterInterface $persister,
-        EventDispatcherInterface $eventDispatcher)
+        ServiceProviderInterface $serviceProvider = null,
+        EventDispatcherInterface $eventDispatcher = null)
     {
         $this->loader = $loader;
         $this->executor = $executor;
         $this->persister = $persister;
+
+        $this->serviceProvider = ($serviceProvider) ?: new ServiceProvider();
+        $this->eventDispatcher = ($eventDispatcher) ?: new EventDispatcher();
+
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -87,11 +114,59 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
+     * @return ServiceProviderInterface
+     */
+    public function getServiceProvider()
+    {
+        return $this->serviceProvider;
+    }
+
+    /**
+     *
      * @return EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
         return $this->eventDispatcher;
+    }
+
+    /**
+     *
+     * @param string $name
+     * @param object $service
+     */
+    public function addService($name, $service)
+    {
+        $this->serviceProvider->add($name, $service);
+    }
+
+    /**
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function hasService($name)
+    {
+        return $this->serviceProvider->has($name);
+    }
+
+    /**
+     *
+     * @param string $name
+     */
+    public function removeService($name)
+    {
+        $this->serviceProvider->remove($name);
+    }
+
+    /**
+     *
+     * @param string $name
+     * @return object
+     */
+    public function getService($name)
+    {
+        return $this->serviceProvider->get($name);
     }
 
     /**
@@ -116,6 +191,9 @@ class FixtureManager implements FixtureManagerInterface
             $this->filterByTags($collection, $options['tags']);
         }
 
+        $this->replaceMultiPlaceholder($collection);
+        $this->replaceServicePlaceholder($collection);
+
         $event = new FixtureCollectionEvent($this, $collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
         $collection = $event->getCollection();
@@ -139,23 +217,28 @@ class FixtureManager implements FixtureManagerInterface
      * @param FixtureCollection $collection
      * @param array|string $tags
      */
-    protected function filterByTags(FixtureCollection $collection, $tags)
+    protected function filterByTags(FixtureCollection $collection, $filter)
     {
-        if (!is_array($tags)) {
-            $tags = array($tags);
+        if (!is_array($filter)) {
+            $filter = array($filter);
+        }
+
+        if(empty($filter)) {
+            return;
         }
 
         /* @var $fixture Fixture */
         foreach ($collection as $fixture) {
 
             $tags = $fixture->getProperties()->get('tags');
+
             if(!$tags || !is_array($tags)) {
                 $collection->remove($fixture->getName());
                 continue;
             }
 
             foreach ($tags as $tag) {
-                if (in_array($tag, $tags)) {
+                if (in_array($tag, $filter)) {
                     continue 2;
                 }
             }
@@ -180,6 +263,65 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
+     * @param FixtureCollection $collection
+     */
+    protected function replaceServicePlaceholder(FixtureCollection $collection)
+    {
+        $provider = $this->serviceProvider;
+
+        foreach($collection as $fixture) {
+            foreach ($fixture as $fixtureData) {
+                $data = $fixtureData->getData();
+
+                array_walk_recursive($data, function(&$item, &$key) use ($provider) {
+                    $matches = array();
+                    if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
+                        $service = $provider->get($matches[1]);
+                        $attributes = explode(',', $matches[3]);
+                        $item = call_user_func_array(array($service, $matches[2]), $attributes);
+                    }
+                });
+
+                $fixtureData->setData($data);
+
+            }
+        }
+
+    }
+
+    /**
+     *
+     * @param FixtureCollection $collection
+     * @throws \Exception
+     */
+    protected function replaceMultiPlaceholder(FixtureCollection $collection)
+    {
+        foreach ($collection as $fixture) {
+            foreach ($fixture as $fixtureData) {
+                $matches = array();
+                if (preg_match(FixtureManager::MULTI_PLACEHOLDER_PATTERN, $fixtureData->getKey(), $matches)) {
+
+                    $from = $matches[1];
+                    $to = $matches[2];
+
+                    if ($from > $to) {
+                        throw new \Exception();
+                    }
+
+                    for ($i = $from; $i <= $to; $i++) {
+                        $newKey = str_replace($matches[0], $i, $fixtureData->getKey());
+                        $newFixture = new FixtureData($newKey, $fixtureData->getData());
+                        $fixture->add($newFixture);
+                    }
+
+                    $fixture->remove($fixtureData);
+                }
+            }
+        }
+    }
+
+    /**
+     *
      * @return FixtureManager
      */
     static public function createDefaultFixtureManager($objectManager)
@@ -199,9 +341,7 @@ class FixtureManager implements FixtureManagerInterface
             throw new RuntimeException();
         }
 
-        $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-
-        return new self($loader, $executor, $persister, $eventDispatcher);
+        return new self($loader, $executor, $persister);
     }
 
 }
