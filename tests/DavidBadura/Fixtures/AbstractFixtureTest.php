@@ -56,4 +56,12 @@ abstract class AbstractFixtureTest extends \PHPUnit_Framework_TestCase
         return $fixture;
     }
 
+    /**
+     * @return FixtureManager\FixtureManagerInterface
+     */
+    protected function createFixtureManagerMock()
+    {
+        return $this->getMock('DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface');
+    }
+
 }

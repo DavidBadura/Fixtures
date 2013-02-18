@@ -2,14 +2,14 @@
 
 namespace DavidBadura\Fixtures\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class PostExecuteEvent extends Event
+class FixtureCollectionEvent extends FixtureEvent
 {
 
     /**
@@ -18,21 +18,16 @@ class PostExecuteEvent extends Event
      */
     private $collection;
 
-    /**
-     *
-     * @var array
-     */
-    private $options;
 
     /**
      *
      * @param FixtureCollection $collection
      * @param array             $options
      */
-    public function __construct(FixtureCollection $collection, array $options = array())
+    public function __construct(FixtureManagerInterface $fixtureManager, FixtureCollection $collection, array $options = array())
     {
+        parent::__construct($fixtureManager, $options);
         $this->collection = $collection;
-        $this->options = $options;
     }
 
     /**
@@ -47,32 +42,11 @@ class PostExecuteEvent extends Event
     /**
      *
      * @param  FixtureCollection $collection
-     * @return \DavidBadura\Fixtures\Event\PostExecuteEvent
+     * @return FixtureCollectionEvent
      */
     public function setCollection(FixtureCollection $collection)
     {
         $this->collection = $collection;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     *
-     * @param  array                                              $options
-     * @return \DavidBadura\Fixtures\Event\PostExecuteEvent
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
 
         return $this;
     }

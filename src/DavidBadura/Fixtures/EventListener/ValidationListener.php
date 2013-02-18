@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\EventListener;
 
 use Symfony\Component\Validator\ValidatorInterface;
-use DavidBadura\Fixtures\Event\PostExecuteEvent;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use DavidBadura\Fixtures\Exception\ValidationException;
 
 /**
@@ -38,9 +38,9 @@ class ValidationListener
 
     /**
      *
-     * @param PostExecuteEvent $event
+     * @param FixtureCollectionEvent $event
      */
-    public function onPostExecute(PostExecuteEvent $event)
+    public function onPostExecute(FixtureCollectionEvent $event)
     {
         $collection = $event->getCollection();
 

@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\EventListener;
 
 use DavidBadura\Fixtures\EventListener\FakerListener;
-use DavidBadura\Fixtures\Event\PreExecuteEvent;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 use Faker\Generator;
 use Faker\Factory;
@@ -56,7 +56,7 @@ class FakerListenerTest extends AbstractFixtureTest
         $collection = FixtureCollection::create($data);
 
 
-        $event = new PreExecuteEvent($collection);
+        $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $collection);
         $this->listener->onPreExecuteEvent($event);
 
         $fixture = $collection->get('user');

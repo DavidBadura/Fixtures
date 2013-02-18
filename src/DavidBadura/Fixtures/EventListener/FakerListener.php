@@ -4,7 +4,7 @@ namespace DavidBadura\Fixtures\EventListener;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Fixture\FixtureData;
-use DavidBadura\Fixtures\Event\PreExecuteEvent;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use Faker\Generator;
 
 /**
@@ -43,9 +43,9 @@ class FakerListener
 
     /**
      *
-     * @param PreExecuteEvent $event
+     * @param FixtureCollectionEvent $event
      */
-    public function onPreExecuteEvent(PreExecuteEvent $event)
+    public function onPreExecuteEvent(FixtureCollectionEvent $event)
     {
         $collection = $event->getCollection();
 

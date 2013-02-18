@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\EventListener;
 
 use DavidBadura\Fixtures\EventListener\ValidationListener;
-use DavidBadura\Fixtures\Event\PostExecuteEvent;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use Symfony\Component\Validator\ValidatorInterface;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
@@ -42,7 +42,7 @@ class ValidationListenerTest extends AbstractFixtureTest
             $this->createFixture('test2', array('key2' => 'data2'))
         ));
 
-        $event = new PostExecuteEvent($fixtures, array());
+        $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $fixtures);
         $this->listener->onPostExecute($event);
     }
 
