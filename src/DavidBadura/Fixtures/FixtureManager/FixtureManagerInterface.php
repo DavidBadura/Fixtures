@@ -14,6 +14,6 @@ interface FixtureManagerInterface
      * @param string|array $path
      * @param array $options
      */
-    public function load($path, array $options = array());
+    public function load($path = null, array $options = array());
 
 }

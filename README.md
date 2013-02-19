@@ -24,12 +24,14 @@ Todos:
 * Add XML loader.
 * Add Propel.
 * Add cli functionality.
+* Translate documentation ( my english is really bad ;) )
 * Write documentation
 
 
 Documentation
 -------------
 
+* [FixtureManager](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixture_manager.md)
 * [Fixtures](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixtures.md)
 * [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md)
 * [Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
@@ -119,7 +121,7 @@ Now, you can load the fixtures, crate the objects and persist in the database
 
 use DavidBadura\Fixtures\FixtureManager\FixtureManager;
 
-// $objectManager can be Doctrine ORM Entity Manager, Doctrine MongoDb DocumentManager or null
+// $objectManager can be curently Doctrine ORM Entity Manager or Doctrine MongoDb DocumentManager
 $fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
 
 $fixtureManager->load('path/to/fixtures');

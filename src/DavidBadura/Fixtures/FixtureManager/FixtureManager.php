@@ -174,7 +174,7 @@ class FixtureManager implements FixtureManagerInterface
      * @param string $path
      * @param array $options
      */
-    public function load($path, array $options = array())
+    public function load($path = null, array $options = array())
     {
         $event = new FixtureEvent($this, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreLoad, $event);
@@ -205,6 +205,10 @@ class FixtureManager implements FixtureManagerInterface
         $this->eventDispatcher->dispatch(FixtureEvents::onPostExecute, $event);
         $collection = $event->getCollection();
         $options    = $event->getOptions();
+
+        if(isset($options['dry_run']) && $options['dry_run'] == true) {
+            return;
+        }
 
         $this->persist($collection);
 
