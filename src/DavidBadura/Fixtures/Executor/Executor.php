@@ -7,6 +7,7 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Exception\CircularReferenceException;
 use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Exception\ReferenceNotFoundException;
+use DavidBadura\Fixtures\Converter\ConverterInterface;
 
 /**
  * @author David Badura <d.badura@gmx.de>
@@ -33,6 +34,33 @@ class Executor implements ExecutorInterface
     function __construct(ConverterRepositoryInterface $converterRepository)
     {
         $this->converterRepository = $converterRepository;
+    }
+
+    /**
+     *
+     * @return ConverterRepositoryInterface
+     */
+    public function getConverterRepository()
+    {
+        return $this->converterRepository;
+    }
+
+    /**
+     *
+     * @param ConverterInterface $converter
+     */
+    public function addConverter(ConverterInterface $converter)
+    {
+        $this->converterRepository->addConverter($converter);
+    }
+
+    /**
+     *
+     * @param ConverterInterface $converter
+     */
+    public function removeConverter(ConverterInterface $converter)
+    {
+        $this->converterRepository->removeConverter($converter);
     }
 
     /**

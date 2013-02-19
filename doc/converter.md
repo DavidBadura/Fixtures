@@ -1,15 +1,15 @@
 Converter
 =========
 
-Fixture converters transform the fixture data in objects.
+Fixture converters transform the fixture data to objects.
 
 DefaultConverter
 ----------------
 
-The standard converter uses the setter methods of the class.
+The library provide a DefaultConverter, that pass the data via setter and adder methods.
 It can also works with classes that have a constructor and has some more features.
 
-The default converter needs the `class` property so that it knows which class to be initialized.
+The default converter needs the `class` property so that it knows which class should be initialized.
 
 ``` yaml
 user:
@@ -19,7 +19,7 @@ user:
         # ...
 ```
 
-The converter handles all attributes and he trying to pass values ​​to the object.
+The converter handles all attributes and it trying to pass the values ​​to the object.
 
 ``` yaml
 user:
@@ -31,12 +31,24 @@ user:
             email: 'd.badura@gmx.de'
 ```
 
-Order to pass data:
-- $object->set{PropertyName}()
-- $object->add{PropertyName}() (foreach)
-- $object->get{PropertyName}() (instanceof ArrayCollection)
-- $object->{PropertyName}
-- $object->__set()
+In this example has the DefaultConverter following workflow:
+
+``` php
+
+$object = new YourBundle\Entity\User();
+$object->setName('David Badura');
+$object->setEmail('d.badura@gmx.de');
+return $object;
+
+```
+
+With the following sequence the DefaultConterver tried to pass the data:
+
+* $object->set{PropertyName}()
+* $object->add{PropertyName}() (foreach)
+* $object->get{PropertyName}() (instanceof ArrayCollection)
+* $object->{PropertyName}
+* $object->__set()
 
 If you have a class with a constructor you can add the `constructor` property.
 
@@ -49,6 +61,15 @@ user:
         david:
             name: 'David Badura'
             email: 'd.badura@gmx.de'
+```
+
+DefaultConverter workflow:
+
+``` php
+
+$object = new YourBundle\Entity\User('David Badura', 'd.badura@gmx.de');
+return $object;
+
 ```
 
 Also you can mark optional constructor attributes with a `?` symbole.
@@ -64,9 +85,7 @@ user:
 ```
 
 The DefaultConverter support \DateTime parameters in setter and adder methods:
-
-
-Method example `$object->setCreateDate(\DateTime $date)`
+In this example provide the User Entity this method `YourBundle\Entity\User::setCreateDate(\DateTime $date)`
 
 ``` yaml
 user:
@@ -79,22 +98,31 @@ user:
             createDate: 'now'
 ```
 
+DefaultConverter workflow:
+
+``` php
+
+$object = new YourBundle\Entity\User('David Badura');
+$object->setCreateDate(new \DateTime('now'));
+return $object;
+
+```
+
 
 Create your own converter
 -------------------------
 
 You can also implement your own Converter.
-The Converter must extends the `DavidBadura\FixturesBundle\FixtureConverter\FixtureConverter` class.
-The fixture converter are loaded automatically from `YourBundle\FixtureConverter` folder.
+The Converter must extends the `DavidBadura\Fixtures\Converter\AbstractConverter` class
+or implement the `DavidBadura\Fixtures\Converter\ConverterInterface` interface.
 
 ``` php
-// YourBundle/FixtureConverter/UserConverter.php
-namespace YourBundle\FixtureConverter;
+// UserConverter.php
 
-use DavidBadura\FixturesBundle\FixtureConverter\FixtureConverter;
-use DavidBadura\FixturesBundle\FixtureData;
+use DavidBadura\Fixtures\Converter\AbstractConverter;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 
-class UserConverter extends FixtureConverter
+class UserConverter extends AbstractConverter
 {
 
     public function createObject(FixtureData $fixtureData)
@@ -116,7 +144,20 @@ class UserConverter extends FixtureConverter
 }
 ```
 
-In your fixture files your fixtures must add/change the converter property in `user`.
+Now you must register the converter:
+
+``` php
+
+use DavidBadura\Fixtures\FixtureManager\FixtureManager;
+
+$userConverter = new \UserConverter();
+
+$fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
+$fixtureManager->getExecutor()->addConverter($userConverter);
+
+```
+
+In the last step, your fixture files must add/change the converter property in `user`.
 
 ``` yaml
 user:
@@ -135,19 +176,18 @@ user:
 ```
 
 ``` php
-// YourBundle/FixtureConverter/BazConverter.php
-namespace YourBundle\FixtureConverter;
+// BazConverter.php
 
-use DavidBadura\FixturesBundle\FixtureConverter\FixtureConverter;
-use DavidBadura\FixturesBundle\FixtureData;
+use DavidBadura\Fixtures\Converter\AbstractConverter;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 
-class BazConverter extends FixtureConverter
+class BazConverter extends AbstractConverter
 {
 
     public function createObject(FixtureData $data)
     {
         $properties = $data->getProperties();
-        $properties['foo'] # bar
+        $properties->get('foo'); # bar
         // ...
     }
 
@@ -159,20 +199,19 @@ class BazConverter extends FixtureConverter
 To resolve bidrectional references you can overwrite the `finalizeObject` method.
 
 ``` php
-// YourBundle/FixtureConverter/UserConverter.php
-namespace YourBundle\FixtureConverter;
+// GroupConverter.php
 
-use DavidBadura\FixturesBundle\FixtureConverter\FixtureConverter;
-use DavidBadura\FixturesBundle\FixtureData;
+use DavidBadura\Fixtures\Converter\AbstractConverter;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 
-class GroupConverter extends FixtureConverter
+class GroupConverter extends AbstractConverter
 {
 
-    public function createObject(FixtureData $fixtureData)
+    public function createObject(FixtureData $data)
     {
-        $data = fixtureData->getData();
+        $data = $fixtureData->getData();
 
-        $group = new Group();
+        $group = new Group($data['name']);
 
         return $group;
     }
