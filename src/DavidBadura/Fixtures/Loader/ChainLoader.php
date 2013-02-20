@@ -24,15 +24,24 @@ class ChainLoader implements LoaderInterface
     public function __construct(array $loaders = array())
     {
         foreach ($loaders as $loader) {
-            $this->addLoader($loader);
+            $this->add($loader);
         }
     }
 
-    protected function addLoader(LoaderInterface $loader)
+    /**
+     *
+     * @param LoaderInterface $loader
+     */
+    public function add(LoaderInterface $loader)
     {
-        $this->loaders[get_class($loader)] = $loader;
+        $this->loaders[] = $loader;
     }
 
+    /**
+     *
+     * @param type $path
+     * @return FixtureCollection
+     */
     public function load($path)
     {
 
