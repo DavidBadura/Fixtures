@@ -69,4 +69,14 @@ class ParameterBag
             unset($this->parameters[$key]);
         }
     }
+
+    /**
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->parameters;
+    }
+
 }

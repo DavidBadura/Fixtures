@@ -13,6 +13,18 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
+     * @var array
+     */
+    protected static $defaultParameters = array();
+
+    /**
+     *
+     * @var string
+     */
+    protected static $defaultConverter = 'default';
+
+    /**
+     *
      * @var string
      */
     private $name;
@@ -37,16 +49,17 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param string                    $name
-     * @param ConverterInterface $converter
-     * @param type                      $persister
-     * @param array                     $data
+     * @param string       $name
+     * @param string       $converter
+     * @param ParameterBag $properties
      */
-    public function __construct($name, $converter = 'default', ParameterBag $properties = null)
+    public function __construct($name, $converter = null, ParameterBag $properties = null)
     {
         $this->name = $name;
-        $this->converter = $converter;
-        $this->properties = ($properties) ?: new ParameterBag();
+        $this->converter = ($converter)?: self::$defaultConverter ;
+
+        $params = ($properties) ? $properties->toArray() : array() ;
+        $this->properties = new ParameterBag(array_merge(self::$defaultParameters, $params));
     }
 
     /**
@@ -57,7 +70,6 @@ class Fixture implements \IteratorAggregate, \Countable
     {
         return $this->name;
     }
-
 
     /**
      *
@@ -166,11 +178,17 @@ class Fixture implements \IteratorAggregate, \Countable
         return count($this->fixtureData);
     }
 
-
+    /**
+     *
+     * @param string $name
+     * @param array $data
+     * @return Fixture
+     * @throws FixtureException
+     */
     static public function create($name, array $data)
     {
         $converter = (isset($data['converter'])) ? $data['converter'] : 'default' ;
-        $fixture = new Fixture($name, $converter);
+        $fixture = new self($name, $converter);
 
         if (!isset($data['data'])) {
             throw new FixtureException("missing data property");
@@ -185,6 +203,42 @@ class Fixture implements \IteratorAggregate, \Countable
         }
 
         return $fixture;
+    }
+
+    /**
+     *
+     * @param array $params
+     */
+    public static function setDefaultParameters(array $params = array())
+    {
+        self::$defaultParameters = $params;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public static function getDefaultParameters()
+    {
+        return self::$defaultParameters;
+    }
+
+    /**
+     *
+     * @param string $converter
+     */
+    public static function setDefaultConverter($converter)
+    {
+        self::$defaultConverter = $converter;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public static function getDefaultConverter()
+    {
+        return self::$defaultConverter;
     }
 
 }

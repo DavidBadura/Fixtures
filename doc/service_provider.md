@@ -111,5 +111,3 @@ group:
 ```
 
 The Faker Generator has a lot of methods. For more information read the [documentation](https://github.com/fzaninotto/Faker).
-
-To add your own faker provider, if you use DavidBaduraFakerBundle read the documentation from [DavidBaduraFakerBundle](https://github.com/DavidBadura/FakerBundle).
