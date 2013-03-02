@@ -1,7 +1,7 @@
 Load Fixtures
 =============
 
-First, you must create fixtures files in yaml, json, php or mixed.
+First, you must create fixtures files in yaml, json, php, toml or mixed.
 
 YAML:
 
@@ -102,5 +102,27 @@ $loader = new DavidBadura\Fixtures\Loader\ChainLoader(array(
 ));
 
 $collection = $loader->load('./');
+
+```
+
+You can also use the toml loader.
+
+```toml
+
+[user.properties]
+class = "DavidBadura\\Fixtures\\TestObjects\\User"
+constructor = ["name", "email"]
+
+[user.data.david]
+name = "David Badura"
+email = "d.badura@gmx.de"
+group = ["@group:owner", "@group:developer"]
+role = ["@role:admin"]
+
+[user.data.other]
+name = "Somebody"
+email = "test@example.de"
+group = ["@group:developer"]
+role = ["@role:user"]
 
 ```

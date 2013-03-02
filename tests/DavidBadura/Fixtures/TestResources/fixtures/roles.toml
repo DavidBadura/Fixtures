@@ -1,0 +1,8 @@
+[role.properties]
+class = "DavidBadura\\Fixtures\\TestObjects\\Role"
+
+[role.data.admin]
+name = "Admin"
+
+[role.data.user]
+name = "User"

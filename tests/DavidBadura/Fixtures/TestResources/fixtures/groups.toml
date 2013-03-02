@@ -1,0 +1,6 @@
+[group.properties]
+class = "DavidBadura\\Fixtures\\TestObjects\\Group"
+
+[group.data.developer]
+name = "Developer"
+leader = "@@user:david"
