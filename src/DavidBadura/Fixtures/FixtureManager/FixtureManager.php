@@ -330,10 +330,12 @@ class FixtureManager implements FixtureManagerInterface
      */
     static public function createDefaultFixtureManager($objectManager)
     {
-        $yamlLoader = new \DavidBadura\Fixtures\Loader\YamlLoader();
-        $arrayLoader = new \DavidBadura\Fixtures\Loader\ArrayLoader();
-        $jsonLoader = new \DavidBadura\Fixtures\Loader\JsonLoader();
-        $loader = new \DavidBadura\Fixtures\Loader\ChainLoader(array($yamlLoader, $arrayLoader, $jsonLoader));
+        $loader = new \DavidBadura\Fixtures\Loader\ChainLoader(array(
+            new \DavidBadura\Fixtures\Loader\YamlLoader(),
+            new \DavidBadura\Fixtures\Loader\ArrayLoader(),
+            new \DavidBadura\Fixtures\Loader\JsonLoader(),
+            new \DavidBadura\Fixtures\Loader\TomlLoader()
+        ));
 
         $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
 

@@ -11,7 +11,7 @@ Features:
 * Resolve object dependency automatically (also bidirectional references).
 * Configurable default fixture converter (constructor, properties, set* and add* methods).
 * Easy to create your own converter.
-* Many fixtures loader: Yaml, Json und PHP (XML is coming soon).
+* Many fixtures loader: Yaml, Json, Toml und PHP (XML is coming soon).
 * Extendable by events (currently with symfony\event-dispatcher).
 * Fixture filtering by tags
 * Object validation (currently with symfony\validator)
@@ -40,9 +40,10 @@ Documentation
 Useage
 ------
 
-First, you must create fixtures files in yaml, json, php or mixed.
+First, you must create fixtures files in yaml, json, toml, php or mixed.
+In this example, we have different formats:
 
-YAML:
+**YAML**
 
 ```yaml
 
@@ -65,7 +66,7 @@ user:
 
 ```
 
-PHP:
+**PHP**
 
 ```php
 
@@ -95,7 +96,7 @@ return array(
 
 ```
 
-JSON:
+**JSON**
 
 ```json
 
@@ -114,8 +115,16 @@ JSON:
 }
 
 ```
+What other formats are supported you can read under [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md).
 
-Now, you can load the fixtures, crate the objects and persist in the database
+How the fixture manager converte the fixtures to objects can you read in the
+[Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
+section.
+
+**Load Fixtures**
+
+Now, you can load the fixtures, crate the objects and persist in the database.
+For this, we use the default fixture manager.
 
 ```php
 
