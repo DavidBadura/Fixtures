@@ -1,8 +1,8 @@
 FixtureManager
 ==============
 
-Der FixtureManager kümmert sich um den gesamten Ablauf.
-Er ist aus folgenden Komponenten aufgebaut und jedes dieser kann ausgetauscht werden:
+The FixtureManager handles the entire process.
+It consists of the following components and each of these can be replaced:
 
 * **Loader** ist für das laden der Fixture Resources zuständig und gibt eine FixtureCollection zurück
 * **Executor** löst abhängigkeiten auf und erzeugt die Objekte

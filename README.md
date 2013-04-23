@@ -119,7 +119,7 @@ What other formats are supported you can read under [Loader](https://github.com/
 
 How the fixture manager converte the fixtures to objects can you read in the
 [Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
-section.
+section. You can use the default fixture converter or write your own converter.
 
 **Load Fixtures**
 
@@ -130,9 +130,12 @@ For this, we use the default fixture manager.
 
 use DavidBadura\Fixtures\FixtureManager\FixtureManager;
 
-// $objectManager can be curently Doctrine ORM Entity Manager or Doctrine MongoDb DocumentManager
+// $objectManager can be curently Doctrine ORM Entity Manager or other Doctrine DocumentManager like MongoODM or CouchODM
 $fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
 
 $fixtureManager->load('path/to/fixtures');
 
 ```
+
+You can easily instance your own fixture manager.
+For more information you can read [FixtureManager](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixture_manager.md) documentation.

@@ -326,6 +326,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
+     * @param object $objectManager
      * @return FixtureManager
      */
     static public function createDefaultFixtureManager($objectManager)
@@ -339,7 +340,9 @@ class FixtureManager implements FixtureManagerInterface
 
         $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
 
-        if($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
+        if($objectManager instanceof PersisterInterface) {
+            $persister = $objectManager;
+        } elseif($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
             $persister = new \DavidBadura\Fixtures\Persister\MongoDBPersister($objectManager);
         } elseif($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
             $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
