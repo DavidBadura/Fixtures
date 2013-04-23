@@ -3,7 +3,6 @@
 namespace DavidBadura\Fixtures\Loader;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
-use Symfony\Component\Finder\Finder;
 
 /**
  *
@@ -14,22 +13,13 @@ class JsonLoader implements LoaderInterface
 
     /**
      *
-     * @param  mixed     $path
+     * @param  string $path
      * @return FixtureCollection
      */
-    public function load($path)
+    public function load($path, array $options = array())
     {
-        $finder = new Finder();
-        $finder->in($path)->name('*.json');
-
-        $fixtures = array();
-        foreach ($finder->files() as $file) {
-            $data = json_decode(file_get_contents($file->getPathname()), true);
-            $fixtures = array_merge_recursive($fixtures, $data);
-        }
-
-        $collection = FixtureCollection::create($fixtures);
-        return $collection;
+        $data = json_decode(file_get_contents($path), true);
+        return FixtureCollection::create($data);
     }
 
 }

@@ -42,13 +42,13 @@ class ChainLoader implements LoaderInterface
      * @param type $path
      * @return FixtureCollection
      */
-    public function load($path)
+    public function load($path, array $options = array())
     {
 
         $collection = new FixtureCollection();
 
         foreach ($this->loaders as $loader) {
-            $data = $loader->load($path);
+            $data = $loader->load($path, $options);
             $collection->merge($data);
         }
 

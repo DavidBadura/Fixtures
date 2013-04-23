@@ -2,7 +2,6 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use Symfony\Component\Finder\Finder;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
@@ -17,19 +16,10 @@ class ArrayLoader implements LoaderInterface
      * @param  mixed     $path
      * @return FixtureCollection
      */
-    public function load($path)
+    public function load($path, array $options = array())
     {
-        $finder = new Finder();
-        $finder->in($path)->name('*.php');
-
-        $fixtures = array();
-        foreach ($finder->files() as $file) {
-            $data = include $file->getPathname();
-            $fixtures = array_merge_recursive($fixtures, $data);
-        }
-
-        $collection = FixtureCollection::create($fixtures);
-        return $collection;
+        $data = include $path;
+        return FixtureCollection::create($data);
     }
 
 }

@@ -11,8 +11,9 @@ interface LoaderInterface
 
     /**
      *
-     * @param  mixed     $path
+     * @param mixed $path
+     * @param array $options
      * @return FixtureCollection
      */
-    public function load($path);
+    public function load($path, array $options = array());
 }

@@ -5,6 +5,7 @@ namespace DavidBadura\Fixtures\FixtureManager;
 use DavidBadura\Fixtures\Exception\RuntimeException;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
@@ -187,10 +188,6 @@ class FixtureManager implements FixtureManagerInterface
         $collection = $event->getCollection();
         $options    = $event->getOptions();
 
-        if(isset($options['tags'])) {
-            $this->filterByTags($collection, $options['tags']);
-        }
-
         $this->replaceMultiPlaceholder($collection);
         $this->replaceServicePlaceholder($collection);
 
@@ -214,40 +211,6 @@ class FixtureManager implements FixtureManagerInterface
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPostPersist, $event);
-    }
-
-    /**
-     *
-     * @param FixtureCollection $collection
-     * @param array|string $tags
-     */
-    protected function filterByTags(FixtureCollection $collection, $filter)
-    {
-        if (!is_array($filter)) {
-            $filter = array($filter);
-        }
-
-        if(empty($filter)) {
-            return;
-        }
-
-        /* @var $fixture Fixture */
-        foreach ($collection as $fixture) {
-
-            $tags = $fixture->getProperties()->get('tags');
-
-            if(!$tags || !is_array($tags)) {
-                $collection->remove($fixture->getName());
-                continue;
-            }
-
-            foreach ($tags as $tag) {
-                if (in_array($tag, $filter)) {
-                    continue 2;
-                }
-            }
-            $collection->remove($fixture->getName());
-        }
     }
 
     /**
@@ -331,12 +294,17 @@ class FixtureManager implements FixtureManagerInterface
      */
     static public function createDefaultFixtureManager($objectManager)
     {
-        $loader = new \DavidBadura\Fixtures\Loader\ChainLoader(array(
-            new \DavidBadura\Fixtures\Loader\YamlLoader(),
-            new \DavidBadura\Fixtures\Loader\ArrayLoader(),
-            new \DavidBadura\Fixtures\Loader\JsonLoader(),
-            new \DavidBadura\Fixtures\Loader\TomlLoader()
-        ));
+        $matchLoader = new Loader\MatchLoader();
+        $matchLoader
+            ->add(new Loader\ArrayLoader(), '/\.php$/')
+            ->add(new Loader\YamlLoader(), '/\.yml$/')
+            ->add(new Loader\JsonLoader(), '/\.json$/')
+            ->add(new Loader\TomlLoader(), '/\.toml$/')
+        ;
+
+        $loader = new Loader\DirectoryLoader(
+            new Loader\FilterLoader($matchLoader)
+        );
 
         $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
 
