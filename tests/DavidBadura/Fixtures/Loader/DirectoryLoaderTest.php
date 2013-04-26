@@ -40,11 +40,11 @@ class DirectoryLoaderTest extends \PHPUnit_Framework_TestCase
         $path = realpath(__DIR__ . '/../TestResources/chainFixtures');
 
         $this->loader->load($path);
-        $this->assertEquals(array(
-            $path .'/user.yml',
-            $path .'/roles.php',
-            $path .'/groups.json',
-        ), $files);
+
+        $this->assertContains($path .'/roles.php', $files);
+        $this->assertContains($path .'/user.yml', $files);
+        $this->assertContains($path .'/groups.json', $files);
+
     }
 
 }
