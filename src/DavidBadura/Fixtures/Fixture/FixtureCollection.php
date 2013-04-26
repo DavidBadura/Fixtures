@@ -37,7 +37,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
     public function add(Fixture $fixture)
     {
         $name = $fixture->getName();
-        if ($this->has($name)) {
+        if (isset($this->fixtures[$name])) {
             throw new FixtureException(sprintf('fixture with the name "%s" already exists', $name));
         }
         $this->fixtures[$name] = $fixture;
@@ -52,7 +52,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
      */
     public function get($name)
     {
-        if (!$this->has($name)) {
+        if (!isset($this->fixtures[$name])) {
             return null;
         }
 
@@ -76,7 +76,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
      */
     public function remove($name)
     {
-        if ($this->has($name)) {
+        if (isset($this->fixtures[$name])) {
             unset($this->fixtures[$name]);
         }
 

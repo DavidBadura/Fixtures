@@ -16,6 +16,7 @@
     "require-dev": {
         "symfony/yaml" : ">=2.0",
         "symfony/validator": ">=2.0",
+        "symfony/http-kernel": ">=2.0",
         "fzaninotto/faker": "*",
         "doctrine/common": "*",
         "jamesmoss/toml": "*"
@@ -23,6 +24,7 @@
     "suggests": {
         "symfony/yaml" : ">=2.0",
         "symfony/validator": ">=2.0",
+        "symfony/http-kernel": ">=2.0",
         "fzaninotto/faker": "*",
         "doctrine/orm": "*",
         "doctrine/mongodb-odm": "@beta",
