@@ -25,7 +25,7 @@ class MatchLoader implements LoaderInterface
      */
     public function add(LoaderInterface $loader, $pattern)
     {
-        $this->mapping = array(
+        $this->mapping[] = array(
             'loader' => $loader,
             'pattern' => $pattern
         );
@@ -40,8 +40,9 @@ class MatchLoader implements LoaderInterface
      */
     public function load($path, array $options = array())
     {
-        foreach($this->mapping as $mapping) {
-            if(!preg_match($mapping['pattern'])) {
+        foreach ($this->mapping as $mapping) {
+
+            if (!$this->match($path, $mapping['pattern'])) {
                 continue;
             }
 
@@ -49,6 +50,28 @@ class MatchLoader implements LoaderInterface
         }
 
         throw new RuntimeException(sprintf('not matching for "%s"', $path));
+    }
+
+    /**
+     *
+     * @param string $path
+     * @param string $pattern
+     * @return boolean
+     */
+    protected function match($path, $pattern)
+    {
+        $expr = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+                switch ($matches[0]) {
+                    case '*':
+                        return '.*';
+                    case '?':
+                        return '.';
+                    default:
+                        return '\\' . $matches[0];
+                }
+            }, $pattern);
+
+        return (bool) preg_match('/' . $expr . '/', $path);
     }
 
 }

@@ -2,17 +2,14 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\ChainLoader;
-use DavidBadura\Fixtures\Loader\YamlLoader;
-use DavidBadura\Fixtures\Loader\JsonLoader;
-use DavidBadura\Fixtures\Loader\ArrayLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\AbstractFixtureTest;
 
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ChainLoaderTest extends \PHPUnit_Framework_TestCase
+class FilterLoaderTest extends AbstractFixtureTest
 {
 
     /**
@@ -21,100 +18,43 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
      */
     private $loader;
 
-    public function setUp()
+    public function testFilterLoader()
     {
-        $this->loader = new ChainLoader(array(
-            new JsonLoader(),
-            new ArrayLoader(),
-            new YamlLoader()
+        $mockLoader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $loader = new FilterLoader($mockLoader);
+
+        $fixture1 = $this->createFixture('test1', array(), array(
+            'tags' => array('test', 'install')
         ));
-    }
 
-    public function testLoadFixturesByPath()
-    {
-        $expects = array(
-            'user' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\User',
-                    'constructor' =>
-                    array(
-                        0 => 'name',
-                        1 => 'email',
-                    ),
-                ),
-                'data' =>
-                array(
-                    'david' =>
-                    array(
-                        'name' => 'David Badura',
-                        'email' => 'd.badura@gmx.de',
-                        'group' =>
-                        array(
-                            0 => '@group:owner',
-                            1 => '@group:developer',
-                        ),
-                        'role' =>
-                        array(
-                            0 => '@role:admin',
-                        ),
-                    ),
-                    'other' =>
-                    array(
-                        'name' => 'Somebody',
-                        'email' => 'test@example.de',
-                        'group' =>
-                        array(
-                            0 => '@group:developer',
-                        ),
-                        'role' =>
-                        array(
-                            0 => '@role:user',
-                        ),
-                    ),
-                ),
-            ),
-            'group' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\Group',
-                ),
-                'data' =>
-                array(
-                    'developer' =>
-                    array(
-                        'name' => 'Developer',
-                        'leader' => '@@user:david',
-                    ),
-                ),
-            ),
-            'role' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\Role',
-                ),
-                'data' =>
-                array(
-                    'admin' =>
-                    array(
-                        'name' => 'Admin',
-                    ),
-                    'user' =>
-                    array(
-                        'name' => 'User',
-                    ),
-                ),
-            ),
-        );
+        $fixture2 = $this->createFixture('test2', array(), array(
+            'tags' => array('test')
+        ));
 
-        $collection = FixtureCollection::create($expects);
+        $fixture3 = $this->createFixture('test3', array(), array(
+            'tags' => array('install')
+        ));
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/chainFixtures');
+        $fixture4 = $this->createFixture('test4');
 
-        $this->assertEquals($collection, $data);
+
+        // empty tags
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $mockLoader->expects($this->any())->method('load')->will($this->returnValue($collection));
+        $collection = $loader->load('');
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), $collection);
+
+        // install
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $mockLoader->expects($this->any())->method('load')->will($this->returnValue($collection));
+        $collection = $loader->load('', array('tags' => array('install')));
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture3)), $collection);
+
+        // install, test
+        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
+        $mockLoader->expects($this->any())->method('load')->will($this->returnValue($collection));
+        $collection = $loader->load('', array('tags' => array('install', 'test')));
+        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture3)), $collection);
     }
 
 }

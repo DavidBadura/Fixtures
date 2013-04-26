@@ -11,11 +11,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
 class FixtureManagerPublicMethods extends FixtureManager
 {
 
-    public function publicFilterByTags(FixtureCollection $collection, $tags)
-    {
-        $this->filterByTags($collection, $tags);
-    }
-
     public function publicReplaceServicePlaceholder(FixtureCollection $collection)
     {
         $this->replaceServicePlaceholder($collection);

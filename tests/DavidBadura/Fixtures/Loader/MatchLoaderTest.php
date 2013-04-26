@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\ChainLoader;
+use DavidBadura\Fixtures\Loader\MatchLoader;
 use DavidBadura\Fixtures\Loader\YamlLoader;
 use DavidBadura\Fixtures\Loader\JsonLoader;
 use DavidBadura\Fixtures\Loader\ArrayLoader;
@@ -12,7 +12,7 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ChainLoaderTest extends \PHPUnit_Framework_TestCase
+class MatchLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -23,16 +23,17 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loader = new ChainLoader(array(
-            new JsonLoader(),
-            new ArrayLoader(),
-            new YamlLoader()
-        ));
+        $this->loader = new MatchLoader();
+        $this->loader
+            ->add(new JsonLoader(), '*.json')
+            ->add(new YamlLoader(), '*.yml')
+            ->add(new ArrayLoader(), '*.php')
+       ;
     }
 
-    public function testLoadFixturesByPath()
+    public function testLoadFixtures()
     {
-        $expects = array(
+        $user = array(
             'user' =>
             array(
                 'properties' =>
@@ -74,7 +75,10 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 ),
-            ),
+            )
+        );
+
+        $group = array(
             'group' =>
             array(
                 'properties' =>
@@ -89,7 +93,10 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
                         'leader' => '@@user:david',
                     ),
                 ),
-            ),
+            )
+        );
+
+        $role = array(
             'role' =>
             array(
                 'properties' =>
@@ -110,11 +117,20 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $collection = FixtureCollection::create($expects);
+        $this->assertEquals(
+            FixtureCollection::create($user),
+            $this->loader->load(__DIR__ . '/../TestResources/chainFixtures/user.yml')
+        );
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/chainFixtures');
+        $this->assertEquals(
+            FixtureCollection::create($group),
+            $this->loader->load(__DIR__ . '/../TestResources/chainFixtures/groups.json')
+        );
 
-        $this->assertEquals($collection, $data);
+        $this->assertEquals(
+            FixtureCollection::create($role),
+            $this->loader->load(__DIR__ . '/../TestResources/chainFixtures/roles.php')
+        );
     }
 
 }

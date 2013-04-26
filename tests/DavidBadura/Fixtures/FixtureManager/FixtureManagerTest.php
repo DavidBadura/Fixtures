@@ -87,35 +87,6 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->fixtureManager->load(null);
     }
 
-    public function testFilterByTags()
-    {
-        $fixture1 = $this->createFixture('test1', array(), array(
-            'tags' => array('test', 'install')
-        ));
-
-        $fixture2 = $this->createFixture('test2', array(), array(
-            'tags' => array('test')
-        ));
-
-        $fixture3 = $this->createFixture('test3', array(), array(
-            'tags' => array('install')
-        ));
-
-        $fixture4 = $this->createFixture('test4');
-
-        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
-        $this->fixtureManager->publicFilterByTags($collection, array());
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4)), $collection);
-
-        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
-        $this->fixtureManager->publicFilterByTags($collection, array('install'));
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture3)), $collection);
-
-        $collection = new FixtureCollection(array($fixture1, $fixture2, $fixture3, $fixture4));
-        $this->fixtureManager->publicFilterByTags($collection, array('install', 'test'));
-        $this->assertEquals(new FixtureCollection(array($fixture1, $fixture2, $fixture3)), $collection);
-    }
-
     public function testServiceProvider()
     {
         $serviceProvicer = new \DavidBadura\Fixtures\ServiceProvider\ServiceProvider();

@@ -296,10 +296,10 @@ class FixtureManager implements FixtureManagerInterface
     {
         $matchLoader = new Loader\MatchLoader();
         $matchLoader
-            ->add(new Loader\ArrayLoader(), '/\.php$/')
-            ->add(new Loader\YamlLoader(), '/\.yml$/')
-            ->add(new Loader\JsonLoader(), '/\.json$/')
-            ->add(new Loader\TomlLoader(), '/\.toml$/')
+            ->add(new Loader\ArrayLoader(), '*.php')
+            ->add(new Loader\YamlLoader(), '*.yml')
+            ->add(new Loader\JsonLoader(), '*.json')
+            ->add(new Loader\TomlLoader(), '*.toml')
         ;
 
         $loader = new Loader\DirectoryLoader(

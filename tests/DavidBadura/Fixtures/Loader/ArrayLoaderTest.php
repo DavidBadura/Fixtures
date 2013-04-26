@@ -23,7 +23,7 @@ class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
         $this->loader = new ArrayLoader();
     }
 
-    public function testLoadFixturesByPath()
+    public function testLoadFixture()
     {
         $expects = array(
             'user' =>
@@ -67,45 +67,12 @@ class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
                         ),
                     ),
                 ),
-            ),
-            'group' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\Group',
-                ),
-                'data' =>
-                array(
-                    'developer' =>
-                    array(
-                        'name' => 'Developer',
-                        'leader' => '@@user:david',
-                    ),
-                ),
-            ),
-            'role' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\Role',
-                ),
-                'data' =>
-                array(
-                    'admin' =>
-                    array(
-                        'name' => 'Admin',
-                    ),
-                    'user' =>
-                    array(
-                        'name' => 'User',
-                    ),
-                ),
-            ),
+            )
         );
 
         $collection = FixtureCollection::create($expects);
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures');
+        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures/user.php');
 
         $this->assertEquals($collection, $data);
     }

@@ -3,6 +3,7 @@
 namespace DavidBadura\Fixtures\Loader;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Exception\RuntimeException;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -34,13 +35,21 @@ class DirectoryLoader implements LoaderInterface
      */
     public function load($path, array $options = array())
     {
+        if(!file_exists($path)) {
+            throw new RuntimeException(sprintf('"%s" dir or file not found', $path));
+        }
+
+        if(is_file($path)) {
+            return $this->loader->load($path, $options);
+        }
+
         $finder = new Finder();
         $finder->in($path)->files();
 
         $collection = new FixtureCollection();
 
         foreach($finder as $file) {
-            $col = $this->loader->load($file->getPathname(), $options);
+            $col = $this->loader->load(realpath($file->getPathname()), $options);
             $collection->merge($col);
         }
 
