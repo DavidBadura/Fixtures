@@ -13,13 +13,38 @@ class ArrayLoader implements LoaderInterface
 
     /**
      *
+     * @var LoaderInterface
+     */
+    protected $loader;
+
+    /**
+     *
+     * @param LoaderInterface $loader
+     */
+    function __construct(LoaderInterface $loader)
+    {
+        $this->loader = $loader;
+    }
+
+    /**
+     *
      * @param  mixed     $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
-        $data = include $path;
-        return FixtureCollection::create($data);
+        if(!is_array($path)) {
+            return $this->loader->load($path, $options);
+        }
+
+        $collection = new FixtureCollection();
+
+        foreach ($path as $p) {
+            $c = $this->loader->load($p, $options);
+            $collection->merge($c);
+        }
+
+        return $collection;
     }
 
 }

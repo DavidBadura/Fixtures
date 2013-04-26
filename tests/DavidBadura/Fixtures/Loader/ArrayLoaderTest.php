@@ -18,63 +18,35 @@ class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
      */
     private $loader;
 
+    private $mockLoader;
+
     public function setUp()
     {
-        $this->loader = new ArrayLoader();
+        $this->mockLoader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->loader = new ArrayLoader($this->mockLoader);
     }
 
     public function testLoadFixture()
     {
-        $expects = array(
-            'user' =>
-            array(
-                'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\User',
-                    'constructor' =>
-                    array(
-                        0 => 'name',
-                        1 => 'email',
-                    ),
-                ),
-                'data' =>
-                array(
-                    'david' =>
-                    array(
-                        'name' => 'David Badura',
-                        'email' => 'd.badura@gmx.de',
-                        'group' =>
-                        array(
-                            0 => '@group:owner',
-                            1 => '@group:developer',
-                        ),
-                        'role' =>
-                        array(
-                            0 => '@role:admin',
-                        ),
-                    ),
-                    'other' =>
-                    array(
-                        'name' => 'Somebody',
-                        'email' => 'test@example.de',
-                        'group' =>
-                        array(
-                            0 => '@group:developer',
-                        ),
-                        'role' =>
-                        array(
-                            0 => '@role:user',
-                        ),
-                    ),
-                ),
-            )
-        );
+        $files = array();
 
-        $collection = FixtureCollection::create($expects);
+        $this->mockLoader->expects($this->exactly(3))->method('load')
+            ->with($this->anything())->will($this->returnCallback(function($var) use (&$files) {
+                $files[] = $var;
+                return new FixtureCollection();
+        }));
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures/user.php');
+        $path = realpath(__DIR__ . '/../TestResources/chainFixtures');
 
-        $this->assertEquals($collection, $data);
+        $this->loader->load(array(
+            $path .'/roles.php',
+            $path .'/user.yml',
+            $path .'/groups.json'
+        ));
+
+        $this->assertContains($path .'/roles.php', $files);
+        $this->assertContains($path .'/user.yml', $files);
+        $this->assertContains($path .'/groups.json', $files);
     }
 
 }

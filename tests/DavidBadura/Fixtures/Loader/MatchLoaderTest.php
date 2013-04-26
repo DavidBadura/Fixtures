@@ -27,7 +27,7 @@ class MatchLoaderTest extends \PHPUnit_Framework_TestCase
         $this->loader
             ->add(new JsonLoader(), '*.json')
             ->add(new YamlLoader(), '*.yml')
-            ->add(new ArrayLoader(), '*.php')
+            ->add(new PhpLoader(), '*.php')
        ;
     }
 
