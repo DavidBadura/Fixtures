@@ -4,6 +4,7 @@ namespace DavidBadura\Fixtures\Loader;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Exception\RuntimeException;
+use DavidBadura\Fixtures\Util\Matcher;
 
 /**
  *
@@ -42,7 +43,7 @@ class MatchLoader implements LoaderInterface
     {
         foreach ($this->mapping as $mapping) {
 
-            if (!$this->match($path, $mapping['pattern'])) {
+            if (!Matcher::match($path, $mapping['pattern'])) {
                 continue;
             }
 
@@ -50,28 +51,6 @@ class MatchLoader implements LoaderInterface
         }
 
         throw new RuntimeException(sprintf('not matching for "%s"', $path));
-    }
-
-    /**
-     *
-     * @param  string  $path
-     * @param  string  $pattern
-     * @return boolean
-     */
-    protected function match($path, $pattern)
-    {
-        $expr = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
-                switch ($matches[0]) {
-                    case '*':
-                        return '.*';
-                    case '?':
-                        return '.';
-                    default:
-                        return '\\' . $matches[0];
-                }
-            }, $pattern);
-
-        return (bool) preg_match('/' . $expr . '/', $path);
     }
 
 }

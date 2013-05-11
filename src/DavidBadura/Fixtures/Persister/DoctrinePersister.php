@@ -3,6 +3,7 @@
 namespace DavidBadura\Fixtures\Persister;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 
 /**
  *
@@ -28,10 +29,11 @@ class DoctrinePersister implements PersisterInterface
 
     /**
      *
-     * @param object $object
+     * @param FixtureData $data
      */
-    public function addObject($object)
+    public function persist(FixtureData $data)
     {
+        $object = $data->getObject();
         $this->om->persist($object);
     }
 
@@ -39,7 +41,7 @@ class DoctrinePersister implements PersisterInterface
      *
      *
      */
-    public function save()
+    public function flush()
     {
         $this->om->flush();
     }

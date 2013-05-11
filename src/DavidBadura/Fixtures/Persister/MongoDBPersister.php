@@ -3,6 +3,7 @@
 namespace DavidBadura\Fixtures\Persister;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use DavidBadura\Fixtures\Fixture\FixtureData;
 
 /**
  *
@@ -29,10 +30,11 @@ class MongoDBPersister implements PersisterInterface
 
     /**
      *
-     * @param object $object
+     * @param FixtureData $data
      */
-    public function addObject($object)
+    public function perist(FixtureData $data)
     {
+        $object = $data->getObject();
         $this->dm->persist($object);
     }
 
@@ -40,7 +42,7 @@ class MongoDBPersister implements PersisterInterface
      *
      *
      */
-    public function save()
+    public function flush()
     {
         $this->dm->getSchemaManager()->ensureIndexes();
         $this->dm->flush(null, array('safe' => true));

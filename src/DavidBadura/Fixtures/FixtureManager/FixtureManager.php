@@ -221,11 +221,11 @@ class FixtureManager implements FixtureManagerInterface
     {
         foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
-                $this->persister->addObject($data->getObject());
+                $this->persister->persist($data);
             }
         }
 
-        $this->persister->save();
+        $this->persister->flush();
     }
 
     /**

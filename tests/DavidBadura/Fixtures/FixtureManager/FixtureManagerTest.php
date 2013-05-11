@@ -64,8 +64,8 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->executor->expects($this->any())->method('execute');
 
         $this->persister = $this->getMock('DavidBadura\Fixtures\Persister\PersisterInterface');
-        $this->persister->expects($this->any())->method('addObject');
-        $this->persister->expects($this->any())->method('save');
+        $this->persister->expects($this->any())->method('persist');
+        $this->persister->expects($this->any())->method('flush');
 
         $this->provider = $this->getMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
         $this->provider->expects($this->any())->method('get');
@@ -81,7 +81,7 @@ class FixtureManagerTest extends AbstractFixtureTest
     {
         $this->loader->expects($this->once())->method('load')->will($this->returnValue(new FixtureCollection()));
         $this->executor->expects($this->once())->method('execute');
-        $this->persister->expects($this->once())->method('save');
+        $this->persister->expects($this->once())->method('flush');
         $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
 
         $this->fixtureManager->load(null);
