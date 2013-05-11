@@ -148,11 +148,11 @@ class ObjectAccess
 
         if (count($noPublic) > 0) {
             throw new ObjectAccessException(sprintf('property "%s" is not writeable in class "%s"' . "\n"
-                . implode("\n", $noPublic), $property, $this->reflClass->getName()));
+                . implode("\n", $noPublic), $property, $this->reflClass->name));
         }
 
         throw new ObjectAccessException(sprintf('property "%s" is not writeable in class "%s"' . "\n"
-            . 'Maybe you should create the method "%s()" or "%s()"?', $property, $this->reflClass->getName(), $setter, $adder));
+            . 'Maybe you should create the method "%s()" or "%s()"?', $property, $this->reflClass->name, $setter, $adder));
     }
 
     /**
@@ -200,11 +200,11 @@ class ObjectAccess
 
         if (count($noPublic) > 0) {
             throw new ObjectAccessException(sprintf('property "%s" is not readable in class "%s"' . "\n"
-                . implode("\n", $noPublic), $property, $this->reflClass->getName()));
+                . implode("\n", $noPublic), $property, $this->reflClass->name));
         }
 
         throw new ObjectAccessException(sprintf('property "%s" is not readable in class "%s"' . "\n"
-            . 'Maybe you should create the method "%s()"?', $property, $this->reflClass->getName(), $getter));
+            . 'Maybe you should create the method "%s()"?', $property, $this->reflClass->name, $getter));
     }
 
     /**
