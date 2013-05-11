@@ -19,8 +19,8 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param string $name
-     * @param object $service
+     * @param  string           $name
+     * @param  object           $service
      * @return ServiceProvider
      * @throws RuntimeException
      */
@@ -47,7 +47,7 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string $name
+     * @param  string           $name
      * @return object
      * @throws RuntimeException
      */
@@ -62,7 +62,7 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string $name
+     * @param  string          $name
      * @return ServiceProvider
      */
     public function remove($name)

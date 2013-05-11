@@ -39,7 +39,7 @@ class ChainLoader implements LoaderInterface
 
     /**
      *
-     * @param type $path
+     * @param  type              $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())

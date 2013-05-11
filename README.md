@@ -1,5 +1,5 @@
-davidbadura \ fixtures
-======================
+davidbadura\fixtures
+====================
 
 [![Build Status](https://secure.travis-ci.org/DavidBadura/Fixtures.png)](http://travis-ci.org/DavidBadura/Fixtures)
 
@@ -123,7 +123,7 @@ section. You can use the default fixture converter or write your own converter.
 
 **Load Fixtures**
 
-Now, you can load the fixtures, crate the objects and persist in the database.
+Now, you can load the fixtures, crate the objects and persist these in the database.
 For this, we use the default fixture manager.
 
 ```php

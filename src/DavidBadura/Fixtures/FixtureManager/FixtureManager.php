@@ -143,7 +143,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param string $name
+     * @param  string  $name
      * @return boolean
      */
     public function hasService($name)
@@ -162,7 +162,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param string $name
+     * @param  string $name
      * @return object
      */
     public function getService($name)
@@ -173,7 +173,7 @@ class FixtureManager implements FixtureManagerInterface
     /**
      *
      * @param string $path
-     * @param array $options
+     * @param array  $options
      */
     public function load($path = null, array $options = array())
     {
@@ -203,7 +203,7 @@ class FixtureManager implements FixtureManagerInterface
         $collection = $event->getCollection();
         $options    = $event->getOptions();
 
-        if(isset($options['dry_run']) && $options['dry_run'] == true) {
+        if (isset($options['dry_run']) && $options['dry_run'] == true) {
             return;
         }
 
@@ -236,7 +236,7 @@ class FixtureManager implements FixtureManagerInterface
     {
         $provider = $this->serviceProvider;
 
-        foreach($collection as $fixture) {
+        foreach ($collection as $fixture) {
             foreach ($fixture as $fixtureData) {
                 $data = $fixtureData->getData();
 
@@ -258,7 +258,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param FixtureCollection $collection
+     * @param  FixtureCollection $collection
      * @throws \Exception
      */
     protected function replaceMultiPlaceholder(FixtureCollection $collection)
@@ -289,10 +289,10 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param object $objectManager
+     * @param  object         $objectManager
      * @return FixtureManager
      */
-    static public function createDefaultFixtureManager($objectManager)
+    public static function createDefaultFixtureManager($objectManager)
     {
         $matchLoader = new Loader\MatchLoader();
         $matchLoader
@@ -308,11 +308,11 @@ class FixtureManager implements FixtureManagerInterface
 
         $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
 
-        if($objectManager instanceof PersisterInterface) {
+        if ($objectManager instanceof PersisterInterface) {
             $persister = $objectManager;
-        } elseif($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
+        } elseif ($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
             $persister = new \DavidBadura\Fixtures\Persister\MongoDBPersister($objectManager);
-        } elseif($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
+        } elseif ($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
             $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
         } else {
             throw new RuntimeException();

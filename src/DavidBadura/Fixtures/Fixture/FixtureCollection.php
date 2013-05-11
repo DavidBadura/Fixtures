@@ -30,7 +30,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  Fixture                                       $fixture
+     * @param  Fixture                                 $fixture
      * @return \DavidBadura\Fixtures\FixtureCollection
      * @throws FixtureException
      */
@@ -71,7 +71,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string                                        $name
+     * @param  string                                  $name
      * @return \DavidBadura\Fixtures\FixtureCollection
      */
     public function remove($name)
@@ -107,14 +107,14 @@ class FixtureCollection implements \IteratorAggregate, \Countable
      */
     public function merge(FixtureCollection $collection)
     {
-        foreach($collection as $fixture) {
+        foreach ($collection as $fixture) {
             $this->add($fixture);
         }
     }
 
     /**
      *
-     * @param array $data
+     * @param  array             $data
      * @return FixtureCollection
      */
     public static function create(array $data)

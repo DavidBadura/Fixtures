@@ -46,7 +46,7 @@ class FixtureEvent extends Event
 
     /**
      *
-     * @param FixtureManagerInterface $fixtureManager
+     * @param  FixtureManagerInterface $fixtureManager
      * @return FixtureEvent
      */
     public function setFixtureManager(FixtureManagerInterface $fixtureManager)
@@ -67,7 +67,7 @@ class FixtureEvent extends Event
 
     /**
      *
-     * @param array $options
+     * @param  array        $options
      * @return FixtureEvent
      */
     public function setOptions(array $options)

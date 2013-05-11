@@ -20,7 +20,7 @@ class MatchLoader implements LoaderInterface
 
     /**
      *
-     * @param LoaderInterface $loader
+     * @param  LoaderInterface $loader
      * @return self
      */
     public function add(LoaderInterface $loader, $pattern)
@@ -35,7 +35,7 @@ class MatchLoader implements LoaderInterface
 
     /**
      *
-     * @param type $path
+     * @param  type              $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -54,8 +54,8 @@ class MatchLoader implements LoaderInterface
 
     /**
      *
-     * @param string $path
-     * @param string $pattern
+     * @param  string  $path
+     * @param  string  $pattern
      * @return boolean
      */
     protected function match($path, $pattern)

@@ -24,7 +24,7 @@ interface ServiceProviderInterface
 
     /**
      *
-     * @param type $name
+     * @param  type    $name
      * @return boolean
      */
     public function has($name);

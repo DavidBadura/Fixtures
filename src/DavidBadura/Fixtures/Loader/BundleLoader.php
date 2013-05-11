@@ -66,20 +66,20 @@ class BundleLoader implements LoaderInterface
 
     /**
      *
-     * @param string|array $path
+     * @param  string|array                                    $path
      * @return \DavidBadura\Fixtures\Fixture\FixtureCollection
      */
     public function load($path, array $options = array())
     {
         if ($path === null) {
             $paths = $this->getFixturesByBundles();
-        } elseif(!is_array($path)) {
+        } elseif (!is_array($path)) {
             $paths = array($path);
         }
 
         $collection = new FixtureCollection();
 
-        foreach($paths as $p) {
+        foreach ($paths as $p) {
             $collection->merge($this->loader->load($p));
         }
 

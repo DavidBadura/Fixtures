@@ -33,8 +33,8 @@ class ObjectAccess
 
     /**
      *
-     * @param string $property
-     * @param mixed $value
+     * @param  string                $property
+     * @param  mixed                 $value
      * @throws ObjectAccessException
      */
     public function writeProperty($property, $value)
@@ -54,6 +54,7 @@ class ObjectAccess
 
             if ($this->reflClass->getMethod($setter)->isPublic()) {
                 $this->object->$setter($this->prepareValue($value, $setter));
+
                 return;
             }
 
@@ -156,7 +157,7 @@ class ObjectAccess
 
     /**
      *
-     * @param string $property
+     * @param  string                $property
      * @return mixed
      * @throws ObjectAccessException
      */
@@ -208,7 +209,7 @@ class ObjectAccess
 
     /**
      *
-     * @param string $property
+     * @param  string $property
      * @return string
      */
     protected function camelize($property)
@@ -220,9 +221,9 @@ class ObjectAccess
 
     /**
      *
-     * @param mixed $value
-     * @param string $method
-     * @param int $parameter
+     * @param  mixed                     $value
+     * @param  string                    $method
+     * @param  int                       $parameter
      * @return \DateTime|mixed
      * @throws \UnexpectedValueException
      */

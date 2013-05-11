@@ -84,7 +84,7 @@ class FixtureData
 
     /**
      *
-     * @param  object                                  $object
+     * @param  object                            $object
      * @return \DavidBadura\Fixtures\FixtureData
      */
     public function setObject($object)
@@ -148,7 +148,7 @@ class FixtureData
 
     /**
      *
-     * @param  boolean                                 $loaded
+     * @param  boolean                           $loaded
      * @return \DavidBadura\Fixtures\FixtureData
      */
     public function setLoaded($loaded = true)
@@ -167,12 +167,12 @@ class FixtureData
         return $this->loaded;
     }
 
-
     public function get($key)
     {
-        if(!$this->has($key)) {
+        if (!$this->has($key)) {
             return null;
         }
+
         return $this->data[$key];
     }
 
@@ -188,7 +188,7 @@ class FixtureData
 
     public function remove($key)
     {
-        if($this->has($key)) {
+        if ($this->has($key)) {
             unset($this->data[$key]);
         }
     }

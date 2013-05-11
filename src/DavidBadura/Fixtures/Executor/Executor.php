@@ -31,7 +31,7 @@ class Executor implements ExecutorInterface
      *
      * @param ConverterRepositoryInterface $converterRepository
      */
-    function __construct(ConverterRepositoryInterface $converterRepository)
+    public function __construct(ConverterRepositoryInterface $converterRepository)
     {
         $this->converterRepository = $converterRepository;
     }
@@ -208,7 +208,7 @@ class Executor implements ExecutorInterface
      *
      * @return Executor
      */
-    static public function createDefaultExecutor()
+    public static function createDefaultExecutor()
     {
         $repository = new \DavidBadura\Fixtures\Converter\ConverterRepository();
         $repository->addConverter(new \DavidBadura\Fixtures\Converter\DefaultConverter());

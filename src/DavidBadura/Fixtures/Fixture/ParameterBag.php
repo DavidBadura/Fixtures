@@ -26,7 +26,7 @@ class ParameterBag
 
     /**
      *
-     * @param string $key
+     * @param  string  $key
      * @return boolean
      */
     public function has($key)
@@ -36,13 +36,13 @@ class ParameterBag
 
     /**
      *
-     * @param string $key
-     * @param mixed $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        if(!$this->has($key)) {
+        if (!$this->has($key)) {
             return $default;
         }
 
@@ -52,7 +52,7 @@ class ParameterBag
     /**
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value)
     {
@@ -65,7 +65,7 @@ class ParameterBag
      */
     public function remove($key)
     {
-        if($this->has($key)) {
+        if ($this->has($key)) {
             unset($this->parameters[$key]);
         }
     }

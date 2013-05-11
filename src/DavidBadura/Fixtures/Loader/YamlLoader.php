@@ -14,7 +14,7 @@ class YamlLoader implements LoaderInterface
 
     /**
      *
-     * @param  string     $path
+     * @param  string            $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())

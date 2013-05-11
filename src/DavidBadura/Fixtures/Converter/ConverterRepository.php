@@ -20,7 +20,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  ConverterInterface $converter
+     * @param  ConverterInterface                   $converter
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */
@@ -48,7 +48,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string $name
+     * @param  string             $name
      * @return ConverterInterface
      * @throws \Exception
      */
@@ -63,7 +63,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string $name
+     * @param  string                               $name
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */

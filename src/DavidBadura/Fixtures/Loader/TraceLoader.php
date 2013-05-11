@@ -50,13 +50,13 @@ class TraceLoader implements LoaderInterface
 
     /**
      *
-     * @param string|array $path
-     * @param array $options
+     * @param  string|array                                    $path
+     * @param  array                                           $options
      * @return \DavidBadura\Fixtures\Fixture\FixtureCollection
      */
     public function load($path, array $options = array())
     {
-        if(is_array($path)) {
+        if (is_array($path)) {
             $this->trace = array_merge($this->trace, $path);
         } else {
             $this->trace[] = $path;

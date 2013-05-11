@@ -18,7 +18,6 @@ class FixtureCollectionEvent extends FixtureEvent
      */
     private $collection;
 
-
     /**
      *
      * @param FixtureCollection $collection
@@ -41,7 +40,7 @@ class FixtureCollectionEvent extends FixtureEvent
 
     /**
      *
-     * @param  FixtureCollection $collection
+     * @param  FixtureCollection      $collection
      * @return FixtureCollectionEvent
      */
     public function setCollection(FixtureCollection $collection)

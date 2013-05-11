@@ -22,23 +22,23 @@ class CallbackLoader implements LoaderInterface
      *
      * @param callable $callback
      */
-    function __construct($callback)
+    public function __construct($callback)
     {
         $this->callback = $callback;
     }
 
     /**
      *
-     * @param  mixed     $path
+     * @param  mixed             $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
         $collection = $this->callback($path, $options);
 
-        if(is_array($collection)) {
+        if (is_array($collection)) {
             return FixtureCollection::create($collection);
-        } elseif($collection instanceof FixtureCollection) {
+        } elseif ($collection instanceof FixtureCollection) {
             return $collection;
         }
 

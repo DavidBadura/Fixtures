@@ -21,19 +21,19 @@ class ArrayLoader implements LoaderInterface
      *
      * @param LoaderInterface $loader
      */
-    function __construct(LoaderInterface $loader)
+    public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
     }
 
     /**
      *
-     * @param  mixed     $path
+     * @param  mixed             $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
-        if(!is_array($path)) {
+        if (!is_array($path)) {
             return $this->loader->load($path, $options);
         }
 

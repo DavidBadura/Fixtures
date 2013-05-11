@@ -30,16 +30,16 @@ class DirectoryLoader implements LoaderInterface
 
     /**
      *
-     * @param string|array $path
+     * @param  string|array      $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
-        if(!file_exists($path)) {
+        if (!file_exists($path)) {
             throw new RuntimeException(sprintf('"%s" dir or file not found', $path));
         }
 
-        if(is_file($path)) {
+        if (is_file($path)) {
             return $this->loader->load($path, $options);
         }
 
@@ -48,7 +48,7 @@ class DirectoryLoader implements LoaderInterface
 
         $collection = new FixtureCollection();
 
-        foreach($finder as $file) {
+        foreach ($finder as $file) {
             $col = $this->loader->load(realpath($file->getPathname()), $options);
             $collection->merge($col);
         }

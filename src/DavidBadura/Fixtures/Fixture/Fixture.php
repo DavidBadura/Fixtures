@@ -107,7 +107,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  FixtureData                         $fixtureData
+     * @param  FixtureData                   $fixtureData
      * @return \DavidBadura\Fixtures\Fixture
      * @throws FixtureException
      */
@@ -126,7 +126,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  FixtureData                         $fixtureData
+     * @param  FixtureData                   $fixtureData
      * @return \DavidBadura\Fixtures\Fixture
      */
     public function remove(FixtureData $fixtureData)
@@ -150,7 +150,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param ParameterBag $properties
+     * @param  ParameterBag $properties
      * @return Fixture
      */
     public function setProperties(ParameterBag $properties)
@@ -180,12 +180,12 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param string $name
-     * @param array $data
+     * @param  string           $name
+     * @param  array            $data
      * @return Fixture
      * @throws FixtureException
      */
-    static public function create($name, array $data)
+    public static function create($name, array $data)
     {
         $converter = (isset($data['converter'])) ? $data['converter'] : 'default' ;
         $fixture = new self($name, $converter);

@@ -28,14 +28,14 @@ class FilterLoader implements LoaderInterface
 
     /**
      *
-     * @param  string     $path
+     * @param  string            $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
         $collection = $this->loader->load($path, $options);
 
-        if(!isset($options['tags'])) {
+        if (!isset($options['tags'])) {
             return $collection;
         }
 
@@ -45,7 +45,7 @@ class FilterLoader implements LoaderInterface
             $filter = array($filter);
         }
 
-        if(empty($filter)) {
+        if (empty($filter)) {
             return $collection;
         }
 
@@ -53,7 +53,7 @@ class FilterLoader implements LoaderInterface
 
             $tags = $fixture->getProperties()->get('tags');
 
-            if(!$tags || !is_array($tags)) {
+            if (!$tags || !is_array($tags)) {
                 $collection->remove($fixture->getName());
                 continue;
             }

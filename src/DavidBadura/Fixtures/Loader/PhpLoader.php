@@ -13,12 +13,13 @@ class PhpLoader implements LoaderInterface
 
     /**
      *
-     * @param  mixed     $path
+     * @param  mixed             $path
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
         $data = include $path;
+
         return FixtureCollection::create($data);
     }
 
