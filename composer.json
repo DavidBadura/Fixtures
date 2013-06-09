@@ -10,23 +10,23 @@
     }],
     "require": {
         "php": ">=5.3.0",
-        "symfony/event-dispatcher" : ">=2.0",
-        "symfony/finder" : ">=2.0"
+        "symfony/event-dispatcher" : "~2.0",
+        "symfony/finder" : "~2.0"
     },
     "require-dev": {
-        "symfony/yaml" : ">=2.0",
-        "symfony/validator": ">=2.0",
-        "symfony/http-kernel": ">=2.0",
-        "fzaninotto/faker": "*",
-        "doctrine/common": "*",
+        "symfony/yaml" : "~2.0",
+        "symfony/validator": "~2.0",
+        "symfony/http-kernel": "~2.0",
+        "fzaninotto/faker": "~1.1",
+        "doctrine/common": "~2.0",
         "jamesmoss/toml": "*"
     },
     "suggests": {
-        "symfony/yaml" : ">=2.0",
-        "symfony/validator": ">=2.0",
-        "symfony/http-kernel": ">=2.0",
-        "fzaninotto/faker": "*",
-        "doctrine/orm": "*",
+        "symfony/yaml" : "~2.0",
+        "symfony/validator": "~2.0",
+        "symfony/http-kernel": "~2.0",
+        "fzaninotto/faker": "~1.1",
+        "doctrine/orm": "~2.0",
         "doctrine/mongodb-odm": "@beta",
         "jamesmoss/toml": "*"
     },
