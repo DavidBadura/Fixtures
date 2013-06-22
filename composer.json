@@ -21,7 +21,7 @@
         "doctrine/common": "~2.0",
         "jamesmoss/toml": "*"
     },
-    "suggests": {
+    "suggest": {
         "symfony/yaml" : "~2.0",
         "symfony/validator": "~2.0",
         "symfony/http-kernel": "~2.0",
