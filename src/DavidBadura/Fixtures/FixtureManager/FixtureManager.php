@@ -81,9 +81,7 @@ class FixtureManager implements FixtureManagerInterface
         $this->persister = $persister;
 
         $this->serviceProvider = ($serviceProvider) ?: new ServiceProvider();
-        $this->eventDispatcher = ($eventDispatcher) ?: new EventDispatcher();
-
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = ($eventDispatcher) ? $eventDispatcher : new EventDispatcher();
     }
 
     /**
