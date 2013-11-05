@@ -32,7 +32,7 @@ class MongoDBPersister implements PersisterInterface
      *
      * @param FixtureData $data
      */
-    public function perist(FixtureData $data)
+    public function persist(FixtureData $data)
     {
         $object = $data->getObject();
         $this->dm->persist($object);
