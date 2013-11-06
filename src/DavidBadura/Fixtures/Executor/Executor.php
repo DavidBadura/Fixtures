@@ -56,9 +56,9 @@ class Executor implements ExecutorInterface
 
     /**
      *
-     * @param ConverterInterface $converter
+     * @param string $converter
      */
-    public function removeConverter(ConverterInterface $converter)
+    public function removeConverter($converter)
     {
         $this->converterRepository->removeConverter($converter);
     }
