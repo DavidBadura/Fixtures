@@ -51,13 +51,18 @@ class BundleLoader implements LoaderInterface
     protected function getFixturesByBundles()
     {
         if (empty($this->bundles)) {
-            throw new RuntimeException('Fixtures not found');
+            throw new \RuntimeException('Fixtures not found');
         }
 
         $paths = array();
 
         foreach ($this->bundles as $name) {
             $bundle = $this->kernel->getBundle($name);
+
+            if(!$bundle) {
+                throw new \RuntimeException(sprintf('unknown bundle %s', $bundle));
+            }
+
             $paths[] = $bundle->getPath() . '/Resources/fixtures';
         }
 
