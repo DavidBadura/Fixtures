@@ -11,7 +11,7 @@ use DavidBadura\Fixtures\Fixture\ParameterBag;
 class ParameterBagTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testCreateFixtures()
+    public function testMainFunctionality()
     {
         $bag = new ParameterBag(array(
             'foo' => 'bar',
