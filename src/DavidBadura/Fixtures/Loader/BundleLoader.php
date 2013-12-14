@@ -66,8 +66,8 @@ class BundleLoader implements LoaderInterface
 
     /**
      *
-     * @param  string|array                                    $path
-     * @return \DavidBadura\Fixtures\Fixture\FixtureCollection
+     * @param  string|array $path
+     * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {

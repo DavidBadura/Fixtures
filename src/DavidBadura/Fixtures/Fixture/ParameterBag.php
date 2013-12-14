@@ -6,7 +6,7 @@ namespace DavidBadura\Fixtures\Fixture;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ParameterBag
+class ParameterBag implements \ArrayAccess
 {
 
     /**
@@ -77,6 +77,45 @@ class ParameterBag
     public function toArray()
     {
         return $this->parameters;
+    }
+
+    /**
+     *
+     * @param mixed $offset
+     * @return boolean
+     */
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     *
+     * @param mixed $offset
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    /**
+     *
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        $this->remove($offset);
     }
 
 }
