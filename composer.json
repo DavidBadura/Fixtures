@@ -19,7 +19,8 @@
         "symfony/http-kernel": "~2.0",
         "fzaninotto/faker": "~1.1",
         "doctrine/common": "~2.0",
-        "jamesmoss/toml": "*"
+        "jamesmoss/toml": "*",
+        "symfony/expression-language": "~2.4"
     },
     "suggest": {
         "symfony/yaml" : "~2.0",
@@ -28,7 +29,8 @@
         "fzaninotto/faker": "~1.1",
         "doctrine/orm": "~2.0",
         "doctrine/mongodb-odm": "@beta",
-        "jamesmoss/toml": "*"
+        "jamesmoss/toml": "*",
+        "symfony/expression-language": "~2.4"
     },
     "autoload": {
         "psr-0": {
