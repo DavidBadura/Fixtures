@@ -26,14 +26,14 @@ class RuntimeException extends FixtureException
      * @param string $name
      * @param string $key
      * @param string $message
+     * @param string $code
+     * @param \Exception $parent
      */
-    public function __construct($name, $key, $message = null)
+    public function __construct($name, $key, $message = "", $code = null, \Exception $parent = null)
     {
-        if (!$message) {
-            $message = sprintf('Error by %s:%s', $name, $key);
-        }
+        $message = sprintf('Error by @%s:%s : ', $name, $key) . $message;
 
-        parent::__construct($message);
+        parent::__construct($message, $code, $parent);
 
         $this->name = $name;
         $this->key = $key;
