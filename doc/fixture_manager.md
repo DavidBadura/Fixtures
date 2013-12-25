@@ -1,14 +1,14 @@
 FixtureManager
 ==============
 
-The FixtureManager handles the entire process.
+The FixtureManager handles the main process.
 It consists of the following components and each of these can be replaced:
 
-* **Loader** ist für das laden der Fixture Resources zuständig und gibt eine FixtureCollection zurück
-* **Executor** löst abhängigkeiten auf und erzeugt die Objekte
-* **Persister** speichert die Daten in einer Datenbank
-* **ServiceProvider** liefert verschiedene Service, die in Fixtures verwendet werden können
-* **EventDispatcher** gibt möglichkeiten sich in verschiedenen stellen einzuhacken
+* **Loader** load the fixtures (yaml, toml, php etc.) and return it as a normalized FixtureCollection object
+* **Executor** resolves the references and passes the data to the converter to create objects
+* **Persister** save the objects, in example in a database
+* **ServiceProvider** provides services which you can use in fixtures
+* **EventDispatcher** gives you the possibilty to hook in the process
 
 Default FixtureManager
 ----------------------

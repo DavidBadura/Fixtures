@@ -3,20 +3,19 @@ davidbadura\fixtures
 
 [![Build Status](https://secure.travis-ci.org/DavidBadura/Fixtures.png)](http://travis-ci.org/DavidBadura/Fixtures)
 
-This is a porting of [DavidBaduraFixturesBundle](https://github.com/DavidBadura/FixturesBundle).
-
 Features:
 
-* Use Services like [fzaninotto/Faker](https://github.com/fzaninotto/Faker), a PHP library that generates fake data for you.
-* Resolve object dependency automatically (also bidirectional references).
-* Configurable default fixture converter (constructor, properties, set* and add* methods).
-* Easy to create your own converter.
-* Many fixtures loader: Yaml, Json, Toml und PHP (XML is coming soon).
-* Extendable by events (currently with symfony\event-dispatcher).
+* Use Services like [fzaninotto/Faker](https://github.com/fzaninotto/Faker), a PHP library that generates fake data for you
+* Resolve object dependency automatically (also bidirectional references)
+* Configurable default fixture converter (constructor, properties, set* and add* methods)
+* Easy to create your own converter
+* Many fixtures loader: Yaml, Json, Toml und PHP (XML is coming soon)
+* Extendable by events (currently with [symfony/event-dispatcher](http://symfony.com/doc/current/components/event_dispatcher/index.html))
 * Fixture filtering by tags
-* Object validation (currently with symfony\validator)
-* Persist Fixtures with Doctrine ORM or Doctrine MongoDb (Propel is coming soon).
-* Easy to add your own Persister.
+* Object validation (currently with [symfony/validator](http://symfony.com/doc/current/book/validation.html) over events)
+* Persist Fixtures with Doctrine ORM or Doctrine MongoDb (Propel is coming soon)
+* Easy to add your own Persister
+* Use an expression-language with [symfony/expression-language](http://symfony.com/doc/current/components/expression_language/index.html)
 
 Todos:
 
@@ -36,6 +35,24 @@ Documentation
 * [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md)
 * [Converter](https://github.com/DavidBadura/Fixtures/blob/master/doc/converter.md)
 * [ServiceProvider](https://github.com/DavidBadura/Fixtures/blob/master/doc/service_provider.md)
+* [Validator](https://github.com/DavidBadura/Fixtures/blob/master/doc/validator.md)
+* [ExpressionLanguage](https://github.com/DavidBadura/Fixtures/blob/master/doc/expression_language.md)
+
+
+Installation
+------------
+
+You can easily install this package over composer
+
+``` json
+
+{
+    "require": {
+        "davidbadura/fixtures": "1.0@beta"
+    }
+}
+
+```
 
 Useage
 ------
@@ -115,6 +132,9 @@ return array(
 }
 
 ```
+
+You can reference to other objects with following expression `@{fixture-name}:{fixture-key}`. The references will resolved automatically.
+
 What other formats are supported you can read under [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md).
 
 How the fixture manager converte the fixtures to objects can you read in the

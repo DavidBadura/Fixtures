@@ -1,13 +1,13 @@
 Converter
 =========
 
-Fixture converters transform the fixture data to objects.
+Fixture converters transform the fixture data (array) to objects.
 
 DefaultConverter
 ----------------
 
 The library provide a DefaultConverter, that pass the data via setter and adder methods.
-It can also works with classes that have a constructor and has some more features.
+It can also works with classes that have a constructor and has some more features like create DateTime object by typehinting.
 
 The default converter needs the `class` property so that it knows which class should be initialized.
 
@@ -19,7 +19,7 @@ user:
         # ...
 ```
 
-The converter handles all attributes and it trying to pass the values ​​to the object.
+The converter handles all attributes and it trying to pass the values to the object.
 
 ``` yaml
 user:
@@ -44,13 +44,13 @@ return $object;
 
 With the following sequence the DefaultConterver tried to pass the data:
 
-* $object->set{PropertyName}()
-* $object->add{PropertyName}() (foreach)
-* $object->get{PropertyName}() (instanceof ArrayCollection)
-* $object->{PropertyName}
-* $object->__set()
+* `$object->set{PropertyName}({value})`
+* `$object->add{PropertyName}({value.element})` wrapped in foreach if the value is an array
+* `$object->get{PropertyName}()` and then add with `add({value})` method (instanceof ArrayCollection)
+* `$object->{PropertyName} = {value}`
+* `$object->__set({key}, {value})`
 
-If you have a class with a constructor you can add the `constructor` property.
+If you have a class with a constructor you can add the `constructor` property. You must define which property are passed in the constructor (the order is important!).
 
 ``` yaml
 user:
@@ -144,7 +144,7 @@ class UserConverter extends AbstractConverter
 }
 ```
 
-Now you must register the converter:
+Now you must register the converter to use it:
 
 ``` php
 
@@ -165,7 +165,7 @@ user:
     data: # ...
 ```
 
-Your converter can also access the properties section.
+Your converter can also access the properties parameters.
 
 ``` yaml
 user:

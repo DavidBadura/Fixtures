@@ -54,8 +54,7 @@ Bidrectional references
 -----------------------
 
 To add bidrectional references you can use the `@@` prefix.
-First, the executor resolve the "single @" references,
-then the "double @" reference.
+First, the executor resolve the "single @" references, then the "double @" reference.
 
 ``` yaml
 # install.yml

@@ -8,10 +8,11 @@ Um dieses Problem zu lösen gibt es einige möglichkeiten, wie zum Beispiel
 einen eigenen Converter oder Event Listener zu schreiben. Der einfachste Weg
 ist es aber einen Service über den Service Provider hinzuzufügen.
 
+
 Add a service
 -------------
 
-Einen Service kann man ganz einfach über den FixtureManager registrieren.
+You can register a service easy over the FixtureManager.
 
 ``` php
 use DavidBadura\Fixtures\FixtureManager\FixtureManager;
@@ -23,13 +24,24 @@ $fixtureManager->addService('faker', $faker);
 
 ```
 
+**Tip** to use the faker, you must install the faker package. As example over composer:
+
+``` json
+
+{
+    "require": {
+        "fzaninotto/faker": "~1.1"
+    }
+}
+
+```
+
+or over cli `composer.phar require fzaninotto/faker "~1.1"`
+
 Use a service
 -------------
 
-Nach dem der Service registriert worde ist, kann diese im Fixture mit folgenden Schema
-verwenden <{ServiceName}::{MethodName}({Attributes]}>
-
-Hier ist ein Beispiel:
+After the service is registerd, your can use ist like this `<{ServiceName}::{MethodName}({Attributes]}>`
 
 ``` yaml
 # install.yml
@@ -42,7 +54,7 @@ user:
             email: <faker::email()>
 ```
 
-Dies wird wie folgt umgewandelt:
+The example above is resolved as follows:
 
 ``` yaml
 # install.yml
@@ -59,7 +71,7 @@ user:
 Complex usecase
 ---------------
 
-Ein komplexeres Beispiel:
+This is a complex example:
 
 ``` yaml
 # install.yml
@@ -81,7 +93,7 @@ group:
             name: <faker::name()>
 ```
 
-will be convertet to:
+And will be convertet to:
 
 ``` yaml
 # install.yml
