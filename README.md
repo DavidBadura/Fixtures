@@ -2,6 +2,7 @@ davidbadura\fixtures
 ====================
 
 [![Build Status](https://secure.travis-ci.org/DavidBadura/Fixtures.png)](http://travis-ci.org/DavidBadura/Fixtures)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/DavidBadura/fixtures/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Features:
 
