@@ -70,8 +70,7 @@ class Executor implements ExecutorInterface
     public function execute(FixtureCollection $collection)
     {
         $this->createObjects($collection);
-
-        return $this->finalizeObjects($collection);
+        $this->finalizeObjects($collection);
     }
 
     /**
@@ -84,11 +83,6 @@ class Executor implements ExecutorInterface
 
         foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
-
-                if ($data->hasObject() || $data->isLoaded()) {
-                    continue;
-                }
-
                 $this->createObject($collection, $fixture->getName(), $data->getKey());
             }
         }
@@ -102,11 +96,6 @@ class Executor implements ExecutorInterface
     {
         foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
-
-                if ($data->isLoaded()) {
-                    continue;
-                }
-
                 $this->finalizeObject($collection, $fixture->getName(), $data->getKey());
             }
         }
@@ -117,10 +106,17 @@ class Executor implements ExecutorInterface
      * @param  FixtureCollection $collection
      * @param  string            $name
      * @param  string            $key
+     * @return object
      * @throws \Exception
      */
     public function createObject(FixtureCollection $collection, $name, $key)
     {
+        $fixture = $collection->get($name);
+        $fixtureData = $fixture->get($key);
+
+        if ($fixtureData->hasObject() || $fixtureData->isLoaded()) {
+            return;
+        }
 
         if (isset($this->stack[$name . ':' . $key])) {
             throw new CircularReferenceException($name, $key, $this->stack);
@@ -128,35 +124,47 @@ class Executor implements ExecutorInterface
 
         $this->stack[$name . ':' . $key] = true;
 
-        $fixture = $collection->get($name);
-        $fixtureData = $fixture->get($key);
-
-        $executor = $this;
         $data = $fixtureData->getData();
-        array_walk_recursive($data, function(&$value, $key) use ($executor, $collection) {
-                if (preg_match('/^@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
-
-                    if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
-                        throw new ReferenceNotFoundException($hit[1], $hit[2]);
-                    }
-
-                    $object = $collection->get($hit[1])->get($hit[2])->getObject();
-
-                    if (!$object) {
-                        $executor->createObject($collection, $hit[1], $hit[2]);
-                    }
-
-                    $value = $collection->get($hit[1])->get($hit[2])->getObject();
-                }
-            });
-
-        $fixtureData->setData($data);
+        $preparedData = $this->prepareDataForCreate($data, $collection);
+        $fixtureData->setData($preparedData);
+        
         $converter = $this->converterRepository->getConverter($fixture->getConverter());
         $object = $converter->createObject($fixtureData);
 
         $fixtureData->setObject($object);
 
         unset($this->stack[$name . ':' . $key]);
+
+        return $object;
+    }
+
+    /**
+     * @param array $data
+     * @param FixtureCollection $collection
+     * @return array
+     */
+    protected function prepareDataForCreate($data, FixtureCollection $collection)
+    {
+        $executor = $this;
+
+        array_walk_recursive($data, function(&$value, $key) use ($executor, $collection) {
+            if (preg_match('/^@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
+
+                if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
+                    throw new ReferenceNotFoundException($hit[1], $hit[2]);
+                }
+
+                $object = $collection->get($hit[1])->get($hit[2])->getObject();
+
+                if (!$object) {
+                    $executor->createObject($collection, $hit[1], $hit[2]);
+                }
+
+                $value = $collection->get($hit[1])->get($hit[2])->getObject();
+            }
+        });
+
+        return $data;
     }
 
     /**
@@ -164,44 +172,61 @@ class Executor implements ExecutorInterface
      * @param  FixtureCollection $collection
      * @param  type              $name
      * @param  type              $key
+     * @return object
      * @throws \Exception
      */
     public function finalizeObject(FixtureCollection $collection, $name, $key)
     {
-
         $fixture = $collection->get($name);
         $fixtureData = $fixture->get($key);
 
+        if ($fixtureData->isLoaded()) {
+            return;
+        }
+
         $data = $fixtureData->getData();
+        $preparedData = $this->prepareDataForFinalize($data, $collection);
+        $fixtureData->setData($preparedData);
 
-        array_walk_recursive($data, function(&$value, $key) use ($collection) {
-
-                if (!is_string($value)) {
-                    return;
-                }
-
-                if (preg_match('/^@@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
-
-                    if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
-                        throw new ReferenceNotFoundException($hit[1], $hit[2]);
-                    }
-
-                    $object = $collection->get($hit[1])->get($hit[2])->getObject();
-
-                    if (!$object) {
-                        throw new FixtureException(sprintf("Object for %s:%s does not exist", $hit[1], $hit[2]));
-                    }
-
-                    $value = $object;
-                }
-            });
-
-        $fixtureData->setData($data);
         $object = $fixtureData->getObject();
 
         $converter = $this->converterRepository->getConverter($fixture->getConverter());
         $converter->finalizeObject($object, $fixtureData);
         $fixtureData->setLoaded();
+
+        return $object;
+    }
+
+    /**
+     * @param array $data
+     * @param FixtureCollection $collection
+     * @return array
+     */
+    protected function prepareDataForFinalize($data, FixtureCollection $collection)
+    {
+        array_walk_recursive($data, function(&$value, $key) use ($collection) {
+
+            if (!is_string($value)) {
+                return;
+            }
+
+            if (preg_match('/^@@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
+
+                if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
+                    throw new ReferenceNotFoundException($hit[1], $hit[2]);
+                }
+
+                $object = $collection->get($hit[1])->get($hit[2])->getObject();
+
+                if (!$object) {
+                    throw new FixtureException(sprintf("Object for %s:%s does not exist", $hit[1], $hit[2]));
+                }
+
+                $value = $object;
+            }
+        });
+
+        return $data;
     }
 
     /**
