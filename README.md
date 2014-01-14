@@ -2,6 +2,8 @@ davidbadura\fixtures
 ====================
 
 [![Build Status](https://secure.travis-ci.org/DavidBadura/Fixtures.png)](http://travis-ci.org/DavidBadura/Fixtures)
+[![Latest Stable Version](https://poser.pugx.org/davidbadura/fixtures/v/stable.png)](https://packagist.org/packages/davidbadura/fixtures)
+[![Total Downloads](https://poser.pugx.org/davidbadura/fixtures/downloads.png)](https://packagist.org/packages/davidbadura/fixtures)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/DavidBadura/fixtures/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Features:
