@@ -1,7 +1,7 @@
 {
     "name": "davidbadura/fixtures",
     "description": "A library to load yaml, json or php fixtures. Easy extendable, resolve object dependency and validate objects.",
-    "keywords": ["fixtures", "yaml", "json", "events", "database", "doctrine", "mongodb", "orm", "faker"],
+    "keywords": ["fixtures", "yaml", "json", "events", "database", "doctrine", "mongodb", "orm", "faker", "puli"],
     "type": "library",
     "license": "MIT",
     "authors": [{
@@ -20,7 +20,8 @@
         "fzaninotto/faker": "~1.1",
         "doctrine/common": "~2.0",
         "jamesmoss/toml": "*",
-        "symfony/expression-language": "~2.4"
+        "symfony/expression-language": "~2.4",
+        "webmozart/puli": "~1.0@alpha"
     },
     "suggest": {
         "symfony/yaml" : "~2.0",
@@ -30,7 +31,8 @@
         "doctrine/orm": "~2.0",
         "doctrine/mongodb-odm": "@beta",
         "jamesmoss/toml": "*",
-        "symfony/expression-language": "~2.4"
+        "symfony/expression-language": "~2.4",
+        "webmozart/puli": "~1.0@alpha"
     },
     "autoload": {
         "psr-0": {

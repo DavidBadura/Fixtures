@@ -24,7 +24,6 @@ Todos:
 
 * Write more tests.
 * Add XML loader.
-* Add Propel.
 * Add cli functionality.
 * Translate documentation ( my english is really bad ;) )
 * Write documentation

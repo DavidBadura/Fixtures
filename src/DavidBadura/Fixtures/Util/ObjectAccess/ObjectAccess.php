@@ -27,7 +27,7 @@ class ObjectAccess
      */
     public function __construct($object)
     {
-        $this->object = $object;
+        $this->object    = $object;
         $this->reflClass = new \ReflectionClass($object);
     }
 
@@ -45,7 +45,7 @@ class ObjectAccess
 
         $getter = 'get' . $camelizeProperty;
         $setter = 'set' . $camelizeProperty;
-        $adder = 'add' . $camelizeProperty;
+        $adder  = 'add' . $camelizeProperty;
 
         /*
          * try with setter method (set*)
@@ -125,7 +125,12 @@ class ObjectAccess
                 return;
             }
 
-            $noPublic[] = sprintf('Property "%s" is not public. Maybe you should create the method "%s()" or "%s()"?', $property, $setter, $adder);
+            $noPublic[] = sprintf(
+                'Property "%s" is not public. Maybe you should create the method "%s()" or "%s()"?',
+                $property,
+                $setter,
+                $adder
+            );
         }
 
         /*
@@ -147,12 +152,25 @@ class ObjectAccess
         }
 
         if (count($noPublic) > 0) {
-            throw new ObjectAccessException(sprintf('property "%s" is not writeable in class "%s"' . "\n"
-                . implode("\n", $noPublic), $property, $this->reflClass->name));
+            throw new ObjectAccessException(
+                sprintf(
+                    "property \"%s\" is not writeable in class \"%s\"\n %s",
+                    $property,
+                    $this->reflClass->name,
+                    implode("\n", $noPublic)
+                )
+            );
         }
 
-        throw new ObjectAccessException(sprintf('property "%s" is not writeable in class "%s"' . "\n"
-            . 'Maybe you should create the method "%s()" or "%s()"?', $property, $this->reflClass->name, $setter, $adder));
+        throw new ObjectAccessException(
+            sprintf(
+                "property \"%s\" is not writeable in class \"%s\"\n Maybe you should create the method \"%s()\" or \"%s()\"?",
+                $property,
+                $this->reflClass->name,
+                $setter,
+                $adder
+            )
+        );
     }
 
     /**
@@ -181,7 +199,11 @@ class ObjectAccess
                 return $this->object->$property;
             }
 
-            $noPublic[] = sprintf('Property "%s" is not public. Maybe you should create the method "%s()"?', $property, $getter);
+            $noPublic[] = sprintf(
+                'Property "%s" is not public. Maybe you should create the method "%s()"?',
+                $property,
+                $getter
+            );
         }
 
         /*
@@ -199,12 +221,24 @@ class ObjectAccess
         }
 
         if (count($noPublic) > 0) {
-            throw new ObjectAccessException(sprintf('property "%s" is not readable in class "%s"' . "\n"
-                . implode("\n", $noPublic), $property, $this->reflClass->name));
+            throw new ObjectAccessException(
+                sprintf(
+                    "property \"%s\" is not readable in class \"%s\"\n %s",
+                    $property,
+                    $this->reflClass->name,
+                    implode("\n", $noPublic)
+                )
+            );
         }
 
-        throw new ObjectAccessException(sprintf('property "%s" is not readable in class "%s"' . "\n"
-            . 'Maybe you should create the method "%s()"?', $property, $this->reflClass->name, $getter));
+        throw new ObjectAccessException(
+            sprintf(
+                "property \"%s\" is not readable in class \"%s\"\nMaybe you should create the method \"%s()\"?",
+                $property,
+                $this->reflClass->name,
+                $getter
+            )
+        );
     }
 
     /**
@@ -214,9 +248,13 @@ class ObjectAccess
      */
     protected function camelize($property)
     {
-        return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
-                    return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
-                }, $property);
+        return preg_replace_callback(
+            '/(^|_|\.)+(.)/',
+            function ($match) {
+                return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
+            },
+            $property
+        );
     }
 
     /**
@@ -246,12 +284,20 @@ class ObjectAccess
             try {
                 return new \DateTime($value);
             } catch (\Exception $e) {
-                throw new ObjectAccessException('Could not convert '.$value.' to \DateTime for '.get_class($this->object).'::'.$method, 0, $e);
+                throw new ObjectAccessException(
+                    sprintf(
+                        'Could not convert %s to \DateTime for %s::%s',
+                        $value,
+                        get_class($this->object),
+                        $method
+                    ),
+                    0,
+                    $e
+                );
             }
 
         }
 
         return $value;
     }
-
 }
