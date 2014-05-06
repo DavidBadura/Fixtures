@@ -34,7 +34,7 @@ class PuliLoaderTest extends \PHPUnit_Framework_TestCase
         $this->repo->add('/test/fixtures', __DIR__ . '/../TestResources/fixtures/');
 
         $this->mockLoader->expects($this->any())->method('load')
-            ->with($this->equalTo(__DIR__ . '/../TestResources/fixtures/user.yml'))->will($this->returnValue(true));
+            ->with($this->equalTo(realpath(__DIR__ . '/../TestResources/fixtures/user.yml')))->will($this->returnValue(true));
 
         $data = $this->loader->load('/test/fixtures/user.yml');
 
@@ -46,14 +46,13 @@ class PuliLoaderTest extends \PHPUnit_Framework_TestCase
         $this->repo->add('/test/fixtures', __DIR__ . '/../TestResources/fixtures/');
         $this->repo->tag('/test/fixtures/*', 'test/fixtures');
 
-        $paths = glob(__DIR__ . '/../TestResources/fixtures/*');
+        $path  = realpath(__DIR__ . '/../TestResources/fixtures') . '/*';
+        $paths = glob($path);
 
         $this->mockLoader->expects($this->any())->method('load')
             ->with($this->equalTo($paths))->will($this->returnValue(true));
 
-        $data = $this->loader->load('test/fixtures', array(
-            'puli_tag' => true
-        ));
+        $data = $this->loader->load('test/fixtures', array('puli_tag' => true));
 
         $this->assertEquals(true, $data);
     }

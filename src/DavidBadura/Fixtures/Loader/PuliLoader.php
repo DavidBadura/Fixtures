@@ -46,10 +46,10 @@ class PuliLoader implements LoaderInterface
             $resources = $this->locator->getByTag($path);
 
             foreach ($resources as $resource) {
-                $realPaths[] = $resource->getPath();
+                $realPaths[] = $resource->getRealPath();
             }
         } else {
-            $realPaths = $this->locator->get($path)->getPath();
+            $realPaths = $this->locator->get($path)->getRealPath();
         }
 
         return $this->loader->load($realPaths, $options);
