@@ -38,6 +38,11 @@ class User
     private $groups = array();
 
     /**
+     * @var DateTime
+     */
+    private $birthdate;
+
+    /**
      *
      * @param string $name
      * @param string $email
@@ -105,6 +110,18 @@ class User
         $this->groups = $groups;
 
         return $this;
+    }
+
+    public function setBirthDate(\DateTime $birthdate)
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    public function getBirthDate()
+    {
+        return $this->birthdate;
     }
 
 }
