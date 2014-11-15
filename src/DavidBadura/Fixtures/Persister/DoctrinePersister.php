@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
  */
 class DoctrinePersister implements PersisterInterface
 {
-
     /**
      *
      * @var ObjectManager
@@ -45,5 +44,4 @@ class DoctrinePersister implements PersisterInterface
     {
         $this->om->flush();
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use Webmozart\Puli\Locator\ResourceLocatorInterface;
 
 /**
@@ -10,7 +11,6 @@ use Webmozart\Puli\Locator\ResourceLocatorInterface;
  */
 class PuliLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface
@@ -31,12 +31,13 @@ class PuliLoader implements LoaderInterface
     public function __construct(ResourceLocatorInterface $locator, LoaderInterface $loader)
     {
         $this->locator = $locator;
-        $this->loader  = $loader;
+        $this->loader = $loader;
     }
 
     /**
      *
-     * @param  mixed             $path
+     * @param  mixed $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())

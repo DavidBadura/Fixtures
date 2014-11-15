@@ -2,8 +2,8 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
-use DavidBadura\Fixtures\Exception\RuntimeException;
 
 /**
  *
@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\Exception\RuntimeException;
  */
 class CallbackLoader implements LoaderInterface
 {
-
     /**
      *
      * @var callable
@@ -29,7 +28,8 @@ class CallbackLoader implements LoaderInterface
 
     /**
      *
-     * @param  mixed             $path
+     * @param  mixed $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -42,7 +42,6 @@ class CallbackLoader implements LoaderInterface
             return $collection;
         }
 
-        throw new RuntimeException('the callback function must return a FixtureCollection instance or a fixture array');
+        throw new FixtureException('the callback function must return a FixtureCollection instance or a fixture array');
     }
-
 }

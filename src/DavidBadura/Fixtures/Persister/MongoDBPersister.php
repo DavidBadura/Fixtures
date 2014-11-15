@@ -12,7 +12,6 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
  */
 class MongoDBPersister implements PersisterInterface
 {
-
     /**
      *
      * @var ObjectManager
@@ -47,5 +46,4 @@ class MongoDBPersister implements PersisterInterface
         $this->dm->getSchemaManager()->ensureIndexes();
         $this->dm->flush(null, array('safe' => true));
     }
-
 }

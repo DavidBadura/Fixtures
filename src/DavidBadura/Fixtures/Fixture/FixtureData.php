@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Exception\FixtureException;
  */
 class FixtureData
 {
-
     /**
      *
      * @var string
@@ -37,14 +36,14 @@ class FixtureData
 
     /**
      *
-     * @var boolean
+     * @var bool
      */
     private $loaded = false;
 
     /**
      *
      * @param string $key
-     * @param mixed  $data
+     * @param mixed $data
      */
     public function __construct($key, $data)
     {
@@ -72,8 +71,8 @@ class FixtureData
 
     /**
      *
-     * @param  mixed        $data
-     * @return \FixtureData
+     * @param  mixed $data
+     * @return $this
      */
     public function setData($data)
     {
@@ -84,8 +83,8 @@ class FixtureData
 
     /**
      *
-     * @param  object                            $object
-     * @return \DavidBadura\Fixtures\FixtureData
+     * @param  object $object
+     * @return $this
      */
     public function setObject($object)
     {
@@ -108,7 +107,7 @@ class FixtureData
 
     /**
      *
-     * @return boolean
+     * @return bool
      */
     public function hasObject()
     {
@@ -126,7 +125,7 @@ class FixtureData
 
     /**
      *
-     * @param  Fixture          $fixture
+     * @param  Fixture $fixture
      * @throws FixtureException
      */
     public function setFixture(Fixture $fixture)
@@ -148,8 +147,8 @@ class FixtureData
 
     /**
      *
-     * @param  boolean                           $loaded
-     * @return \DavidBadura\Fixtures\FixtureData
+     * @param  boolean $loaded
+     * @return $this
      */
     public function setLoaded($loaded = true)
     {
@@ -167,6 +166,10 @@ class FixtureData
         return $this->loaded;
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public function get($key)
     {
         if (!$this->has($key)) {
@@ -176,16 +179,27 @@ class FixtureData
         return $this->data[$key];
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     public function has($key)
     {
         return isset($this->data[$key]);
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
     public function set($key, $value)
     {
         $this->data[$key] = $value;
     }
 
+    /**
+     * @param string $key
+     */
     public function remove($key)
     {
         if ($this->has($key)) {

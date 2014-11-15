@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
  */
 class PropelPersister implements PersisterInterface
 {
-
     /**
      *
      * @var array
@@ -36,5 +35,4 @@ class PropelPersister implements PersisterInterface
             $object->save();
         }
     }
-
 }

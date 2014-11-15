@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\Util\ObjectAccess;
  */
 class ObjectAccess
 {
-
     /**
      *
      * @var object
@@ -27,14 +26,14 @@ class ObjectAccess
      */
     public function __construct($object)
     {
-        $this->object    = $object;
+        $this->object = $object;
         $this->reflClass = new \ReflectionClass($object);
     }
 
     /**
      *
-     * @param  string                $property
-     * @param  mixed                 $value
+     * @param  string $property
+     * @param  mixed $value
      * @throws ObjectAccessException
      */
     public function writeProperty($property, $value)
@@ -45,7 +44,7 @@ class ObjectAccess
 
         $getter = 'get' . $camelizeProperty;
         $setter = 'set' . $camelizeProperty;
-        $adder  = 'add' . $camelizeProperty;
+        $adder = 'add' . $camelizeProperty;
 
         /*
          * try with setter method (set*)
@@ -175,7 +174,7 @@ class ObjectAccess
 
     /**
      *
-     * @param  string                $property
+     * @param  string $property
      * @return mixed
      * @throws ObjectAccessException
      */
@@ -259,11 +258,11 @@ class ObjectAccess
 
     /**
      *
-     * @param  mixed                     $value
-     * @param  string                    $method
-     * @param  int                       $parameter
+     * @param  mixed $value
+     * @param  string $method
+     * @param  int $parameter
+     * @throws ObjectAccessException
      * @return \DateTime|mixed
-     * @throws \UnexpectedValueException
      */
     public function prepareValue($value, $method, $parameter = 0)
     {

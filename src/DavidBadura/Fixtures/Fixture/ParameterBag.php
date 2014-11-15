@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\Fixture;
  */
 class ParameterBag implements \ArrayAccess
 {
-
     /**
      *
      * @var array
@@ -26,7 +25,7 @@ class ParameterBag implements \ArrayAccess
 
     /**
      *
-     * @param  string  $key
+     * @param  string $key
      * @return boolean
      */
     public function has($key)
@@ -37,7 +36,7 @@ class ParameterBag implements \ArrayAccess
     /**
      *
      * @param  string $key
-     * @param  mixed  $default
+     * @param  mixed $default
      * @return mixed
      */
     public function get($key, $default = null)
@@ -52,7 +51,7 @@ class ParameterBag implements \ArrayAccess
     /**
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function set($key, $value)
     {
@@ -81,8 +80,8 @@ class ParameterBag implements \ArrayAccess
 
     /**
      *
-     * @param mixed $offset
-     * @return boolean
+     * @param string $offset
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -91,7 +90,7 @@ class ParameterBag implements \ArrayAccess
 
     /**
      *
-     * @param mixed $offset
+     * @param string $offset
      * @return mixed
      */
     public function offsetGet($offset)
@@ -101,7 +100,7 @@ class ParameterBag implements \ArrayAccess
 
     /**
      *
-     * @param mixed $offset
+     * @param string $offset
      * @param mixed $value
      */
     public function offsetSet($offset, $value)
@@ -111,11 +110,10 @@ class ParameterBag implements \ArrayAccess
 
     /**
      *
-     * @param mixed $offset
+     * @param string $offset
      */
     public function offsetUnset($offset)
     {
         $this->remove($offset);
     }
-
 }

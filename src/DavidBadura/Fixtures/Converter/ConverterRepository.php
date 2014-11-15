@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\Exception\FixtureException;
  */
 class ConverterRepository implements ConverterRepositoryInterface
 {
-
     /**
      *
      * @var ConverterInterface[]
@@ -20,8 +19,8 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  ConverterInterface                   $converter
-     * @return \DavidBadura\Fixtures\FixtureManager
+     * @param  ConverterInterface $converter
+     * @return $this
      * @throws \Exception
      */
     public function addConverter(ConverterInterface $converter)
@@ -38,7 +37,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string  $name
+     * @param  string $name
      * @return boolean
      */
     public function hasConverter($name)
@@ -48,7 +47,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string             $name
+     * @param  string $name
      * @return ConverterInterface
      * @throws \Exception
      */
@@ -63,7 +62,7 @@ class ConverterRepository implements ConverterRepositoryInterface
 
     /**
      *
-     * @param  string                               $name
+     * @param  string $name
      * @return \DavidBadura\Fixtures\FixtureManager
      * @throws \Exception
      */

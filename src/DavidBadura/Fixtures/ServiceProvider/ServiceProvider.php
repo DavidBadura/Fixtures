@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Exception\FixtureException;
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-
     /**
      *
      * @var array
@@ -19,10 +18,9 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string           $name
-     * @param  object           $service
+     * @param  string $name
+     * @param  object $service
      * @return ServiceProvider
-     * @throws RuntimeException
      */
     public function add($name, $service)
     {
@@ -37,7 +35,7 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string  $name
+     * @param  string $name
      * @return boolean
      */
     public function has($name)
@@ -47,9 +45,8 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string           $name
+     * @param  string $name
      * @return object
-     * @throws RuntimeException
      */
     public function get($name)
     {
@@ -62,7 +59,7 @@ class ServiceProvider implements ServiceProviderInterface
 
     /**
      *
-     * @param  string          $name
+     * @param  string $name
      * @return ServiceProvider
      */
     public function remove($name)
@@ -73,5 +70,4 @@ class ServiceProvider implements ServiceProviderInterface
 
         return $this;
     }
-
 }

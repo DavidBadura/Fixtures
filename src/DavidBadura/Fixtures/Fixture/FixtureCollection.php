@@ -10,10 +10,9 @@ use DavidBadura\Fixtures\Exception\FixtureException;
  */
 class FixtureCollection implements \IteratorAggregate, \Countable
 {
-
     /**
      *
-     * @var array
+     * @var Fixture[]
      */
     protected $fixtures = array();
 
@@ -30,8 +29,8 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  Fixture                                 $fixture
-     * @return \DavidBadura\Fixtures\FixtureCollection
+     * @param  Fixture $fixture
+     * @return $this
      * @throws FixtureException
      */
     public function add(Fixture $fixture)
@@ -47,7 +46,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string  $name
+     * @param  string $name
      * @return Fixture
      */
     public function get($name)
@@ -61,7 +60,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string  $name
+     * @param  string $name
      * @return boolean
      */
     public function has($name)
@@ -71,8 +70,8 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string                                  $name
-     * @return \DavidBadura\Fixtures\FixtureCollection
+     * @param  string $name
+     * @return $this
      */
     public function remove($name)
     {
@@ -85,7 +84,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator|Fixture[]
      */
     public function getIterator()
     {
@@ -114,7 +113,7 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  array             $data
+     * @param  array $data
      * @return FixtureCollection
      */
     public static function create(array $data)
@@ -126,5 +125,4 @@ class FixtureCollection implements \IteratorAggregate, \Countable
 
         return $collection;
     }
-
 }

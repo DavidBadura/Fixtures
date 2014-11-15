@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\Exception;
  */
 class RuntimeException extends FixtureException
 {
-
     /**
      *
      * @var string
@@ -56,5 +55,4 @@ class RuntimeException extends FixtureException
     {
         return $this->key;
     }
-
 }

@@ -10,10 +10,10 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class PhpLoader implements LoaderInterface
 {
-
     /**
      *
-     * @param  mixed             $path
+     * @param  mixed $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -22,5 +22,4 @@ class PhpLoader implements LoaderInterface
 
         return FixtureCollection::create($data);
     }
-
 }

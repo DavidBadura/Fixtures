@@ -11,7 +11,6 @@ use Symfony\Component\Finder\Finder;
  */
 class DirectoryLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface
@@ -20,7 +19,7 @@ class DirectoryLoader implements LoaderInterface
 
     /**
      *
-     * @param LoaderInterface $loaders
+     * @param LoaderInterface $loader
      */
     public function __construct(LoaderInterface $loader)
     {
@@ -29,7 +28,8 @@ class DirectoryLoader implements LoaderInterface
 
     /**
      *
-     * @param  string|array      $path
+     * @param  string|array $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -54,5 +54,4 @@ class DirectoryLoader implements LoaderInterface
 
         return $collection;
     }
-
 }

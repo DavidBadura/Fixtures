@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class ChainLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface[]
@@ -39,12 +38,12 @@ class ChainLoader implements LoaderInterface
 
     /**
      *
-     * @param  type              $path
+     * @param  string|array $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
-
         $collection = new FixtureCollection();
 
         foreach ($this->loaders as $loader) {
@@ -54,5 +53,4 @@ class ChainLoader implements LoaderInterface
 
         return $collection;
     }
-
 }

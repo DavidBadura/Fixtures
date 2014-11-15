@@ -11,10 +11,10 @@ use Toml\Parser;
  */
 class TomlLoader implements LoaderInterface
 {
-
     /**
      *
-     * @param  string            $path
+     * @param  string $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -23,5 +23,4 @@ class TomlLoader implements LoaderInterface
 
         return FixtureCollection::create($data);
     }
-
 }

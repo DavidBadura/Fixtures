@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class ArrayLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface
@@ -28,7 +27,8 @@ class ArrayLoader implements LoaderInterface
 
     /**
      *
-     * @param  mixed             $path
+     * @param mixed $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -46,5 +46,4 @@ class ArrayLoader implements LoaderInterface
 
         return $collection;
     }
-
 }

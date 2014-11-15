@@ -8,12 +8,10 @@ namespace DavidBadura\Fixtures\FixtureManager;
  */
 interface FixtureManagerInterface
 {
-
     /**
      *
      * @param string|array $path
-     * @param array        $options
+     * @param array $options
      */
     public function load($path = null, array $options = array());
-
 }

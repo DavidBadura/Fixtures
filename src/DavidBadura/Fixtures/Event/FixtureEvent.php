@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface;
  */
 class FixtureEvent extends Event
 {
-
     /**
      *
      * @var FixtureManagerInterface
@@ -27,7 +26,7 @@ class FixtureEvent extends Event
     /**
      *
      * @param FixtureManagerInterface $fixtureManager
-     * @param array                   $options
+     * @param array $options
      */
     public function __construct(FixtureManagerInterface $fixtureManager, array $options = array())
     {
@@ -67,7 +66,7 @@ class FixtureEvent extends Event
 
     /**
      *
-     * @param  array        $options
+     * @param  array $options
      * @return FixtureEvent
      */
     public function setOptions(array $options)
@@ -76,5 +75,4 @@ class FixtureEvent extends Event
 
         return $this;
     }
-
 }

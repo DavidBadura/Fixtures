@@ -14,7 +14,6 @@ use DavidBadura\Fixtures\Converter\ConverterInterface;
  */
 class Executor implements ExecutorInterface
 {
-
     /**
      *
      * @var array
@@ -104,8 +103,8 @@ class Executor implements ExecutorInterface
     /**
      *
      * @param  FixtureCollection $collection
-     * @param  string            $name
-     * @param  string            $key
+     * @param  string $name
+     * @param  string $key
      * @return object
      * @throws \Exception
      */
@@ -127,7 +126,7 @@ class Executor implements ExecutorInterface
         $data = $fixtureData->getData();
         $preparedData = $this->prepareDataForCreate($data, $collection);
         $fixtureData->setData($preparedData);
-        
+
         $converter = $this->converterRepository->getConverter($fixture->getConverter());
         $object = $converter->createObject($fixtureData);
 
@@ -147,7 +146,7 @@ class Executor implements ExecutorInterface
     {
         $executor = $this;
 
-        array_walk_recursive($data, function(&$value, $key) use ($executor, $collection) {
+        array_walk_recursive($data, function (&$value, $key) use ($executor, $collection) {
             if (is_string($value) && preg_match('/^@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
 
                 if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
@@ -170,8 +169,8 @@ class Executor implements ExecutorInterface
     /**
      *
      * @param  FixtureCollection $collection
-     * @param  type              $name
-     * @param  type              $key
+     * @param  string $name
+     * @param  string $key
      * @return object
      * @throws \Exception
      */
@@ -181,7 +180,7 @@ class Executor implements ExecutorInterface
         $fixtureData = $fixture->get($key);
 
         if ($fixtureData->isLoaded()) {
-            return;
+            return $fixtureData->getObject();
         }
 
         $data = $fixtureData->getData();
@@ -204,7 +203,7 @@ class Executor implements ExecutorInterface
      */
     protected function prepareDataForFinalize($data, FixtureCollection $collection)
     {
-        array_walk_recursive($data, function(&$value, $key) use ($collection) {
+        array_walk_recursive($data, function (&$value, $key) use ($collection) {
 
             if (!is_string($value)) {
                 return;
@@ -240,5 +239,4 @@ class Executor implements ExecutorInterface
 
         return new self($repository);
     }
-
 }

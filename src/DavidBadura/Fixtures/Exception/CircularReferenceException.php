@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\Exception;
  */
 class CircularReferenceException extends RuntimeException
 {
-
     /**
      *
      * @var string
@@ -36,5 +35,4 @@ class CircularReferenceException extends RuntimeException
     {
         return $this->path;
     }
-
 }

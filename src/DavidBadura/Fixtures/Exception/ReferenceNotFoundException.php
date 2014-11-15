@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\Exception;
  */
 class ReferenceNotFoundException extends RuntimeException
 {
-
     /**
      *
      * @param string $name
@@ -20,5 +19,4 @@ class ReferenceNotFoundException extends RuntimeException
         $this->name = $name;
         $this->key = $key;
     }
-
 }

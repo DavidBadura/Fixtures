@@ -12,13 +12,11 @@ abstract class AbstractConverter implements ConverterInterface
 {
 
     /**
-     *
      * @param object $object
-     * @param array  $data
+     * @param FixtureData $fixtureData
      */
     public function finalizeObject($object, FixtureData $fixtureData)
     {
-
+        // do nothing
     }
-
 }

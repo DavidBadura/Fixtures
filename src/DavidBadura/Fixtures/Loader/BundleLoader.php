@@ -3,8 +3,6 @@
 namespace DavidBadura\Fixtures\Loader;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use DavidBadura\Fixtures\Loader\LoaderInterface;
-use DavidBadura\Fixtures\Exception\RuntimeException;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
@@ -13,7 +11,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class BundleLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface
@@ -34,8 +31,9 @@ class BundleLoader implements LoaderInterface
 
     /**
      *
+     * @param LoaderInterface $loader
      * @param KernelInterface $kernel
-     * @param array           $bundles
+     * @param array $bundles
      */
     public function __construct(LoaderInterface $loader, KernelInterface $kernel, array $bundles = array())
     {
@@ -59,7 +57,7 @@ class BundleLoader implements LoaderInterface
         foreach ($this->bundles as $name) {
             $bundle = $this->kernel->getBundle($name);
 
-            if(!$bundle) {
+            if (!$bundle) {
                 throw new \RuntimeException(sprintf('unknown bundle %s', $bundle));
             }
 

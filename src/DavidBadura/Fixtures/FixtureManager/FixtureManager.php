@@ -68,14 +68,19 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
+     * @param LoaderInterface $loader
+     * @param ExecutorInterface $executor
      * @param PersisterInterface $persister
+     * @param ServiceProviderInterface $serviceProvider
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(LoaderInterface $loader,
+    public function __construct(
+        LoaderInterface $loader,
         ExecutorInterface $executor,
         PersisterInterface $persister,
         ServiceProviderInterface $serviceProvider = null,
-        EventDispatcherInterface $eventDispatcher = null)
-    {
+        EventDispatcherInterface $eventDispatcher = null
+    ) {
         $this->loader = $loader;
         $this->executor = $executor;
         $this->persister = $persister;
@@ -141,7 +146,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param  string  $name
+     * @param  string $name
      * @return boolean
      */
     public function hasService($name)
@@ -171,7 +176,7 @@ class FixtureManager implements FixtureManagerInterface
     /**
      *
      * @param string $path
-     * @param array  $options
+     * @param array $options
      */
     public function load($path = null, array $options = array())
     {
@@ -184,7 +189,7 @@ class FixtureManager implements FixtureManagerInterface
         $event = new FixtureCollectionEvent($this, $collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
         $collection = $event->getCollection();
-        $options    = $event->getOptions();
+        $options = $event->getOptions();
 
         $this->replaceMultiPlaceholder($collection);
         $this->replaceServicePlaceholder($collection);
@@ -192,14 +197,14 @@ class FixtureManager implements FixtureManagerInterface
         $event = new FixtureCollectionEvent($this, $collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
         $collection = $event->getCollection();
-        $options    = $event->getOptions();
+        $options = $event->getOptions();
 
         $this->executor->execute($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPostExecute, $event);
         $collection = $event->getCollection();
-        $options    = $event->getOptions();
+        $options = $event->getOptions();
 
         if (isset($options['dry_run']) && $options['dry_run'] == true) {
             return;
@@ -238,7 +243,7 @@ class FixtureManager implements FixtureManagerInterface
             foreach ($fixture as $fixtureData) {
                 $data = $fixtureData->getData();
 
-                array_walk_recursive($data, function(&$item, &$key) use ($provider) {
+                array_walk_recursive($data, function (&$item, &$key) use ($provider) {
                     $matches = array();
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
@@ -287,7 +292,7 @@ class FixtureManager implements FixtureManagerInterface
 
     /**
      *
-     * @param  object         $objectManager
+     * @param  object $objectManager
      * @return FixtureManager
      */
     public static function createDefaultFixtureManager($objectManager)
@@ -297,8 +302,7 @@ class FixtureManager implements FixtureManagerInterface
             ->add(new Loader\PhpLoader(), '*.php')
             ->add(new Loader\YamlLoader(), '*.yml')
             ->add(new Loader\JsonLoader(), '*.json')
-            ->add(new Loader\TomlLoader(), '*.toml')
-        ;
+            ->add(new Loader\TomlLoader(), '*.toml');
 
         $loader = new Loader\DirectoryLoader(
             new Loader\FilterLoader($matchLoader)

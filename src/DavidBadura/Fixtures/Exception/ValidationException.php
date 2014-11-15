@@ -10,7 +10,6 @@ use Symfony\Component\Validator\ConstraintViolationList;
  */
 class ValidationException extends RuntimeException
 {
-
     /**
      *
      * @var ConstraintViolationList
@@ -19,6 +18,8 @@ class ValidationException extends RuntimeException
 
     /**
      *
+     * @param string $name
+     * @param string $key
      * @param ConstraintViolationList $violationList
      */
     public function __construct($name, $key, ConstraintViolationList $violationList)
@@ -39,5 +40,4 @@ class ValidationException extends RuntimeException
     {
         return $this->violationList;
     }
-
 }

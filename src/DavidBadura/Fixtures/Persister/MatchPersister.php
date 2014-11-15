@@ -2,7 +2,7 @@
 
 namespace DavidBadura\Fixtures\Persister;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 
 /**
@@ -35,6 +35,7 @@ class MatchPersister implements PersisterInterface
     /**
      *
      * @param FixtureData $data
+     * @throws FixtureException
      */
     public function persist(FixtureData $data)
     {
@@ -50,7 +51,7 @@ class MatchPersister implements PersisterInterface
             return $mapping['persister']->persist($data);
         }
 
-        throw new RuntimeException(sprintf('not matching for class "%s"', $class));
+        throw new FixtureException(sprintf('not matching for class "%s"', $class));
     }
 
     /**
@@ -63,5 +64,4 @@ class MatchPersister implements PersisterInterface
             $mapping['persister']->flush();
         }
     }
-
 }

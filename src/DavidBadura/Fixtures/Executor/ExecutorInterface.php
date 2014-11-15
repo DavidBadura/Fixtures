@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 interface ExecutorInterface
 {
-
     /**
      *
      * @param FixtureCollection $fixtures

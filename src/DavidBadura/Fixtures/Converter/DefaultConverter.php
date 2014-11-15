@@ -13,6 +13,10 @@ use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
 class DefaultConverter implements ConverterInterface
 {
 
+    /**
+     * @param FixtureData $fixtureData
+     * @return object
+     */
     public function createObject(FixtureData $fixtureData)
     {
         $properties = $fixtureData->getProperties();
@@ -53,7 +57,8 @@ class DefaultConverter implements ConverterInterface
 
                         if (isset($constParams[$key])
                             && $constParams[$key]->getClass()
-                            && $constParams[$key]->getClass()->getName() == 'DateTime') {
+                            && $constParams[$key]->getClass()->getName() == 'DateTime'
+                        ) {
                             $value = new \DateTime($value);
                         }
                     }
@@ -68,6 +73,11 @@ class DefaultConverter implements ConverterInterface
         return $object;
     }
 
+    /**
+     * @param object $object
+     * @param FixtureData $fixtureData
+     * @throws \DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException
+     */
     public function finalizeObject($object, FixtureData $fixtureData)
     {
         $properties = $fixtureData->getProperties();
@@ -95,9 +105,11 @@ class DefaultConverter implements ConverterInterface
         }
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'default';
     }
-
 }

@@ -8,27 +8,25 @@ namespace DavidBadura\Fixtures\Util;
  */
 class Matcher
 {
-
     /**
      *
-     * @param  string  $path
-     * @param  string  $pattern
+     * @param $subject
+     * @param  string $pattern
      * @return boolean
      */
     public static function match($subject, $pattern)
     {
-        $expr = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
-                switch ($matches[0]) {
-                    case '*':
-                        return '.*';
-                    case '?':
-                        return '.';
-                    default:
-                        return '\\' . $matches[0];
-                }
-            }, $pattern);
+        $expr = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
+            switch ($matches[0]) {
+                case '*':
+                    return '.*';
+                case '?':
+                    return '.';
+                default:
+                    return '\\' . $matches[0];
+            }
+        }, $pattern);
 
-        return (bool) preg_match('/' . $expr . '/', $subject);
+        return (bool)preg_match('/' . $expr . '/', $subject);
     }
-
 }

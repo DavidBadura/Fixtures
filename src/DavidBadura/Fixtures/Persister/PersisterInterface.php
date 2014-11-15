@@ -10,9 +10,8 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
  */
 interface PersisterInterface
 {
-
     /**
-     * @param object $object
+     * @param FixtureData $data
      */
     public function persist(FixtureData $data);
 
@@ -20,5 +19,4 @@ interface PersisterInterface
      *
      */
     public function flush();
-
 }

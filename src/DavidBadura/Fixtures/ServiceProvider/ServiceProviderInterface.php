@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures\ServiceProvider;
  */
 interface ServiceProviderInterface
 {
-
     /**
      * @param string
      * @return object
@@ -24,15 +23,14 @@ interface ServiceProviderInterface
 
     /**
      *
-     * @param  type    $name
+     * @param string $name
      * @return boolean
      */
     public function has($name);
 
     /**
      *
-     * @param type $name
+     * @param string $name
      */
     public function remove($name);
-
 }

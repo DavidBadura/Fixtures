@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\Fixture;
 
+use DavidBadura\Fixtures\Converter\ConverterInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
@@ -10,7 +11,6 @@ use DavidBadura\Fixtures\Exception\FixtureException;
  */
 class Fixture implements \IteratorAggregate, \Countable
 {
-
     /**
      *
      * @var array
@@ -49,16 +49,16 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param string       $name
-     * @param string       $converter
+     * @param string $name
+     * @param string $converter
      * @param ParameterBag $properties
      */
     public function __construct($name, $converter = null, ParameterBag $properties = null)
     {
         $this->name = $name;
-        $this->converter = ($converter)?: self::$defaultConverter ;
+        $this->converter = ($converter) ?: self::$defaultConverter;
 
-        $params = ($properties) ? $properties->toArray() : array() ;
+        $params = ($properties) ? $properties->toArray() : array();
         $this->properties = new ParameterBag(array_merge(self::$defaultParameters, $params));
     }
 
@@ -82,7 +82,7 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string  $key
+     * @param  string $key
      * @return boolean
      */
     public function has($key)
@@ -92,14 +92,15 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string           $key
+     * @param  string $key
      * @return FixtureData
      * @throws FixtureException
      */
     public function get($key)
     {
         if (!$this->has($key)) {
-            throw new FixtureException(sprintf('Fixture data with key "%s" does not exist in "%s" fixture', $key, $this->name));
+            throw new FixtureException(sprintf('Fixture data with key "%s" does not exist in "%s" fixture', $key,
+                    $this->name));
         }
 
         return $this->fixtureData[$key];
@@ -107,15 +108,16 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  FixtureData                   $fixtureData
-     * @return \DavidBadura\Fixtures\Fixture
+     * @param  FixtureData $fixtureData
+     * @return $this
      * @throws FixtureException
      */
     public function add(FixtureData $fixtureData)
     {
         $key = $fixtureData->getKey();
         if ($this->has($key)) {
-            throw new FixtureException(sprintf('fixture data with key "%s" already exists in "%s" fixture', $key, $this->name));
+            throw new FixtureException(sprintf('fixture data with key "%s" already exists in "%s" fixture', $key,
+                    $this->name));
         }
 
         $this->fixtureData[$key] = $fixtureData;
@@ -126,8 +128,8 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  FixtureData                   $fixtureData
-     * @return \DavidBadura\Fixtures\Fixture
+     * @param  FixtureData $fixtureData
+     * @return $this
      */
     public function remove(FixtureData $fixtureData)
     {
@@ -151,11 +153,11 @@ class Fixture implements \IteratorAggregate, \Countable
     /**
      *
      * @param  ParameterBag $properties
-     * @return Fixture
+     * @return $this
      */
     public function setProperties(ParameterBag $properties)
     {
-        $this->properties =  $properties;
+        $this->properties = $properties;
 
         return $this;
     }
@@ -180,14 +182,14 @@ class Fixture implements \IteratorAggregate, \Countable
 
     /**
      *
-     * @param  string           $name
-     * @param  array            $data
+     * @param  string $name
+     * @param  array $data
      * @return Fixture
      * @throws FixtureException
      */
     public static function create($name, array $data)
     {
-        $converter = (isset($data['converter'])) ? $data['converter'] : 'default' ;
+        $converter = (isset($data['converter'])) ? $data['converter'] : 'default';
         $fixture = new self($name, $converter);
 
         if (!isset($data['data'])) {
@@ -240,5 +242,4 @@ class Fixture implements \IteratorAggregate, \Countable
     {
         return self::$defaultConverter;
     }
-
 }

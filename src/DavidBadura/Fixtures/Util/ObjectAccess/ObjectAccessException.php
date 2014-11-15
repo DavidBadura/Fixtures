@@ -8,5 +8,4 @@ namespace DavidBadura\Fixtures\Util\ObjectAccess;
  */
 class ObjectAccessException extends \Exception
 {
-
 }

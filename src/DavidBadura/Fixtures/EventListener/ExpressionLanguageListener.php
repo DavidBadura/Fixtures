@@ -14,15 +14,14 @@ use DavidBadura\Fixtures\Exception\RuntimeException;
  */
 class ExpressionLanguageListener
 {
-
     /**
      * @var ExpressionLanguage
      */
     private $expressionLanguage;
 
+
     /**
-     *
-     * @param ExpressionLanguage $validator
+     * @param ExpressionLanguage $expressionLanguage
      */
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
@@ -50,8 +49,8 @@ class ExpressionLanguageListener
             foreach ($fixture as $key => $data) {
                 try {
                     $this->executeExpression($data, $collection);
-                } catch(\Exception $e) {
-                    throw new RuntimeException($name, $key, 
+                } catch (\Exception $e) {
+                    throw new RuntimeException($name, $key,
                         sprintf("Expression language error '%s'", $e->getMessage()), null, $e);
                 }
             }
@@ -69,7 +68,7 @@ class ExpressionLanguageListener
 
         $lang = $this->expressionLanguage;
 
-        array_walk_recursive($data, function(&$value, $key) use ($lang, $collection) {
+        array_walk_recursive($data, function (&$value, $key) use ($lang, $collection) {
             if (preg_match('/^@expr\((.*)\)$/', $value, $hit)) {
                 $expr = substr($value, 6, -1);
 
@@ -81,5 +80,4 @@ class ExpressionLanguageListener
 
         $fixtureData->setData($data);
     }
-
 }

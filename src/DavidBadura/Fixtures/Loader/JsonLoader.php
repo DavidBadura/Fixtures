@@ -10,10 +10,10 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class JsonLoader implements LoaderInterface
 {
-
     /**
      *
-     * @param  string            $path
+     * @param  string $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -22,5 +22,4 @@ class JsonLoader implements LoaderInterface
 
         return FixtureCollection::create($data);
     }
-
 }

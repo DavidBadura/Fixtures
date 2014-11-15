@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class FixtureCollectionEvent extends FixtureEvent
 {
-
     /**
      *
      * @var FixtureCollection
@@ -19,12 +18,15 @@ class FixtureCollectionEvent extends FixtureEvent
     private $collection;
 
     /**
-     *
+     * @param FixtureManagerInterface $fixtureManager
      * @param FixtureCollection $collection
-     * @param array             $options
+     * @param array $options
      */
-    public function __construct(FixtureManagerInterface $fixtureManager, FixtureCollection $collection, array $options = array())
-    {
+    public function __construct(
+        FixtureManagerInterface $fixtureManager,
+        FixtureCollection $collection,
+        array $options = array()
+    ) {
         parent::__construct($fixtureManager, $options);
         $this->collection = $collection;
     }
@@ -40,7 +42,7 @@ class FixtureCollectionEvent extends FixtureEvent
 
     /**
      *
-     * @param  FixtureCollection      $collection
+     * @param  FixtureCollection $collection
      * @return FixtureCollectionEvent
      */
     public function setCollection(FixtureCollection $collection)
@@ -49,5 +51,4 @@ class FixtureCollectionEvent extends FixtureEvent
 
         return $this;
     }
-
 }

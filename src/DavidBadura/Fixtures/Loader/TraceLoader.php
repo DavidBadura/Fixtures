@@ -2,13 +2,14 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
+
 /**
  *
  * @author David Badura <d.badura@gmx.de>
  */
 class TraceLoader implements LoaderInterface
 {
-
     /**
      *
      * @var LoaderInterface
@@ -50,9 +51,9 @@ class TraceLoader implements LoaderInterface
 
     /**
      *
-     * @param  string|array                                    $path
-     * @param  array                                           $options
-     * @return \DavidBadura\Fixtures\Fixture\FixtureCollection
+     * @param  string|array $path
+     * @param  array $options
+     * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
@@ -64,5 +65,4 @@ class TraceLoader implements LoaderInterface
 
         return $this->loader->load($path);
     }
-
 }

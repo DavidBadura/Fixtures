@@ -11,7 +11,6 @@ use DavidBadura\Fixtures\Executor\ExecutorInterface;
  */
 class ExpressionLanguage extends BaseExpressionLanguage
 {
-
     /**
      *
      * @var ExecutorInterface
@@ -20,7 +19,7 @@ class ExpressionLanguage extends BaseExpressionLanguage
 
     /**
      *
-     * @param ExecutorInterface
+     * @param ExecutorInterface $executor
      */
     public function __construct(ExecutorInterface $executor)
     {
@@ -28,9 +27,9 @@ class ExpressionLanguage extends BaseExpressionLanguage
 
         $this->executor = $executor;
 
-        $this->register('object', function($name, $key) {
+        $this->register('object', function ($name, $key) {
             return sprintf('object("%s", "%s")', $name, $key);
-        }, function($arguments, $name, $key) use ($executor) {
+        }, function ($arguments, $name, $key) use ($executor) {
             $collection = $arguments['collection'];
             $fixtureData = $collection->get($name)->get($key);
 
@@ -41,6 +40,5 @@ class ExpressionLanguage extends BaseExpressionLanguage
             return $object;
         });
 
-   }
-
+    }
 }

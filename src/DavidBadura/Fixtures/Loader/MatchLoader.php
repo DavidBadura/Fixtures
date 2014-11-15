@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
+use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Exception\RuntimeException;
 use DavidBadura\Fixtures\Util\Matcher;
@@ -12,7 +13,6 @@ use DavidBadura\Fixtures\Util\Matcher;
  */
 class MatchLoader implements LoaderInterface
 {
-
     /**
      *
      * @var array
@@ -27,7 +27,7 @@ class MatchLoader implements LoaderInterface
     public function add(LoaderInterface $loader, $pattern)
     {
         $this->mapping[] = array(
-            'loader' => $loader,
+            'loader'  => $loader,
             'pattern' => $pattern
         );
 
@@ -36,7 +36,8 @@ class MatchLoader implements LoaderInterface
 
     /**
      *
-     * @param  type              $path
+     * @param  string|array $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -50,7 +51,6 @@ class MatchLoader implements LoaderInterface
             return $mapping['loader']->load($path, $options);
         }
 
-        throw new RuntimeException(sprintf('not matching for "%s"', $path));
+        throw new FixtureException(sprintf('not matching for "%s"', $path));
     }
-
 }

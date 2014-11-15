@@ -8,7 +8,6 @@ namespace DavidBadura\Fixtures;
  */
 class FixtureEvents
 {
-
     const onPreLoad = 'david_badura_fixtures.pre_load';
 
     const onPostLoad = 'david_badura_fixtures.post_load';
@@ -18,5 +17,4 @@ class FixtureEvents
     const onPostExecute = 'david_badura_fixtures.post_execute';
 
     const onPostPersist = 'david_badura_fixtures.post_persist';
-
 }

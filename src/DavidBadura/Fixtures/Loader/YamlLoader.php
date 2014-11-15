@@ -11,10 +11,10 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlLoader implements LoaderInterface
 {
-
     /**
      *
-     * @param  string            $path
+     * @param  string $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
@@ -23,5 +23,4 @@ class YamlLoader implements LoaderInterface
 
         return FixtureCollection::create($data);
     }
-
 }

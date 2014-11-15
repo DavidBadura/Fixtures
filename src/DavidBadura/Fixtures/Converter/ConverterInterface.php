@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
  */
 interface ConverterInterface
 {
-
     /**
      *
      * @return string
@@ -19,6 +18,7 @@ interface ConverterInterface
 
     /**
      *
+     * @param FixtureData $fixtureData
      * @return object
      */
     public function createObject(FixtureData $fixtureData);
@@ -26,8 +26,8 @@ interface ConverterInterface
     /**
      *
      * @param object $object
-     * @param array  $data
+     * @param FixtureData $fixtureData
+     * @return
      */
     public function finalizeObject($object, FixtureData $fixtureData);
-
 }
