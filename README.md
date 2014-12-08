@@ -1,6 +1,8 @@
 davidbadura\fixtures
 ====================
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/DavidBadura/Fixtures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://secure.travis-ci.org/DavidBadura/Fixtures.png)](http://travis-ci.org/DavidBadura/Fixtures)
 [![Latest Stable Version](https://poser.pugx.org/davidbadura/fixtures/v/stable.png)](https://packagist.org/packages/davidbadura/fixtures)
 [![Total Downloads](https://poser.pugx.org/davidbadura/fixtures/downloads.png)](https://packagist.org/packages/davidbadura/fixtures)
