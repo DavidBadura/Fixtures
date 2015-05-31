@@ -19,7 +19,7 @@ class YamlLoader implements LoaderInterface
      */
     public function load($path, array $options = array())
     {
-        $data = Yaml::parse($path);
+        $data = Yaml::parse(file_get_contents($path));
 
         return FixtureCollection::create($data);
     }
