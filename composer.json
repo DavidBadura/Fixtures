@@ -35,8 +35,13 @@
         "webmozart/puli": "~1.0@alpha"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "DavidBadura\\Fixtures\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DavidBadura\\Fixtures\\": "tests"
         }
     }
 }
