@@ -49,7 +49,7 @@ class BundleLoader implements LoaderInterface
     protected function getFixturesByBundles()
     {
         if (empty($this->bundles)) {
-            throw new \RuntimeException('Fixtures not found');
+            throw new \RuntimeException('Bundles are not defined');
         }
 
         $paths = array();
@@ -70,19 +70,20 @@ class BundleLoader implements LoaderInterface
     /**
      *
      * @param  string|array $path
+     * @param array $options
      * @return FixtureCollection
      */
     public function load($path, array $options = array())
     {
-        if ($path === null) {
-            $paths = $this->getFixturesByBundles();
+        if (empty($path)) {
+            $path = $this->getFixturesByBundles();
         } elseif (!is_array($path)) {
-            $paths = array($path);
+            $path = array($path);
         }
 
         $collection = new FixtureCollection();
 
-        foreach ($paths as $p) {
+        foreach ($path as $p) {
             $collection->merge($this->loader->load($p));
         }
 

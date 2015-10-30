@@ -317,7 +317,7 @@ class FixtureManager implements FixtureManagerInterface
         } elseif ($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
             $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
         } else {
-            throw new RuntimeException();
+            throw new \RuntimeException();
         }
 
         return new self($loader, $executor, $persister);

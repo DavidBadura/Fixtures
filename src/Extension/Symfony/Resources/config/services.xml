@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="davidbadura_fixtures.executor"
+                 class="DavidBadura\Fixtures\Executor\Executor">
+            <argument type="service" id="davidbadura_fixtures.converter_repository" />
+        </service>
+
+        <service id="davidbadura_fixtures.converter_repository"
+                 class="DavidBadura\Fixtures\Converter\ConverterRepository">
+        </service>
+
+        <service id="davidbadura_fixtures.service_provider"
+                 class="DavidBadura\Fixtures\ServiceProvider\ServiceProvider">
+        </service>
+
+        <service id="davidbadura_fixtures.loader_factory"
+                 class="DavidBadura\Fixtures\Extension\Symfony\LoaderFactory">
+            <argument type="service" id="kernel"/>
+        </service>
+
+        <service id="davidbadura_fixtures.fixture_loader"
+                 class="DavidBadura\Fixtures\Loader\LoaderInterface"
+                 factory-service="davidbadura_fixtures.loader_factory"
+                 factory-method="create">
+        </service>
+
+        <service id="davidbadura_fixtures.converter.default"
+                 class="DavidBadura\Fixtures\Converter\DefaultConverter">
+            <tag name="davidbadura_fixtures.converter" />
+        </service>
+
+        <service id="davidbadura_fixtures.fixture_manager"
+                 class="DavidBadura\Fixtures\FixtureManager\FixtureManager">
+            <argument type="service" id="davidbadura_fixtures.fixture_loader" />
+            <argument type="service" id="davidbadura_fixtures.executor" />
+            <argument type="service" id="davidbadura_fixtures.persister" />
+            <argument type="service" id="davidbadura_fixtures.service_provider" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="davidbadura_fixtures.event_listener.validation"
+                 class="DavidBadura\Fixtures\EventListener\ValidationListener">
+            <argument type="service" id="validator" />
+            <tag name="kernel.event_listener"
+                 event="david_badura_fixtures.post_execute"
+                 method="onPostExecute" priority="24" />
+        </service>
+
+        <service id="davidbadura_fixtures.event_listener.security"
+                 class="DavidBadura\Fixtures\EventListener\SecurityListener">
+            <argument type="service" id="security.encoder_factory" />
+            <tag name="kernel.event_listener"
+                 event="david_badura_fixtures.post_execute"
+                 method="onPostExecute" priority="48" />
+        </service>
+
+        <service id="davidbadura_fixtures.command.load_fixtures"
+                 class="DavidBadura\Fixtures\Extension\Symfony\Command\LoadFixturesCommand">
+            <argument type="service" id="davidbadura_fixtures.fixture_manager" />
+            <tag name="console.command" />
+        </service>
+
+    </services>
+
+</container>

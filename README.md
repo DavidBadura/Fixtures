@@ -34,6 +34,7 @@ Todos:
 Documentation
 -------------
 
+* [Symfony](https://github.com/DavidBadura/Fixtures/blob/master/doc/symfony.md)
 * [FixtureManager](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixture_manager.md)
 * [Fixtures](https://github.com/DavidBadura/Fixtures/blob/master/doc/fixtures.md)
 * [Loader](https://github.com/DavidBadura/Fixtures/blob/master/doc/loader.md)
