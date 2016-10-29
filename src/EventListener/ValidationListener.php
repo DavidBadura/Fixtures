@@ -22,7 +22,7 @@ class ValidationListener
      *
      * @param ValidatorInterface $validator
      */
-    public function __construct(ValidatorInterface $validator)
+    public function __construct($validator)
     {
         $this->validator = $validator;
     }
@@ -60,7 +60,7 @@ class ValidationListener
                 }
 
                 $validationGroup = $fixture->getProperties()->get('validation_group', 'default');
-                $violationList = $this->validator->validate($object, $validationGroup);
+                $violationList = $this->validator->validate($object, null, $validationGroup);
 
                 if (count($violationList) != 0) {
                     throw new ValidationException($fixture->getName(), $data->getKey(), $violationList);
