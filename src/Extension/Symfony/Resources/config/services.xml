@@ -25,9 +25,8 @@
         </service>
 
         <service id="davidbadura_fixtures.fixture_loader"
-                 class="DavidBadura\Fixtures\Loader\LoaderInterface"
-                 factory-service="davidbadura_fixtures.loader_factory"
-                 factory-method="create">
+                 class="DavidBadura\Fixtures\Loader\LoaderInterface">
+            <factory service="davidbadura_fixtures.loader_factory" method="create" />
         </service>
 
         <service id="davidbadura_fixtures.converter.default"
