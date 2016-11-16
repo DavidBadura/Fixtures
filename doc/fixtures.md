@@ -1,16 +1,22 @@
 Fixtures
 ========
 
-Fixtures können aus vielseitigen Formaten geladen werden.
-Welche Formate unterstützt werden findet Ihr unter Loader.
-Hier wird als Beispiel das Yaml Format verwendet.
+Fixtures can be loaded from many formats.
+The formats that are supported are;
 
-In der Standard Konfiguration des FixtureManagers wird der DefaultConverter verwendet.
+ - JSON
+ - PHP
+ - TOML
+ - YAML
+
+The Yaml format is used here as an example.
+
+The DefaultConverter is used in the standard FixtureManager configuration.
 
 Simple fixtures
 ---------------
 
-Ein ganz simples Beispiel sieht wie folgt aus:
+This is a very simple example.
 
 ``` yaml
 # install.yml
@@ -99,7 +105,7 @@ Change converter
 ----------------
 
 
-In der Standard Konfiguration des FixtureManagers wird der DefaultConverter verwendet.
+The DefaultConverter is used in the standard FixtureManager configuration.
 This can you change over the `converter` property.
 
 ``` yaml
@@ -114,8 +120,7 @@ You can read more about converter in [Converter](converter.md).
 Tags
 ----
 
-You can give your fixtures some tags.
-Over the Tags you can filter the fixtures.
+You can give your fixtures some tags
 
 ``` yaml
 # install.yml
@@ -124,7 +129,7 @@ user:
     data: #...
 ```
 
-So kann man die Tags verwenden:
+Then you can use the tags to filter the fixtures
 
 ``` php
 use DavidBadura\Fixtures\FixtureManager\FixtureManager;
