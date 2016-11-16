@@ -13,9 +13,7 @@ It consists of the following components and each of these can be replaced:
 Default FixtureManager
 ----------------------
 
-Man kann sich ganz einfach einen Default FixtuerManager bauen lassen
-
-Ein ganz simples Beispiel sieht wie folgt aus:
+A very simple example to create the default FixtureManager
 
 ``` php
 
@@ -26,17 +24,17 @@ $fixtureManager = FixtureManager::createDefaultFixtureManager($objectManager);
 
 ```
 
-Die statische Methode `FixtureManager::createDefaultFixtureManager` erwartet einen Persister
-kompatibles Objekt. Zurzeit werden alle Doctrine ObjectManager unterstützt wie zum Beispiel
+The static method `FixtureManager::createDefaultFixtureManager` expects a persister compatible object. 
+All Doctrine ObjectManagers are supported as for example
 Doctrine ORM, Doctrine Mongo ODM oder Doctrine Couch ODM.
 
-Um einen eigenen Persister zu erstellen lese dazu die folgende Dokumentation: Persister.
+To create your own persister, read the persister documentation.
 
 Use FixtureManager
 ------------------
 
-Den FixtureManager kann man ganz einfach verwenden. Als erster Parameter kann der Pfad
-zu den Fixtures übergeben werden und als zweiter weiter Optionen.
+The FixtureManager is easy to use. 
+The first parameter is the path to the fixtures. The second is the options.
 
 ``` php
 
@@ -48,7 +46,7 @@ $fixtureManager->load('path/to/fixtures', array('tags' => array('install')));
 
 ```
 
-Verfügbare Optionen:
+Available Options:
 
-* **tags** filtert die fixtures
-* **dry_run** testet den ablauf ohne das Ergebnis zu speichern
+ - **tags** filters the fixtures
+ - **dry_run** tests the sequence without storing the result

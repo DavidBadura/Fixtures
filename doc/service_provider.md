@@ -1,12 +1,11 @@
 Service Provider
 ================
 
-Es kommt vor, dass ein Fixture Werte von einem Service benötigt,
-wie zum Beispiel einem Faker Service, der Fake Daten generiert.
+Fixtures can use values from a service, like the Faker service, which generates fake data.
 
-Um dieses Problem zu lösen gibt es einige möglichkeiten, wie zum Beispiel
-einen eigenen Converter oder Event Listener zu schreiben. Der einfachste Weg
-ist es aber einen Service über den Service Provider hinzuzufügen.
+There are a few possibilities;
+ - Write your own converter or event listener, or,
+ - Add a service from the service provider to the FixtureManager.
 
 
 Add a service
