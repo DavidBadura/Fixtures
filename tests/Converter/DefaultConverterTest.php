@@ -29,7 +29,7 @@ class DefaultConverterTest extends TestCase
         $fixture = new Fixture('test');
         $fixture->setProperties(new ParameterBag([
             'class' => User::class,
-            'constructor' => ['name', 'email']
+            'constructor' => ['name', 'email'],
         ]));
 
         $data = new FixtureData('test', [
@@ -56,7 +56,7 @@ class DefaultConverterTest extends TestCase
         $fixture = new Fixture('test');
         $fixture->setProperties(new ParameterBag([
             'class' => User::class,
-            'constructor' => ['name', 'email']
+            'constructor' => ['name', 'email'],
         ]));
 
         $data = new FixtureData('test', [
@@ -83,7 +83,7 @@ class DefaultConverterTest extends TestCase
         $fixture = new Fixture('test');
         $fixture->setProperties(new ParameterBag([
             'class' => Post::class,
-            'constructor' => ['name', 'date']
+            'constructor' => ['name', 'date'],
         ]));
 
         $data = new FixtureData('test', [

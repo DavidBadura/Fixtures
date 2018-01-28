@@ -33,5 +33,5 @@ before_script:
 
 script:
   - 'php ./vendor/bin/phpunit'
-  - 'php phpstan.phar analyse -l max src'
+  - 'php phpstan.phar analyse -l max -c phpstan.neon src'
   - 'PHP_CS_FIXER_FUTURE_MODE=1 php php-cs-fixer.phar fix --allow-risky=yes --diff --dry-run'

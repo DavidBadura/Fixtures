@@ -2,7 +2,6 @@
 
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 
@@ -15,7 +14,6 @@ class Configuration
     {
         $treeBuilder = new TreeBuilder();
 
-        /** @var ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->root('david_badura_fixtures');
 
         $rootNode
