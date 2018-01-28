@@ -12,18 +12,16 @@ Features:
 * Resolve object dependency automatically (also bidirectional references)
 * Configurable default fixture converter (constructor, properties, set* and add* methods)
 * Easy to create your own converter
-* Many fixtures loader: Yaml, Json, Toml und PHP (XML is coming soon)
+* Many fixtures loader: Yaml, Json, Toml und PHP
 * Extendable by events (currently with [symfony/event-dispatcher](http://symfony.com/doc/current/components/event_dispatcher/index.html))
 * Fixture filtering by tags
 * Object validation (currently with [symfony/validator](http://symfony.com/doc/current/book/validation.html) over events)
-* Persist Fixtures with Doctrine ORM or Doctrine MongoDb (Propel is coming soon)
+* Persist Fixtures with Doctrine ORM, Doctrine MongoDb or Propel
 * Easy to add your own Persister
 * Use an expression-language with [symfony/expression-language](http://symfony.com/doc/current/components/expression_language/index.html)
 
 Todos:
 
-* Write more tests.
-* Add XML loader.
 * Add cli functionality.
 * Translate documentation ( my english is really bad ;) )
 * Write documentation
@@ -47,14 +45,8 @@ Installation
 
 You can easily install this package over composer
 
-``` json
-
-{
-    "require": {
-        "davidbadura/fixtures": "1.0@beta"
-    }
-}
-
+```
+composer require 'davidbadura/fixtures'
 ```
 
 Useage
