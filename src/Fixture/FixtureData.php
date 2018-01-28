@@ -1,176 +1,94 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureData
 {
-    /**
-     *
-     * @var string
-     */
     protected $key;
-
-    /**
-     *
-     * @var mixed
-     */
     protected $data;
-
-    /**
-     *
-     * @var object
-     */
     protected $object;
-
-    /**
-     *
-     * @var Fixture
-     */
     protected $fixture;
-
-    /**
-     *
-     * @var bool
-     */
     private $loaded = false;
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $data
-     */
-    public function __construct($key, $data)
+    public function __construct(string $key, $data)
     {
         $this->key = $key;
         $this->data = $data;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     *
-     * @return mixed
-     */
     public function getData()
     {
         return $this->data;
     }
 
-    /**
-     *
-     * @param  mixed $data
-     * @return $this
-     */
-    public function setData($data)
+    public function setData($data): void
     {
         $this->data = $data;
-
-        return $this;
     }
 
-    /**
-     *
-     * @param  object $object
-     * @return $this
-     */
-    public function setObject($object)
+    public function setObject($object): void
     {
         if ($this->object) {
             throw new FixtureException("fixture data has already an object");
         }
-        $this->object = $object;
 
-        return $this;
+        $this->object = $object;
     }
 
-    /**
-     *
-     * @return object
-     */
     public function getObject()
     {
         return $this->object;
     }
 
-    /**
-     *
-     * @return bool
-     */
-    public function hasObject()
+    public function hasObject(): bool
     {
-        return ($this->object != null);
+        return $this->object !== null;
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function getProperties()
+    public function getProperties(): ParameterBag
     {
+        if (!$this->fixture) {
+            throw new FixtureException("Fixture data has not a parent");
+        }
+
         return $this->fixture->getProperties();
     }
 
-    /**
-     *
-     * @param  Fixture $fixture
-     * @throws FixtureException
-     */
-    public function setFixture(Fixture $fixture)
+    public function setFixture(Fixture $fixture): void
     {
         if ($this->fixture) {
             throw new FixtureException("Fixture data has a parent already");
         }
+
         $this->fixture = $fixture;
     }
 
-    /**
-     *
-     * @return Fixture
-     */
-    public function getFixture()
+    public function getFixture(): Fixture
     {
         return $this->fixture;
     }
 
-    /**
-     *
-     * @param  boolean $loaded
-     * @return $this
-     */
-    public function setLoaded($loaded = true)
+    public function setLoaded(bool $loaded = true): void
     {
         $this->loaded = $loaded;
-
-        return $this;
     }
 
-    /**
-     *
-     * @return boolean
-     */
-    public function isLoaded()
+    public function isLoaded(): bool
     {
         return $this->loaded;
     }
 
-    /**
-     * @param string $key
-     * @return mixed
-     */
-    public function get($key)
+    public function get(string $key)
     {
         if (!$this->has($key)) {
             return null;
@@ -179,28 +97,17 @@ class FixtureData
         return $this->data[$key];
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->data[$key]);
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     */
-    public function set($key, $value)
+    public function set(string $key, $value): void
     {
         $this->data[$key] = $value;
     }
 
-    /**
-     * @param string $key
-     */
-    public function remove($key)
+    public function remove(string $key): void
     {
         if ($this->has($key)) {
             unset($this->data[$key]);

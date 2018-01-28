@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\ServiceProvider;
 
+use PHPUnit\Framework\TestCase;
+
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class ServiceProviderTest extends \PHPUnit_Framework_TestCase
+class ServiceProviderTest extends TestCase
 {
 
     /**
-     *
      * @var ServiceProvider
      */
     protected $provider;

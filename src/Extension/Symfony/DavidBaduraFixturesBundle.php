@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony;
 
@@ -15,6 +15,7 @@ class DavidBaduraFixturesBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+        
         $container->addCompilerPass(new ConverterPass());
         $container->addCompilerPass(new FakerPass());
     }

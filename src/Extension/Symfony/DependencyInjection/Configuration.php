@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection;
 
@@ -6,27 +6,21 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 
 /**
- * FixtureBundle configuration structure.
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class Configuration
 {
-    /**
-     * Generates the configuration tree.
-     *
-     * @return NodeInterface
-     */
-    public function getConfigTree()
+    public function getConfigTree(): NodeInterface
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('david_badura_fixtures', 'array');
+
+        $rootNode = $treeBuilder->root('david_badura_fixtures');
 
         $rootNode
             ->children()
                 ->arrayNode('bundles')
                     ->prototype('scalar')->isRequired()->end()
-                    ->defaultValue(array())
+                    ->defaultValue([])
                 ->end()
                 ->scalarNode('persister')->defaultValue('orm')->end()
                 ->scalarNode('persister_id')->defaultValue(null)->end()

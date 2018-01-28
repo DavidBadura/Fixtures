@@ -1,64 +1,45 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Persister;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureData;
+use DavidBadura\Fixtures\Util\Matcher;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class MatchPersister implements PersisterInterface
 {
-    /**
-     *
-     * @var array
-     */
-    private $mapping = array();
+    private $mapping = [];
 
-    /**
-     *
-     * @param  PersisterInterface $persister
-     * @return self
-     */
-    public function add(PersisterInterface $persister, $pattern)
+    public function add(PersisterInterface $persister, string $pattern)
     {
-        $this->mapping[] = array(
+        $this->mapping[] = [
             'persister' => $persister,
-            'pattern' => $pattern
-        );
+            'pattern' => $pattern,
+        ];
 
         return $this;
     }
 
-    /**
-     *
-     * @param FixtureData $data
-     * @throws FixtureException
-     */
-    public function persist(FixtureData $data)
+    public function persist(FixtureData $data): void
     {
         $object = $data->getObject();
         $class = get_class($object);
 
         foreach ($this->mapping as $mapping) {
-
             if (!Matcher::match($class, $mapping['pattern'])) {
                 continue;
             }
 
-            return $mapping['persister']->persist($data);
+            $mapping['persister']->persist($data);
         }
 
         throw new FixtureException(sprintf('not matching for class "%s"', $class));
     }
 
-    /**
-     *
-     *
-     */
-    public function flush()
+    public function flush(): void
     {
         foreach ($this->mapping as $mapping) {
             $mapping['persister']->flush();

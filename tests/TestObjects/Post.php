@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -7,39 +7,22 @@ namespace DavidBadura\Fixtures\TestObjects;
  */
 class Post
 {
-
-    /**
-     *
-     * @var string
-     */
     private $name;
-
-    /**
-     *
-     * @var \DateTime
-     */
     private $date;
 
-    /**
-     *
-     * @param string $name
-     * @param \DateTime $date
-     */
-    public function __construct($name, \DateTime $date)
+    public function __construct(string $name, \DateTime $date)
     {
         $this->name = $name;
         $this->date = $date;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
-    
 }

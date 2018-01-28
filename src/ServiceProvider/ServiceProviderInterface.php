@@ -1,36 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\ServiceProvider;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 interface ServiceProviderInterface
 {
-    /**
-     * @param string
-     * @return object
-     */
-    public function get($name);
+    public function get(string $name);
 
-    /**
-     *
-     * @param string $name
-     * @param object $object
-     */
-    public function add($name, $object);
+    public function add(string $name, $object): void;
 
-    /**
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function has($name);
+    public function has(string $name): bool;
 
-    /**
-     *
-     * @param string $name
-     */
-    public function remove($name);
+    public function remove(string $name): void;
 }

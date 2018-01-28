@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony\Command;
 
@@ -9,20 +9,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Load data fixtures from bundles.
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class LoadFixturesCommand extends Command
 {
-    /**
-     * @var FixtureManagerInterface
-     */
     protected $fixtureManager;
 
-    /**
-     * @param FixtureManagerInterface $fixtureManager
-     */
     public function __construct(FixtureManagerInterface $fixtureManager)
     {
         parent::__construct();
@@ -30,31 +22,35 @@ class LoadFixturesCommand extends Command
         $this->fixtureManager = $fixtureManager;
     }
 
-    /**
-     *
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('davidbadura:fixtures:load')
             ->setDescription('Load data fixtures and save it.')
-            ->addOption('fixture', 'f', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'The directory or file to load data fixtures from.', array())
-            ->addOption('tag', 't', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Load fixtures by tag',
-                array())
+            ->addOption(
+                'fixture',
+                'f',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'The directory or file to load data fixtures from.',
+                []
+            )
+            ->addOption(
+                'tag',
+                't',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Load fixtures by tag',
+                []
+            )
             ->addOption('dry_run', null, InputOption::VALUE_NONE, 'Test process (dont save fixtures)');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int|null|void
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->fixtureManager->load($input->getOption('fixture'), array(
+        $this->fixtureManager->load($input->getOption('fixture'), [
             'tags' => $input->getOption('tag'),
-            'dry_run' => $input->getOption('dry_run')
-        ));
+            'dry_run' => $input->getOption('dry_run'),
+        ]);
+
+        return 0;
     }
 }

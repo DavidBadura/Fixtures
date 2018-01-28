@@ -1,45 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ParameterBag implements \ArrayAccess
 {
-    /**
-     *
-     * @var array
-     */
     protected $parameters;
 
-    /**
-     *
-     * @param array $parameters
-     */
-    public function __construct(array $parameters = array())
+    public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
 
-    /**
-     *
-     * @param  string $key
-     * @return boolean
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->parameters[$key]);
     }
 
-    /**
-     *
-     * @param  string $key
-     * @param  mixed $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         if (!$this->has($key)) {
             return $default;
@@ -48,72 +28,40 @@ class ParameterBag implements \ArrayAccess
         return $this->parameters[$key];
     }
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function set($key, $value)
+    public function set(string $key, $value): void
     {
         $this->parameters[$key] = $value;
     }
 
-    /**
-     *
-     * @param string $key
-     */
-    public function remove($key)
+    public function remove(string $key): void
     {
         if ($this->has($key)) {
             unset($this->parameters[$key]);
         }
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->parameters;
     }
 
-    /**
-     *
-     * @param string $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
-        return $this->has($offset);
+        return $this->has((string)$offset);
     }
 
-    /**
-     *
-     * @param string $offset
-     * @return mixed
-     */
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        return $this->get((string)$offset);
     }
 
-    /**
-     *
-     * @param string $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        $this->set($offset, $value);
+        $this->set((string)$offset, $value);
     }
 
-    /**
-     *
-     * @param string $offset
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
-        $this->remove($offset);
+        $this->remove((string)$offset);
     }
 }

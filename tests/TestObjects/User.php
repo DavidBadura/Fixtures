@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -7,121 +7,76 @@ namespace DavidBadura\Fixtures\TestObjects;
  */
 class User
 {
-
-    /**
-     *
-     * @var string
-     */
     private $name;
-
-    /**
-     *
-     * @var string
-     */
     private $email;
-
-    /**
-     * @var string
-     */
     private $description;
-
-    /**
-     *
-     * @var array
-     */
-    private $roles = array();
-
-    /**
-     *
-     * @var array
-     */
-    private $groups = array();
-
-    /**
-     * @var DateTime
-     */
+    private $roles = [];
+    private $groups = [];
     private $birthdate;
 
-    /**
-     *
-     * @param string $name
-     * @param string $email
-     */
-    public function __construct($name, $email)
+    public function __construct(string $name, string $email)
     {
         $this->name = $name;
         $this->email = $email;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
-    public function setDescription($description)
+    public function setDescription(string $description = null): void
     {
         $this->description = $description;
-        return $this;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
-    public function getGroups()
+    public function getGroups(): array
     {
         return $this->groups;
     }
 
-    public function setGroups(array $groups)
+    public function setGroups(array $groups): void
     {
         $this->groups = $groups;
-
-        return $this;
     }
 
-    public function setBirthDate(\DateTime $birthdate)
+    public function setBirthDate(\DateTime $birthdate): void
     {
         $this->birthdate = $birthdate;
-
-        return $this;
     }
 
-    public function getBirthDate()
+    public function getBirthDate(): ?\DateTime
     {
         return $this->birthdate;
     }
-
 }

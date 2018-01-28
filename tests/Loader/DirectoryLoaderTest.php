@@ -1,20 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\DirectoryLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class DirectoryLoaderTest extends \PHPUnit_Framework_TestCase
+class DirectoryLoaderTest extends TestCase
 {
 
     /**
-     *
-     * @var FixtureLoader
+     * @var DirectoryLoader
      */
     private $loader;
 
@@ -22,29 +20,27 @@ class DirectoryLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockLoader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->mockLoader = $this->createMock(LoaderInterface::class);
         $this->loader = new DirectoryLoader($this->mockLoader);
     }
 
     public function testLoadFixturesByPath()
     {
-
-        $files = array();
+        $files = [];
 
         $this->mockLoader->expects($this->any())->method('load')
-            ->with($this->anything())->will($this->returnCallback(function($var) use (&$files) {
+            ->with($this->anything())->will($this->returnCallback(function ($var) use (&$files) {
                 $files[] = $var;
-                return new FixtureCollection();
-        }));
 
-        $path = realpath(__DIR__ . '/../TestResources/chainFixtures');
+                return new FixtureCollection();
+            }));
+
+        $path = realpath(__DIR__.'/../TestResources/chainFixtures');
 
         $this->loader->load($path);
 
-        $this->assertContains($path .'/roles.php', $files);
-        $this->assertContains($path .'/user.yml', $files);
-        $this->assertContains($path .'/groups.json', $files);
-
+        $this->assertContains($path.'/roles.php', $files);
+        $this->assertContains($path.'/user.yml', $files);
+        $this->assertContains($path.'/groups.json', $files);
     }
-
 }

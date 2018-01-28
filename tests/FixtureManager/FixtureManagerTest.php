@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
+use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
@@ -11,26 +12,21 @@ use DavidBadura\Fixtures\AbstractFixtureTest;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureManagerTest extends AbstractFixtureTest
 {
-
     /**
-     *
      * @var FixtureManagerPublicMethods
      */
     private $fixtureManager;
 
     /**
-     *
      * @var LoaderInterface
      */
     private $loader;
 
     /**
-     *
      * @var ExecutorInterface
      */
     private $executor;
@@ -41,13 +37,11 @@ class FixtureManagerTest extends AbstractFixtureTest
     private $persister;
 
     /**
-     *
      * @var ServiceProviderInterface
      */
     private $provider;
 
     /**
-     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -57,24 +51,29 @@ class FixtureManagerTest extends AbstractFixtureTest
     {
         parent::setUp();
 
-        $this->loader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->loader = $this->createMock(LoaderInterface::class);
         $this->loader->expects($this->any())->method('load')->will($this->returnValue(new FixtureCollection()));
 
-        $this->executor = $this->getMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
+        $this->executor = $this->createMock(ExecutorInterface::class);
         $this->executor->expects($this->any())->method('execute');
 
-        $this->persister = $this->getMock('DavidBadura\Fixtures\Persister\PersisterInterface');
+        $this->persister = $this->createMock(PersisterInterface::class);
         $this->persister->expects($this->any())->method('persist');
         $this->persister->expects($this->any())->method('flush');
 
-        $this->provider = $this->getMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
+        $this->provider = $this->createMock(ServiceProviderInterface::class);
         $this->provider->expects($this->any())->method('get');
 
-        $this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->eventDispatcher->expects($this->any())->method('dispatch');
 
-        $this->fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor,
-            $this->persister, $this->provider, $this->eventDispatcher);
+        $this->fixtureManager = new FixtureManagerPublicMethods(
+            $this->loader,
+            $this->executor,
+            $this->persister,
+            $this->provider,
+            $this->eventDispatcher
+        );
     }
 
     public function testFixtureManager()
@@ -84,32 +83,32 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->persister->expects($this->once())->method('flush');
         $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
 
-        $this->fixtureManager->load(null);
+        $this->fixtureManager->load();
     }
 
     public function testServiceProvider()
     {
-        $serviceProvicer = new \DavidBadura\Fixtures\ServiceProvider\ServiceProvider();
+        $serviceProvicer = new ServiceProvider();
         $fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor, $this->persister, $serviceProvicer, $this->eventDispatcher);
 
         $faker =  \Faker\Factory::create();
         $fixtureManager->addService('faker', $faker);
 
-        $data = array(
+        $data = [
             'user' =>
-            array(
+            [
                 'data' =>
-                array(
+                [
                     'user{0..2}' =>
-                    array(
+                    [
                         'name' => '<faker::name()>',
                         'email' => '<faker::email()>',
                         'random' => 'blubbtest',
-                        'text' => '<faker::sentence(3)>'
-                    ),
-                ),
-            ),
-        );
+                        'text' => '<faker::sentence(3)>',
+                    ],
+                ],
+            ],
+        ];
 
         $collection = FixtureCollection::create($data);
 
@@ -127,5 +126,4 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->assertTrue(strpos($user1['email'], '@') !== false);
         $this->assertTrue(strpos($user2['email'], '@') !== false);
     }
-
 }

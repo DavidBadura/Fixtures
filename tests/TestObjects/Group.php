@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -7,17 +7,13 @@ namespace DavidBadura\Fixtures\TestObjects;
  */
 class Group
 {
-
     /**
-     *
      * @var string
      */
     public $name;
 
     /**
-     *
      * @var User
      */
     public $leader;
-
 }

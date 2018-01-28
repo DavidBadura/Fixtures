@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -6,35 +6,22 @@ use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class CallbackLoader implements LoaderInterface
 {
-    /**
-     *
-     * @var callable
-     */
     protected $callback;
 
-    /**
-     *
-     * @param callable $callback
-     */
-    public function __construct($callback)
+    public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
-    /**
-     *
-     * @param  mixed $path
-     * @param array $options
-     * @return FixtureCollection
-     */
-    public function load($path, array $options = array())
+    public function load($path, array $options = []): FixtureCollection
     {
-        $collection = $this->callback($path, $options);
+        $callback = $this->callback;
+
+        $collection = $callback($path, $options);
 
         if (is_array($collection)) {
             return FixtureCollection::create($collection);

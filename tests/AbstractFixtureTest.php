@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures;
 
@@ -6,16 +6,14 @@ use DavidBadura\Fixtures\Converter\DefaultConverter;
 use DavidBadura\Fixtures\Fixture\Fixture;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Fixture\ParameterBag;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-abstract class AbstractFixtureTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractFixtureTest extends TestCase
 {
-
     /**
-     *
      * @var DefaultConverter
      */
     protected $converter;
@@ -26,25 +24,25 @@ abstract class AbstractFixtureTest extends \PHPUnit_Framework_TestCase
         $this->converter = new DefaultConverter();
     }
 
-    protected function createUserFixture($data = array())
+    protected function createUserFixture($data = [])
     {
-        return $this->createFixture('user', $data, array(
-                'class' => 'DavidBadura\Fixtures\TestObjects\User',
-                'constructor' => array('name', 'email')
-            ));
+        return $this->createFixture('user', $data, [
+                'class' => TestObjects\User::class,
+                'constructor' => ['name', 'email'],
+            ]);
     }
 
-    protected function createGroupFixture($data = array())
+    protected function createGroupFixture($data = [])
     {
-        return $this->createFixture('group', $data, array('class' => 'DavidBadura\Fixtures\TestObjects\Group'));
+        return $this->createFixture('group', $data, ['class' => TestObjects\Group::class]);
     }
 
-    protected function createRoleFixture($data = array())
+    protected function createRoleFixture($data = [])
     {
-        return $this->createFixture('role', $data, array('class' => 'DavidBadura\Fixtures\TestObjects\Role'));
+        return $this->createFixture('role', $data, ['class' => TestObjects\Role::class]);
     }
 
-    protected function createFixture($name, $data = array(), $properties = array())
+    protected function createFixture($name, $data = [], $properties = [])
     {
         $fixture = new Fixture($name, 'default');
         foreach ($data as $key => $value) {
@@ -56,12 +54,8 @@ abstract class AbstractFixtureTest extends \PHPUnit_Framework_TestCase
         return $fixture;
     }
 
-    /**
-     * @return FixtureManager\FixtureManagerInterface
-     */
     protected function createFixtureManagerMock()
     {
-        return $this->getMock('DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface');
+        return $this->createMock(FixtureManager\FixtureManagerInterface::class);
     }
-
 }

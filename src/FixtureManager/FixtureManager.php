@@ -1,19 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
-use DavidBadura\Fixtures\Exception\RuntimeException;
-use DavidBadura\Fixtures\Fixture\FixtureData;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
+use DavidBadura\Fixtures\Event\FixtureEvent;
+use DavidBadura\Fixtures\Executor\Executor;
+use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Fixture\FixtureData;
+use DavidBadura\Fixtures\FixtureEvents;
 use DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
-use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
-use DavidBadura\Fixtures\FixtureEvents;
-use DavidBadura\Fixtures\Event\FixtureEvent;
-use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -28,52 +28,19 @@ class FixtureManager implements FixtureManagerInterface
      * <service::name()>
      * <service::numberBetween(5,6)>
      */
-    const SERVICE_PLACEHOLDER_PATTERN = '#<([^>]+)::([^>]+)\(([^>]*)\)>#';
+    private const SERVICE_PLACEHOLDER_PATTERN = '#<([^>]+)::([^>]+)\(([^>]*)\)>#';
 
     /**
-     *
      * {0..5}
      */
-    const MULTI_PLACEHOLDER_PATTERN = '#\{([0-9][0-9]*)\.\.([0-9][0-9]*)\}#';
+    private const MULTI_PLACEHOLDER_PATTERN = '#\{([0-9][0-9]*)\.\.([0-9][0-9]*)\}#';
 
-    /**
-     *
-     * @var LoaderInterface
-     */
     private $loader;
-
-    /**
-     *
-     * @var ExecutorInterface
-     */
     private $executor;
-
-    /**
-     *
-     * @var PersisterInterface
-     */
     private $persister;
-
-    /**
-     *
-     * @var ServiceProviderInterface
-     */
     private $serviceProvider;
-
-    /**
-     *
-     * @var EventDispatcherInterface
-     */
     private $eventDispatcher;
 
-    /**
-     *
-     * @param LoaderInterface $loader
-     * @param ExecutorInterface $executor
-     * @param PersisterInterface $persister
-     * @param ServiceProviderInterface $serviceProvider
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         LoaderInterface $loader,
         ExecutorInterface $executor,
@@ -85,100 +52,56 @@ class FixtureManager implements FixtureManagerInterface
         $this->executor = $executor;
         $this->persister = $persister;
 
-        $this->serviceProvider = ($serviceProvider) ?: new ServiceProvider();
-        $this->eventDispatcher = ($eventDispatcher) ? $eventDispatcher : new EventDispatcher();
+        $this->serviceProvider = $serviceProvider ?: new ServiceProvider();
+        $this->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
     }
 
-    /**
-     *
-     * @return LoaderInterface
-     */
-    public function getLoader()
+    public function getLoader(): LoaderInterface
     {
         return $this->loader;
     }
 
-    /**
-     *
-     * @return ExecutorInterface
-     */
-    public function getExecutor()
+    public function getExecutor(): ExecutorInterface
     {
         return $this->executor;
     }
 
-    /**
-     *
-     * @return PersisterInterface
-     */
-    public function getPersister()
+    public function getPersister(): PersisterInterface
     {
         return $this->persister;
     }
 
-    /**
-     *
-     * @return ServiceProviderInterface
-     */
-    public function getServiceProvider()
+    public function getServiceProvider(): ServiceProviderInterface
     {
         return $this->serviceProvider;
     }
 
-    /**
-     *
-     * @return EventDispatcherInterface
-     */
-    public function getEventDispatcher()
+    public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;
     }
 
-    /**
-     *
-     * @param string $name
-     * @param object $service
-     */
-    public function addService($name, $service)
+    public function addService(string $name, $service): void
     {
         $this->serviceProvider->add($name, $service);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return boolean
-     */
-    public function hasService($name)
+    public function hasService(string $name): bool
     {
         return $this->serviceProvider->has($name);
     }
 
-    /**
-     *
-     * @param string $name
-     */
-    public function removeService($name)
+    public function removeService(string $name)
     {
         $this->serviceProvider->remove($name);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return object
-     */
-    public function getService($name)
+    public function getService(string $name)
     {
         return $this->serviceProvider->get($name);
     }
 
-    /**
-     *
-     * @param string $path
-     * @param array $options
-     */
-    public function load($path = null, array $options = array())
+    public function load($path = null, array $options = [])
     {
         $event = new FixtureEvent($this, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreLoad, $event);
@@ -216,10 +139,6 @@ class FixtureManager implements FixtureManagerInterface
         $this->eventDispatcher->dispatch(FixtureEvents::onPostPersist, $event);
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
     protected function persist(FixtureCollection $collection)
     {
         foreach ($collection as $fixture) {
@@ -231,10 +150,6 @@ class FixtureManager implements FixtureManagerInterface
         $this->persister->flush();
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
     protected function replaceServicePlaceholder(FixtureCollection $collection)
     {
         $provider = $this->serviceProvider;
@@ -244,38 +159,30 @@ class FixtureManager implements FixtureManagerInterface
                 $data = $fixtureData->getData();
 
                 array_walk_recursive($data, function (&$item, &$key) use ($provider) {
-                    $matches = array();
+                    $matches = [];
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
                         $attributes = explode(',', $matches[3]);
-                        $item = call_user_func_array(array($service, $matches[2]), $attributes);
+                        $item = call_user_func_array([$service, $matches[2]], $attributes);
                     }
                 });
 
                 $fixtureData->setData($data);
-
             }
         }
-
     }
 
-    /**
-     *
-     * @param  FixtureCollection $collection
-     * @throws \Exception
-     */
     protected function replaceMultiPlaceholder(FixtureCollection $collection)
     {
         foreach ($collection as $fixture) {
             foreach ($fixture as $fixtureData) {
-                $matches = array();
+                $matches = [];
                 if (preg_match(FixtureManager::MULTI_PLACEHOLDER_PATTERN, $fixtureData->getKey(), $matches)) {
-
                     $from = $matches[1];
                     $to = $matches[2];
 
                     if ($from > $to) {
-                        throw new \Exception();
+                        throw new \RuntimeException();
                     }
 
                     for ($i = $from; $i <= $to; $i++) {
@@ -290,12 +197,7 @@ class FixtureManager implements FixtureManagerInterface
         }
     }
 
-    /**
-     *
-     * @param  object $objectManager
-     * @return FixtureManager
-     */
-    public static function createDefaultFixtureManager($objectManager)
+    public static function createDefaultFixtureManager($objectManager): self
     {
         $matchLoader = new Loader\MatchLoader();
         $matchLoader
@@ -308,7 +210,7 @@ class FixtureManager implements FixtureManagerInterface
             new Loader\FilterLoader($matchLoader)
         );
 
-        $executor = \DavidBadura\Fixtures\Executor\Executor::createDefaultExecutor();
+        $executor = Executor::createDefaultExecutor();
 
         if ($objectManager instanceof PersisterInterface) {
             $persister = $objectManager;
@@ -322,5 +224,4 @@ class FixtureManager implements FixtureManagerInterface
 
         return new self($loader, $executor, $persister);
     }
-
 }

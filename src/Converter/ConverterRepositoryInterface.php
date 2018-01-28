@@ -1,32 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Converter;
 
 /**
- *
  * @author David Badura <d.a.badura@gmail.com>
  */
 interface ConverterRepositoryInterface
 {
-    /**
-     * @param ConverterInterface $converter
-     */
-    public function addConverter(ConverterInterface $converter);
+    public function addConverter(ConverterInterface $converter): void;
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function hasConverter($name);
+    public function hasConverter(string $name): bool;
 
-    /**
-     * @param string $name
-     * @return ConverterInterface
-     */
-    public function getConverter($name);
+    public function getConverter(string $name): ConverterInterface;
 
-    /**
-     * @param string $name
-     */
-    public function removeConverter($name);
+    public function removeConverter(string $name): void;
 }

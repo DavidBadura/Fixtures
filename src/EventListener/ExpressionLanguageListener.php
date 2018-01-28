@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -9,39 +9,23 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Exception\RuntimeException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ExpressionLanguageListener
 {
-    /**
-     * @var ExpressionLanguage
-     */
     private $expressionLanguage;
 
-
-    /**
-     * @param ExpressionLanguage $expressionLanguage
-     */
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->expressionLanguage = $expressionLanguage;
     }
 
-    /**
-     *
-     * @return ExpressionLanguage
-     */
-    public function geExpressionLanguage()
+    public function geExpressionLanguage(): ExpressionLanguage
     {
         return $this->expressionLanguage;
     }
 
-    /**
-     *
-     * @param FixtureCollectionEvent $event
-     */
-    public function onPreExecute(FixtureCollectionEvent $event)
+    public function onPreExecute(FixtureCollectionEvent $event): void
     {
         $collection = $event->getCollection();
 
@@ -50,19 +34,19 @@ class ExpressionLanguageListener
                 try {
                     $this->executeExpression($data, $collection);
                 } catch (\Exception $e) {
-                    throw new RuntimeException($name, $key,
-                        sprintf("Expression language error '%s'", $e->getMessage()), null, $e);
+                    throw new RuntimeException(
+                        $name,
+                        $key,
+                        sprintf("Expression language error '%s'", $e->getMessage()),
+                        0,
+                        $e
+                    );
                 }
             }
         }
     }
 
-    /**
-     *
-     * @param FixtureData $fixtureData
-     * @param FixtureCollection $collection
-     */
-    private function executeExpression(FixtureData $fixtureData, FixtureCollection $collection)
+    private function executeExpression(FixtureData $fixtureData, FixtureCollection $collection): void
     {
         $data = $fixtureData->getData();
 
@@ -72,9 +56,9 @@ class ExpressionLanguageListener
             if (preg_match('/^@expr\((.*)\)$/', $value, $hit)) {
                 $expr = substr($value, 6, -1);
 
-                $value = $lang->evaluate($expr, array(
-                    'collection' => $collection
-                ));
+                $value = $lang->evaluate($expr, [
+                    'collection' => $collection,
+                ]);
             }
         });
 

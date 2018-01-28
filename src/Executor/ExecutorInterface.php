@@ -1,36 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Executor;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 interface ExecutorInterface
 {
-    /**
-     *
-     * @param FixtureCollection $fixtures
-     */
-    public function execute(FixtureCollection $fixtures);
+    public function execute(FixtureCollection $fixtures): void;
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     * @param string $name
-     * @param string $key
-     * @return object
-     */
-    public function createObject(FixtureCollection $collection, $name, $key);
+    public function createObject(FixtureCollection $collection, string $name, string $key);
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     * @param string $name
-     * @param string $key
-     * @return object
-     */
-    public function finalizeObject(FixtureCollection $collection, $name, $key);
+    public function finalizeObject(FixtureCollection $collection, string $name, string $key);
 }

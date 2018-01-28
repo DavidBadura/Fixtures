@@ -1,109 +1,71 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureCollection implements \IteratorAggregate, \Countable
 {
     /**
-     *
      * @var Fixture[]
      */
-    protected $fixtures = array();
+    protected $fixtures = [];
 
-    /**
-     *
-     * @param array $fixtures
-     */
-    public function __construct(array $fixtures = array())
+    public function __construct(array $fixtures = [])
     {
         foreach ($fixtures as $fixture) {
             $this->add($fixture);
         }
     }
 
-    /**
-     *
-     * @param  Fixture $fixture
-     * @return $this
-     * @throws FixtureException
-     */
-    public function add(Fixture $fixture)
+    public function add(Fixture $fixture): void
     {
         $name = $fixture->getName();
+
         if (isset($this->fixtures[$name])) {
             throw new FixtureException(sprintf('fixture with the name "%s" already exists', $name));
         }
-        $this->fixtures[$name] = $fixture;
 
-        return $this;
+        $this->fixtures[$name] = $fixture;
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return Fixture
-     */
-    public function get($name)
+    public function get(string $name): Fixture
     {
         if (!isset($this->fixtures[$name])) {
-            return null;
+            throw new FixtureException(sprintf('fixture with the name "%s" not exists', $name));
         }
 
         return $this->fixtures[$name];
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return boolean
-     */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->fixtures[$name]);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return $this
-     */
-    public function remove($name)
+    public function remove(string $name): void
     {
         if (isset($this->fixtures[$name])) {
             unset($this->fixtures[$name]);
         }
-
-        return $this;
     }
 
     /**
-     *
      * @return \ArrayIterator|Fixture[]
      */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->fixtures);
     }
 
-    /**
-     *
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->fixtures);
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
     public function merge(FixtureCollection $collection)
     {
         foreach ($collection as $fixture) {
@@ -111,14 +73,10 @@ class FixtureCollection implements \IteratorAggregate, \Countable
         }
     }
 
-    /**
-     *
-     * @param  array $data
-     * @return FixtureCollection
-     */
-    public static function create(array $data)
+    public static function create(array $data): self
     {
         $collection = new self();
+
         foreach ($data as $name => $info) {
             $collection->add(Fixture::create($name, $info));
         }

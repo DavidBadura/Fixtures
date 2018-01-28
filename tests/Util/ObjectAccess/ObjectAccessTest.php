@@ -1,16 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
-use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class ObjectAccessTest extends \PHPUnit_Framework_TestCase
+class ObjectAccessTest extends TestCase
 {
-
     public function testStdClass()
     {
         $object = new \stdClass();
@@ -31,7 +29,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
 
     public function testProtectdProperty()
     {
-        $this->setExpectedException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -50,7 +48,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
 
     public function testProtectdSetterMethod()
     {
-        $this->setExpectedException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -63,7 +61,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
         $object = new AccessObject();
         $access = new ObjectAccess($object);
 
-        $value = array('test123', 123, 'blubb');
+        $value = ['test123', 123, 'blubb'];
 
         $access->writeProperty('publicTestMethodArray', $value);
         $this->assertEquals($value, $object->addPublicTestMethodArrayVar);
@@ -74,7 +72,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
         $object = new AccessObject();
         $access = new ObjectAccess($object);
 
-        $value = array('test123', 123, 'blubb');
+        $value = ['test123', 123, 'blubb'];
 
         $access->writeProperty('publicTestMethodArrays', $value);
         $this->assertEquals($value, $object->addPublicTestMethodArrayVar);
@@ -82,12 +80,12 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
 
     public function testProtectedAdderMethod()
     {
-        $this->setExpectedException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
 
-        $value = array('test123', 123, 'blubb');
+        $value = ['test123', 123, 'blubb'];
 
         $access->writeProperty('protectedTestMethodArray', $value);
     }
@@ -97,7 +95,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
         $object = new AccessObject();
         $access = new ObjectAccess($object);
 
-        $value = array('test123', 123, 'blubb');
+        $value = ['test123', 123, 'blubb'];
 
         $access->writeProperty('publicArrayCollection', $value);
         $this->assertEquals($value, $object->arrayCollection->toArray());
@@ -114,7 +112,7 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
 
     public function testNotExsistProperty()
     {
-        $this->setExpectedException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -137,14 +135,14 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
         $object = new AccessObject();
         $access = new ObjectAccess($object);
 
-        $access->writeProperty('multiDateTimeMethod', array('now'));
+        $access->writeProperty('multiDateTimeMethod', ['now']);
 
         $this->assertInstanceOf('\DateTime', $object->addDateTimeMethod[0]);
     }
 
     public function testInvalidSetDateTimeMethod()
     {
-        $this->setExpectedException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -153,5 +151,4 @@ class ObjectAccessTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\DateTime', $object->setDateTimeMethod);
     }
-
 }

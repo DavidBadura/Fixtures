@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -26,13 +27,17 @@ class DavidBaduraFixturesExtension extends Extension
         $loader->load('services.xml');
 
         if ($config['persister'] == 'orm') {
-            $persister = $container->register('davidbadura_fixtures.persister',
-                'DavidBadura\Fixtures\Persister\DoctrinePersister');
+            $persister = $container->register(
+                'davidbadura_fixtures.persister',
+                'DavidBadura\Fixtures\Persister\DoctrinePersister'
+            );
             $serviceId = ($config['persister_id']) ? $config['persister_id'] : 'doctrine.orm.entity_manager';
             $persister->addArgument(new Reference($serviceId));
         } elseif ($config['persister'] === 'odm') {
-            $persister = $container->register('davidbadura_fixtures.persister',
-                'DavidBadura\Fixtures\Persister\MongoDBPersister');
+            $persister = $container->register(
+                'davidbadura_fixtures.persister',
+                'DavidBadura\Fixtures\Persister\MongoDBPersister'
+            );
             $serviceId = ($config['persister_id']) ? $config['persister_id'] : 'doctrine.odm.mongodb.document_manager';
             $persister->addArgument(new Reference($serviceId));
         } else {
@@ -44,6 +49,5 @@ class DavidBaduraFixturesExtension extends Extension
             $fixtureLoader = $container->getDefinition('davidbadura_fixtures.loader_factory');
             $fixtureLoader->addArgument(array_unique($config['bundles']));
         }
-
     }
 }

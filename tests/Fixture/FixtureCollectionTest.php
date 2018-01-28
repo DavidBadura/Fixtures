@@ -1,79 +1,81 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
+use DavidBadura\Fixtures\TestObjects\Group;
+use DavidBadura\Fixtures\TestObjects\Role;
+use DavidBadura\Fixtures\TestObjects\User;
+use PHPUnit\Framework\TestCase;
+
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class FixtureCollectionTest extends \PHPUnit_Framework_TestCase
+class FixtureCollectionTest extends TestCase
 {
-
     public function testCreateFixtures()
     {
-
-        $data = array(
+        $data = [
             'user' =>
-            array(
+            [
                 'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
-                    'constructor' => array('name', 'email'),
-                ),
+                [
+                    'class' => User::class,
+                    'constructor' => ['name', 'email'],
+                ],
                 'data' =>
-                array(
+                [
                     'david' =>
-                    array(
+                    [
                         'name' => 'David Badura',
                         'email' => 'd.badura@gmx.de',
-                        'group' => array('@group:owner', '@group:developer'),
-                        'role' => array('@role:admin'),
-                    ),
+                        'group' => ['@group:owner', '@group:developer'],
+                        'role' => ['@role:admin'],
+                    ],
                     'other' =>
-                    array(
+                    [
                         'name' => 'Somebody',
                         'email' => 'test@example.de',
-                        'group' => array('@group:developer'),
-                        'role' => array('@role:user'),
-                    ),
-                ),
-            ),
+                        'group' => ['@group:developer'],
+                        'role' => ['@role:user'],
+                    ],
+                ],
+            ],
             'group' =>
-            array(
+            [
                 'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
-                    'tags' => array('install', 'test')
-                ),
+                [
+                    'class' => Group::class,
+                    'tags' => ['install', 'test'],
+                ],
                 'data' =>
-                array(
+                [
                     'developer' =>
-                    array(
+                    [
                         'name' => 'Developer',
                         'leader' => '@@user:david',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'role' =>
-            array(
+            [
                 'properties' =>
-                array(
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
-                    'tags' => array('test')
-                ),
+                [
+                    'class' => Role::class,
+                    'tags' => ['test'],
+                ],
                 'data' =>
-                array(
+                [
                     'admin' =>
-                    array(
+                    [
                         'name' => 'Admin',
-                    ),
+                    ],
                     'user' =>
-                    array(
+                    [
                         'name' => 'User',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $fixtures = FixtureCollection::create($data);
 
@@ -87,23 +89,25 @@ class FixtureCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('default', $fixtures->get('group')->getConverter());
         $this->assertEquals('default', $fixtures->get('role')->getConverter());
 
-        $this->assertEquals(new ParameterBag(array(
-            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
-            'constructor' => array('name', 'email')
-            )), $fixtures->get('user')->getProperties());
+        $this->assertEquals(new ParameterBag([
+            'class' => User::class,
+            'constructor' => ['name', 'email'],
+            ]), $fixtures->get('user')->getProperties());
 
-        $this->assertEquals(new ParameterBag(array(
-            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
-            'tags' => array('install', 'test')
-            )),
-            $fixtures->get('group')->getProperties());
+        $this->assertEquals(
+            new ParameterBag([
+            'class' => Group::class,
+            'tags' => ['install', 'test'],
+            ]),
+            $fixtures->get('group')->getProperties()
+        );
 
-        $this->assertEquals(new ParameterBag(array(
-            'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
-            'tags' => array('test')
-            )),
-            $fixtures->get('role')->getProperties());
-
+        $this->assertEquals(
+            new ParameterBag([
+            'class' => Role::class,
+            'tags' => ['test'],
+            ]),
+            $fixtures->get('role')->getProperties()
+        );
     }
-
 }

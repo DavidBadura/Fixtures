@@ -1,61 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class TraceLoader implements LoaderInterface
 {
-    /**
-     *
-     * @var LoaderInterface
-     */
     private $loader;
-
-    /**
-     *
-     * @var array
-     */
     private $trace;
 
-    /**
-     *
-     * @param LoaderInterface $loader
-     */
     public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
-        $this->trace = array();
+        $this->trace = [];
     }
 
-    /**
-     *
-     */
-    public function reset()
+    public function reset(): void
     {
-        $this->trace = array();
+        $this->trace = [];
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function getTrace()
+    public function getTrace(): array
     {
         return $this->trace;
     }
 
-    /**
-     *
-     * @param  string|array $path
-     * @param  array $options
-     * @return FixtureCollection
-     */
-    public function load($path, array $options = array())
+    public function load($path, array $options = []): FixtureCollection
     {
         if (is_array($path)) {
             $this->trace = array_merge($this->trace, $path);

@@ -1,20 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\ArrayLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
+class ArrayLoaderTest extends TestCase
 {
-
     /**
-     *
-     * @var FixtureLoader
+     * @var ArrayLoader
      */
     private $loader;
 
@@ -22,31 +19,31 @@ class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockLoader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->mockLoader = $this->createMock(LoaderInterface::class);
         $this->loader = new ArrayLoader($this->mockLoader);
     }
 
     public function testLoadFixture()
     {
-        $files = array();
+        $files = [];
 
         $this->mockLoader->expects($this->exactly(3))->method('load')
-            ->with($this->anything())->will($this->returnCallback(function($var) use (&$files) {
+            ->with($this->anything())->will($this->returnCallback(function ($var) use (&$files) {
                 $files[] = $var;
+
                 return new FixtureCollection();
-        }));
+            }));
 
-        $path = realpath(__DIR__ . '/../TestResources/chainFixtures');
+        $path = realpath(__DIR__.'/../TestResources/chainFixtures');
 
-        $this->loader->load(array(
-            $path .'/roles.php',
-            $path .'/user.yml',
-            $path .'/groups.json'
-        ));
+        $this->loader->load([
+            $path.'/roles.php',
+            $path.'/user.yml',
+            $path.'/groups.json',
+        ]);
 
-        $this->assertContains($path .'/roles.php', $files);
-        $this->assertContains($path .'/user.yml', $files);
-        $this->assertContains($path .'/groups.json', $files);
+        $this->assertContains($path.'/roles.php', $files);
+        $this->assertContains($path.'/user.yml', $files);
+        $this->assertContains($path.'/groups.json', $files);
     }
-
 }

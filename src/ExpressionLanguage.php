@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures;
 
@@ -6,21 +6,12 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLan
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
 
 /**
- *
  * @author David Badura <d.a.badura@gmail.com>
  */
 class ExpressionLanguage extends BaseExpressionLanguage
 {
-    /**
-     *
-     * @var ExecutorInterface
-     */
     protected $executor;
 
-    /**
-     *
-     * @param ExecutorInterface $executor
-     */
     public function __construct(ExecutorInterface $executor)
     {
         parent::__construct();
@@ -39,6 +30,5 @@ class ExpressionLanguage extends BaseExpressionLanguage
 
             return $object;
         });
-
     }
 }

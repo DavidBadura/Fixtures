@@ -1,16 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class AccessObject
 {
-
     public $publicTestProperty;
 
     protected $protectedTestProperty;
@@ -19,11 +17,11 @@ class AccessObject
 
     public $setPublicTestMethodVar;
 
-    public $addPublicTestMethodArrayVar = array();
+    public $addPublicTestMethodArrayVar = [];
 
     public $setDateTimeMethod;
 
-    public $addDateTimeMethod = array();
+    public $addDateTimeMethod = [];
 
     public function __construct()
     {
@@ -37,7 +35,6 @@ class AccessObject
 
     protected function setProtectedTestMethod()
     {
-
     }
 
     public function addPublicTestMethodArray($var)
@@ -47,7 +44,6 @@ class AccessObject
 
     protected function addProtectedTestMethodArray()
     {
-
     }
 
     public function getPublicArrayCollection()
@@ -57,7 +53,6 @@ class AccessObject
 
     protected function getProtectedArrayCollection()
     {
-
     }
 
     public function getPublicNonArrayCollection()
@@ -74,5 +69,4 @@ class AccessObject
     {
         $this->addDateTimeMethod[] = $dateTime;
     }
-
 }
