@@ -22,9 +22,10 @@
         "jamesmoss/toml": "^1.1",
         "symfony/expression-language": "^3.4|^4.0",
         "phpunit/phpunit": "^6.5",
-        "symfony/config": "^4.0",
-        "symfony/security-core": "^4.0",
-        "symfony/dependency-injection": "^4.0"
+        "symfony/config": "^3.4|^4.0",
+        "symfony/security-core": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/console": "^3.4|^4.0"
     },
     "suggest": {
         "symfony/yaml" : "^3.4|^4.0",

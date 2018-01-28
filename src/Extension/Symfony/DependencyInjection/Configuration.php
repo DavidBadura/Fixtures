@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 
@@ -13,7 +14,9 @@ class Configuration
     public function getConfigTree(): NodeInterface
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('david_badura_fixtures', 'array');
+
+        /** @var ArrayNodeDefinition $rootNode */
+        $rootNode = $treeBuilder->root('david_badura_fixtures');
 
         $rootNode
             ->children()
