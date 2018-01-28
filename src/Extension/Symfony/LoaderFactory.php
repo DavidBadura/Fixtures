@@ -18,31 +18,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class LoaderFactory
 {
-    /**
-     * @var KernelInterface
-     */
     protected $kernel;
 
-    /**
-     * @var string[]
-     */
     protected $bundles;
 
-    /**
-     * @param KernelInterface $kernel
-     * @param string[] $bundles
-     */
     public function __construct(KernelInterface $kernel, array $bundles = [])
     {
         $this->kernel = $kernel;
         $this->bundles = $bundles;
     }
 
-
-    /**
-     * @return LoaderInterface
-     */
-    public function create()
+    public function create(): LoaderInterface
     {
         $matchLoader = new MatchLoader();
         $matchLoader
@@ -51,7 +37,7 @@ class LoaderFactory
             ->add(new JsonLoader(), '*.json')
             ->add(new TomlLoader(), '*.toml');
 
-        $directoryLoader =  new DirectoryLoader(
+        $directoryLoader = new DirectoryLoader(
             new FilterLoader($matchLoader)
         );
 

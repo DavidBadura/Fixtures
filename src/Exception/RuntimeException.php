@@ -3,34 +3,21 @@
 namespace DavidBadura\Fixtures\Exception;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class RuntimeException extends FixtureException
 {
-    /**
-     *
-     * @var string
-     */
     protected $name;
-
-    /**
-     *
-     * @var string
-     */
     protected $key;
 
-    /**
-     *
-     * @param string $name
-     * @param string $key
-     * @param string $message
-     * @param string $code
-     * @param \Exception $parent
-     */
-    public function __construct($name, $key, $message = "", $code = null, \Exception $parent = null)
-    {
-        $message = sprintf('Error by @%s:%s : ', $name, $key) . $message;
+    public function __construct(
+        string $name,
+        string $key,
+        string $message = '',
+        int $code = 0,
+        \Exception $parent = null
+    ) {
+        $message = sprintf('Error by @%s:%s : ', $name, $key).$message;
 
         parent::__construct($message, $code, $parent);
 
@@ -38,20 +25,12 @@ class RuntimeException extends FixtureException
         $this->key = $key;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }

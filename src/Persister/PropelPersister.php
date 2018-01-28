@@ -5,31 +5,18 @@ namespace DavidBadura\Fixtures\Persister;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class PropelPersister implements PersisterInterface
 {
-    /**
-     *
-     * @var array
-     */
     protected $objects = [];
 
-    /**
-     *
-     * @param FixtureData $data
-     */
-    public function persist(FixtureData $data)
+    public function persist(FixtureData $data): void
     {
         $this->objects[] = $data->getObject();
     }
 
-    /**
-     *
-     *
-     */
-    public function flush()
+    public function flush(): void
     {
         foreach ($this->objects as $object) {
             $object->save();

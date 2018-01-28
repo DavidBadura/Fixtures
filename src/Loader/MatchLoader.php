@@ -4,43 +4,26 @@ namespace DavidBadura\Fixtures\Loader;
 
 use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
-use DavidBadura\Fixtures\Exception\RuntimeException;
 use DavidBadura\Fixtures\Util\Matcher;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class MatchLoader implements LoaderInterface
 {
-    /**
-     *
-     * @var array
-     */
     private $mapping = [];
 
-    /**
-     *
-     * @param  LoaderInterface $loader
-     * @return self
-     */
-    public function add(LoaderInterface $loader, $pattern)
+    public function add(LoaderInterface $loader, $pattern): self
     {
         $this->mapping[] = [
-            'loader'  => $loader,
+            'loader' => $loader,
             'pattern' => $pattern,
         ];
 
         return $this;
     }
 
-    /**
-     *
-     * @param  string|array $path
-     * @param array $options
-     * @return FixtureCollection
-     */
-    public function load($path, array $options = [])
+    public function load($path, array $options = []): FixtureCollection
     {
         foreach ($this->mapping as $mapping) {
             if (!Matcher::match($path, $mapping['pattern'])) {

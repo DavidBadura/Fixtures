@@ -5,33 +5,18 @@ namespace DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FilterLoader implements LoaderInterface
 {
-    /**
-     *
-     * @var LoaderInterface
-     */
     protected $loader;
 
-    /**
-     *
-     * @param LoaderInterface $loader
-     */
     public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
     }
 
-    /**
-     *
-     * @param  string $path
-     * @param array $options
-     * @return FixtureCollection
-     */
-    public function load($path, array $options = [])
+    public function load($path, array $options = []): FixtureCollection
     {
         $collection = $this->loader->load($path, $options);
 

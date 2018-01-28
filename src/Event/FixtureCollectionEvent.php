@@ -2,53 +2,33 @@
 
 namespace DavidBadura\Fixtures\Event;
 
-use DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureCollectionEvent extends FixtureEvent
 {
-    /**
-     *
-     * @var FixtureCollection
-     */
     private $collection;
 
-    /**
-     * @param FixtureManagerInterface $fixtureManager
-     * @param FixtureCollection $collection
-     * @param array $options
-     */
     public function __construct(
         FixtureManagerInterface $fixtureManager,
         FixtureCollection $collection,
         array $options = []
     ) {
         parent::__construct($fixtureManager, $options);
+
         $this->collection = $collection;
     }
 
-    /**
-     *
-     * @return FixtureCollection
-     */
-    public function getCollection()
+    public function getCollection(): FixtureCollection
     {
         return $this->collection;
     }
 
-    /**
-     *
-     * @param  FixtureCollection $collection
-     * @return FixtureCollectionEvent
-     */
-    public function setCollection(FixtureCollection $collection)
+    public function setCollection(FixtureCollection $collection): void
     {
         $this->collection = $collection;
-
-        return $this;
     }
 }

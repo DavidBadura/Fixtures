@@ -6,73 +6,36 @@ use Symfony\Component\EventDispatcher\Event;
 use DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureEvent extends Event
 {
-    /**
-     *
-     * @var FixtureManagerInterface
-     */
     private $fixtureManager;
-
-    /**
-     *
-     * @var array
-     */
     private $options;
 
-    /**
-     *
-     * @param FixtureManagerInterface $fixtureManager
-     * @param array $options
-     */
     public function __construct(FixtureManagerInterface $fixtureManager, array $options = [])
     {
         $this->fixtureManager = $fixtureManager;
         $this->options = $options;
     }
 
-    /**
-     *
-     * @return FixtureManagerInterface
-     */
-    public function getFixtureManager()
+    public function getFixtureManager(): FixtureManagerInterface
     {
         return $this->fixtureManager;
     }
 
-    /**
-     *
-     * @param  FixtureManagerInterface $fixtureManager
-     * @return FixtureEvent
-     */
-    public function setFixtureManager(FixtureManagerInterface $fixtureManager)
+    public function setFixtureManager(FixtureManagerInterface $fixtureManager): void
     {
         $this->fixtureManager = $fixtureManager;
-
-        return $this;
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     *
-     * @param  array $options
-     * @return FixtureEvent
-     */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = $options;
-
-        return $this;
     }
 }

@@ -5,50 +5,27 @@ namespace DavidBadura\Fixtures\ServiceProvider;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-    /**
-     *
-     * @var array
-     */
     protected $services = [];
 
-    /**
-     *
-     * @param  string $name
-     * @param  object $service
-     * @return ServiceProvider
-     */
-    public function add($name, $service)
+    public function add(string $name, $service): void
     {
         if ($this->has($name)) {
             throw new FixtureException(sprintf('Service with the name "%s" already exists', $name));
         }
 
         $this->services[$name] = $service;
-
-        return $this;
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return boolean
-     */
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->services[$name]);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return object
-     */
-    public function get($name)
+    public function get(string $name)
     {
         if (!$this->has($name)) {
             throw new FixtureException(sprintf('Service with the name "%s" dont exists', $name));
@@ -57,17 +34,10 @@ class ServiceProvider implements ServiceProviderInterface
         return $this->services[$name];
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return ServiceProvider
-     */
-    public function remove($name)
+    public function remove(string $name): void
     {
         if ($this->has($name)) {
             unset($this->services[$name]);
         }
-
-        return $this;
     }
 }

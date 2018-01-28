@@ -7,16 +7,10 @@ use DavidBadura\Fixtures\Exception\ConverterException;
 use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class DefaultConverter implements ConverterInterface
 {
-
-    /**
-     * @param FixtureData $fixtureData
-     * @return object
-     */
     public function createObject(FixtureData $fixtureData)
     {
         $properties = $fixtureData->getProperties();
@@ -71,12 +65,7 @@ class DefaultConverter implements ConverterInterface
         return $object;
     }
 
-    /**
-     * @param object $object
-     * @param FixtureData $fixtureData
-     * @throws \DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException
-     */
-    public function finalizeObject($object, FixtureData $fixtureData)
+    public function finalizeObject($object, FixtureData $fixtureData): void
     {
         $properties = $fixtureData->getProperties();
         $data = $fixtureData->getData();
@@ -103,10 +92,7 @@ class DefaultConverter implements ConverterInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'default';
     }

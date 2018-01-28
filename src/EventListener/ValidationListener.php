@@ -2,45 +2,28 @@
 
 namespace DavidBadura\Fixtures\EventListener;
 
-use Symfony\Component\Validator\ValidatorInterface;
 use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
 use DavidBadura\Fixtures\Exception\ValidationException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ValidationListener
 {
-
-    /**
-     * @var ValidatorInterface
-     */
     private $validator;
 
-    /**
-     *
-     * @param ValidatorInterface $validator
-     */
-    public function __construct($validator)
+    public function __construct(ValidatorInterface $validator)
     {
         $this->validator = $validator;
     }
 
-    /**
-     *
-     * @return ValidatorInterface
-     */
-    public function getValidator()
+    public function getValidator(): ValidatorInterface
     {
         return $this->validator;
     }
 
-    /**
-     *
-     * @param FixtureCollectionEvent $event
-     */
-    public function onPostExecute(FixtureCollectionEvent $event)
+    public function onPostExecute(FixtureCollectionEvent $event): void
     {
         $collection = $event->getCollection();
 

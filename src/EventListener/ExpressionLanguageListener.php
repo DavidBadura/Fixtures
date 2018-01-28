@@ -9,39 +9,23 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\Exception\RuntimeException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ExpressionLanguageListener
 {
-    /**
-     * @var ExpressionLanguage
-     */
     private $expressionLanguage;
 
-
-    /**
-     * @param ExpressionLanguage $expressionLanguage
-     */
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->expressionLanguage = $expressionLanguage;
     }
 
-    /**
-     *
-     * @return ExpressionLanguage
-     */
-    public function geExpressionLanguage()
+    public function geExpressionLanguage(): ExpressionLanguage
     {
         return $this->expressionLanguage;
     }
 
-    /**
-     *
-     * @param FixtureCollectionEvent $event
-     */
-    public function onPreExecute(FixtureCollectionEvent $event)
+    public function onPreExecute(FixtureCollectionEvent $event): void
     {
         $collection = $event->getCollection();
 
@@ -62,12 +46,7 @@ class ExpressionLanguageListener
         }
     }
 
-    /**
-     *
-     * @param FixtureData $fixtureData
-     * @param FixtureCollection $collection
-     */
-    private function executeExpression(FixtureData $fixtureData, FixtureCollection $collection)
+    private function executeExpression(FixtureData $fixtureData, FixtureCollection $collection): void
     {
         $data = $fixtureData->getData();
 

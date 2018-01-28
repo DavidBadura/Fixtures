@@ -3,18 +3,11 @@
 namespace DavidBadura\Fixtures\Util;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class Matcher
 {
-    /**
-     *
-     * @param $subject
-     * @param  string $pattern
-     * @return boolean
-     */
-    public static function match($subject, $pattern)
+    public static function match(string $subject, string $pattern): bool
     {
         $expr = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
             switch ($matches[0]) {

@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FakerPass implements CompilerPassInterface

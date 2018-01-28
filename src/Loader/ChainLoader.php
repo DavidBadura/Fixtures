@@ -5,21 +5,12 @@ namespace DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ChainLoader implements LoaderInterface
 {
-    /**
-     *
-     * @var LoaderInterface[]
-     */
     private $loaders = [];
 
-    /**
-     *
-     * @param LoaderInterface[] $loaders
-     */
     public function __construct(array $loaders = [])
     {
         foreach ($loaders as $loader) {
@@ -27,22 +18,12 @@ class ChainLoader implements LoaderInterface
         }
     }
 
-    /**
-     *
-     * @param LoaderInterface $loader
-     */
-    public function add(LoaderInterface $loader)
+    public function add(LoaderInterface $loader): void
     {
         $this->loaders[] = $loader;
     }
 
-    /**
-     *
-     * @param  string|array $path
-     * @param array $options
-     * @return FixtureCollection
-     */
-    public function load($path, array $options = [])
+    public function load($path, array $options = []): FixtureCollection
     {
         $collection = new FixtureCollection();
 

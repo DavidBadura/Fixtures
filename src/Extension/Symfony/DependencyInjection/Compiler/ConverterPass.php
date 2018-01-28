@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ConverterPass implements CompilerPassInterface
@@ -18,7 +17,6 @@ class ConverterPass implements CompilerPassInterface
             return;
         }
 
-        $converters = [];
         foreach ($container->findTaggedServiceIds('davidbadura_fixtures.converter') as $id => $attributes) {
             $container->getDefinition('davidbadura_fixtures.converter_repository')->addMethodCall('addConverter', [new Reference($id)]);
         }

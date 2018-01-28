@@ -2,81 +2,50 @@
 
 namespace DavidBadura\Fixtures\Executor;
 
+use DavidBadura\Fixtures\Converter\ConverterInterface;
+use DavidBadura\Fixtures\Converter\ConverterRepository;
 use DavidBadura\Fixtures\Converter\ConverterRepositoryInterface;
-use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
 use DavidBadura\Fixtures\Exception\CircularReferenceException;
 use DavidBadura\Fixtures\Exception\FixtureException;
 use DavidBadura\Fixtures\Exception\ReferenceNotFoundException;
-use DavidBadura\Fixtures\Converter\ConverterInterface;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
  * @author David Badura <d.badura@gmx.de>
  */
 class Executor implements ExecutorInterface
 {
-    /**
-     *
-     * @var array
-     */
     private $stack = [];
-
-    /**
-     *
-     * @var ConverterRepositoryInterface
-     */
     protected $converterRepository;
 
-    /**
-     *
-     * @param ConverterRepositoryInterface $converterRepository
-     */
     public function __construct(ConverterRepositoryInterface $converterRepository)
     {
         $this->converterRepository = $converterRepository;
     }
 
-    /**
-     *
-     * @return ConverterRepositoryInterface
-     */
-    public function getConverterRepository()
+    public function getConverterRepository(): ConverterRepositoryInterface
     {
         return $this->converterRepository;
     }
 
-    /**
-     *
-     * @param ConverterInterface $converter
-     */
     public function addConverter(ConverterInterface $converter)
     {
         $this->converterRepository->addConverter($converter);
     }
 
-    /**
-     *
-     * @param string $converter
-     */
-    public function removeConverter($converter)
+    public function removeConverter(string $converter)
     {
         $this->converterRepository->removeConverter($converter);
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
-    public function execute(FixtureCollection $collection)
+    public function execute(FixtureCollection $collection): void
     {
         $this->createObjects($collection);
         $this->finalizeObjects($collection);
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
-    private function createObjects(FixtureCollection $collection)
+    private function createObjects(FixtureCollection $collection): void
     {
         $this->stack = [];
 
@@ -87,11 +56,7 @@ class Executor implements ExecutorInterface
         }
     }
 
-    /**
-     *
-     * @param FixtureCollection $collection
-     */
-    private function finalizeObjects(FixtureCollection $collection)
+    private function finalizeObjects(FixtureCollection $collection): void
     {
         foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
@@ -100,28 +65,20 @@ class Executor implements ExecutorInterface
         }
     }
 
-    /**
-     *
-     * @param  FixtureCollection $collection
-     * @param  string $name
-     * @param  string $key
-     * @return object
-     * @throws \Exception
-     */
-    public function createObject(FixtureCollection $collection, $name, $key)
+    public function createObject(FixtureCollection $collection, string $name, string $key)
     {
         $fixture = $collection->get($name);
         $fixtureData = $fixture->get($key);
 
         if ($fixtureData->hasObject() || $fixtureData->isLoaded()) {
-            return;
+            return null;
         }
 
-        if (isset($this->stack[$name . ':' . $key])) {
+        if (isset($this->stack[$name.':'.$key])) {
             throw new CircularReferenceException($name, $key, $this->stack);
         }
 
-        $this->stack[$name . ':' . $key] = true;
+        $this->stack[$name.':'.$key] = true;
 
         $data = $fixtureData->getData();
         $preparedData = $this->prepareDataForCreate($data, $collection);
@@ -132,17 +89,12 @@ class Executor implements ExecutorInterface
 
         $fixtureData->setObject($object);
 
-        unset($this->stack[$name . ':' . $key]);
+        unset($this->stack[$name.':'.$key]);
 
         return $object;
     }
 
-    /**
-     * @param array $data
-     * @param FixtureCollection $collection
-     * @return array
-     */
-    protected function prepareDataForCreate($data, FixtureCollection $collection)
+    protected function prepareDataForCreate(array $data, FixtureCollection $collection)
     {
         $executor = $this;
 
@@ -165,15 +117,7 @@ class Executor implements ExecutorInterface
         return $data;
     }
 
-    /**
-     *
-     * @param  FixtureCollection $collection
-     * @param  string $name
-     * @param  string $key
-     * @return object
-     * @throws \Exception
-     */
-    public function finalizeObject(FixtureCollection $collection, $name, $key)
+    public function finalizeObject(FixtureCollection $collection, string $name, string $key)
     {
         $fixture = $collection->get($name);
         $fixtureData = $fixture->get($key);
@@ -195,12 +139,7 @@ class Executor implements ExecutorInterface
         return $object;
     }
 
-    /**
-     * @param array $data
-     * @param FixtureCollection $collection
-     * @return array
-     */
-    protected function prepareDataForFinalize($data, FixtureCollection $collection)
+    protected function prepareDataForFinalize(array $data, FixtureCollection $collection): array
     {
         array_walk_recursive($data, function (&$value, $key) use ($collection) {
             if (!is_string($value)) {
@@ -225,14 +164,10 @@ class Executor implements ExecutorInterface
         return $data;
     }
 
-    /**
-     *
-     * @return Executor
-     */
-    public static function createDefaultExecutor()
+    public static function createDefaultExecutor(): self
     {
-        $repository = new \DavidBadura\Fixtures\Converter\ConverterRepository();
-        $repository->addConverter(new \DavidBadura\Fixtures\Converter\DefaultConverter());
+        $repository = new ConverterRepository();
+        $repository->addConverter(new DefaultConverter());
 
         return new self($repository);
     }

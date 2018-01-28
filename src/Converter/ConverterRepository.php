@@ -2,11 +2,9 @@
 
 namespace DavidBadura\Fixtures\Converter;
 
-use DavidBadura\Fixtures\Converter\ConverterInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ConverterRepository implements ConverterRepositoryInterface
@@ -17,13 +15,7 @@ class ConverterRepository implements ConverterRepositoryInterface
      */
     protected $converters = [];
 
-    /**
-     *
-     * @param  ConverterInterface $converter
-     * @return $this
-     * @throws \Exception
-     */
-    public function addConverter(ConverterInterface $converter)
+    public function addConverter(ConverterInterface $converter): void
     {
         $name = $converter->getName();
         if ($this->hasConverter($name)) {
@@ -31,27 +23,14 @@ class ConverterRepository implements ConverterRepositoryInterface
         }
 
         $this->converters[$name] = $converter;
-
-        return $this;
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return boolean
-     */
-    public function hasConverter($name)
+    public function hasConverter(string $name): bool
     {
         return isset($this->converters[$name]);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return ConverterInterface
-     * @throws \Exception
-     */
-    public function getConverter($name)
+    public function getConverter(string $name): ?ConverterInterface
     {
         if (!$this->hasConverter($name)) {
             return null;
@@ -60,18 +39,10 @@ class ConverterRepository implements ConverterRepositoryInterface
         return $this->converters[$name];
     }
 
-    /**
-     *
-     * @param  string $name
-     * @return \DavidBadura\Fixtures\FixtureManager
-     * @throws \Exception
-     */
-    public function removeConverter($name)
+    public function removeConverter(string $name): void
     {
         if ($this->hasConverter($name)) {
             unset($this->converters[$name]);
         }
-
-        return $this;
     }
 }

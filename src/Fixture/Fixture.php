@@ -2,198 +2,102 @@
 
 namespace DavidBadura\Fixtures\Fixture;
 
-use DavidBadura\Fixtures\Converter\ConverterInterface;
 use DavidBadura\Fixtures\Exception\FixtureException;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class Fixture implements \IteratorAggregate, \Countable
 {
-    /**
-     *
-     * @var array
-     */
     protected static $defaultParameters = [];
-
-    /**
-     *
-     * @var string
-     */
     protected static $defaultConverter = 'default';
 
-    /**
-     *
-     * @var string
-     */
     private $name;
-
-    /**
-     *
-     * @var array
-     */
     private $converter;
-
-    /**
-     *
-     * @var array
-     */
     private $properties = [];
-
-    /**
-     *
-     * @var FixtureData[]
-     */
     private $fixtureData = [];
 
-    /**
-     *
-     * @param string $name
-     * @param string $converter
-     * @param ParameterBag $properties
-     */
-    public function __construct($name, $converter = null, ParameterBag $properties = null)
+    public function __construct(string $name, string $converter = null, ParameterBag $properties = null)
     {
         $this->name = $name;
-        $this->converter = ($converter) ?: self::$defaultConverter;
+        $this->converter = $converter ?: self::$defaultConverter;
 
-        $params = ($properties) ? $properties->toArray() : [];
+        $params = $properties ? $properties->toArray() : [];
         $this->properties = new ParameterBag(array_merge(self::$defaultParameters, $params));
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     *
-     * @return ConverterInterface
-     */
-    public function getConverter()
+    public function getConverter(): string
     {
         return $this->converter;
     }
 
-    /**
-     *
-     * @param  string $key
-     * @return boolean
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->fixtureData[$key]);
     }
 
-    /**
-     *
-     * @param  string $key
-     * @return FixtureData
-     * @throws FixtureException
-     */
-    public function get($key)
+    public function get(string $key): FixtureData
     {
         if (!$this->has($key)) {
             throw new FixtureException(sprintf(
                 'Fixture data with key "%s" does not exist in "%s" fixture',
                 $key,
-                    $this->name
+                $this->name
             ));
         }
 
         return $this->fixtureData[$key];
     }
 
-    /**
-     *
-     * @param  FixtureData $fixtureData
-     * @return $this
-     * @throws FixtureException
-     */
-    public function add(FixtureData $fixtureData)
+    public function add(FixtureData $fixtureData): void
     {
         $key = $fixtureData->getKey();
         if ($this->has($key)) {
             throw new FixtureException(sprintf(
                 'fixture data with key "%s" already exists in "%s" fixture',
                 $key,
-                    $this->name
+                $this->name
             ));
         }
 
         $this->fixtureData[$key] = $fixtureData;
         $fixtureData->setFixture($this);
-
-        return $this;
     }
 
-    /**
-     *
-     * @param  FixtureData $fixtureData
-     * @return $this
-     */
-    public function remove(FixtureData $fixtureData)
+    public function remove(FixtureData $fixtureData): void
     {
         $key = $fixtureData->getKey();
         if ($this->has($key)) {
             unset($this->fixtureData[$key]);
         }
-
-        return $this;
     }
 
-    /**
-     *
-     * @return ParameterBag
-     */
-    public function getProperties()
+    public function getProperties(): ParameterBag
     {
         return $this->properties;
     }
 
-    /**
-     *
-     * @param  ParameterBag $properties
-     * @return $this
-     */
-    public function setProperties(ParameterBag $properties)
+    public function setProperties(ParameterBag $properties): void
     {
         $this->properties = $properties;
-
-        return $this;
     }
 
-    /**
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->fixtureData);
     }
 
-    /**
-     *
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->fixtureData);
     }
 
-    /**
-     *
-     * @param  string $name
-     * @param  array $data
-     * @return Fixture
-     * @throws FixtureException
-     */
-    public static function create($name, array $data)
+    public static function create(string $name, array $data): self
     {
         $converter = (isset($data['converter'])) ? $data['converter'] : 'default';
         $fixture = new self($name, $converter);
@@ -213,38 +117,22 @@ class Fixture implements \IteratorAggregate, \Countable
         return $fixture;
     }
 
-    /**
-     *
-     * @param array $params
-     */
-    public static function setDefaultParameters(array $params = [])
+    public static function setDefaultParameters(array $params = []): void
     {
         self::$defaultParameters = $params;
     }
 
-    /**
-     *
-     * @return array
-     */
-    public static function getDefaultParameters()
+    public static function getDefaultParameters(): array
     {
         return self::$defaultParameters;
     }
 
-    /**
-     *
-     * @param string $converter
-     */
-    public static function setDefaultConverter($converter)
+    public static function setDefaultConverter(string $converter): void
     {
         self::$defaultConverter = $converter;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public static function getDefaultConverter()
+    public static function getDefaultConverter(): string
     {
         return self::$defaultConverter;
     }

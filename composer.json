@@ -9,7 +9,7 @@
         "email" : "d.badura@gmx.de"
     }],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "symfony/event-dispatcher" : "^3.4|^4.0",
         "symfony/finder" : "^3.4|^4.0"
     },

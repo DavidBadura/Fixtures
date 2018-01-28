@@ -3,40 +3,20 @@
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ObjectAccess
 {
-    /**
-     *
-     * @var object
-     */
     protected $object;
-
-    /**
-     *
-     * @var \ReflectionClass
-     */
     protected $reflClass;
 
-    /**
-     *
-     * @param object $object
-     */
     public function __construct($object)
     {
         $this->object = $object;
         $this->reflClass = new \ReflectionClass($object);
     }
 
-    /**
-     *
-     * @param  string $property
-     * @param  mixed $value
-     * @throws ObjectAccessException
-     */
-    public function writeProperty($property, $value)
+    public function writeProperty(string $property, $value): void
     {
         $noPublic = [];
 
@@ -168,13 +148,7 @@ class ObjectAccess
         );
     }
 
-    /**
-     *
-     * @param  string $property
-     * @return mixed
-     * @throws ObjectAccessException
-     */
-    public function readProperty($property)
+    public function readProperty(string $property)
     {
         $getter = 'get' . $this->camelize($property);
         $noPublic = [];
@@ -236,12 +210,7 @@ class ObjectAccess
         );
     }
 
-    /**
-     *
-     * @param  string $property
-     * @return string
-     */
-    protected function camelize($property)
+    protected function camelize(string $property): string
     {
         return preg_replace_callback(
             '/(^|_|\.)+(.)/',
@@ -252,15 +221,7 @@ class ObjectAccess
         );
     }
 
-    /**
-     *
-     * @param  mixed $value
-     * @param  string $method
-     * @param  int $parameter
-     * @throws ObjectAccessException
-     * @return \DateTime|mixed
-     */
-    public function prepareValue($value, $method, $parameter = 0)
+    public function prepareValue($value, string $method, int $parameter = 0)
     {
         if (!is_numeric($value) && !is_string($value)) {
             return $value;
@@ -274,7 +235,7 @@ class ObjectAccess
 
         $class = $params[$parameter]->getClass()->getName();
 
-        if ($class == 'DateTime') {
+        if ($class == \DateTime::class) {
             try {
                 return new \DateTime($value);
             } catch (\Exception $e) {

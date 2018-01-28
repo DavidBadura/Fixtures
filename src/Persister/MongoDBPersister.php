@@ -2,46 +2,29 @@
 
 namespace DavidBadura\Fixtures\Persister;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use DavidBadura\Fixtures\Fixture\FixtureData;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  * @author Florian Eckerstorfer <florian@theroadtojoy.at>
  */
 class MongoDBPersister implements PersisterInterface
 {
-    /**
-     *
-     * @var ObjectManager
-     */
     protected $dm;
 
-    /**
-     *
-     * @param DocumentManager $dm
-     */
     public function __construct(DocumentManager $dm)
     {
         $this->dm = $dm;
     }
 
-    /**
-     *
-     * @param FixtureData $data
-     */
-    public function persist(FixtureData $data)
+    public function persist(FixtureData $data): void
     {
         $object = $data->getObject();
         $this->dm->persist($object);
     }
 
-    /**
-     *
-     *
-     */
-    public function flush()
+    public function flush(): void
     {
         $this->dm->getSchemaManager()->ensureIndexes();
         $this->dm->flush(null, ['safe' => true]);
