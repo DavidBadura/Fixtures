@@ -11,7 +11,7 @@ interface ConverterRepositoryInterface
 
     public function hasConverter(string $name): bool;
 
-    public function getConverter(string $name): ?ConverterInterface;
+    public function getConverter(string $name): ConverterInterface;
 
     public function removeConverter(string $name): void;
 }

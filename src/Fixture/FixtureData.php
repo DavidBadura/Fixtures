@@ -55,7 +55,7 @@ class FixtureData
         return $this->object !== null;
     }
 
-    public function getProperties(): array
+    public function getProperties(): ParameterBag
     {
         return $this->fixture->getProperties();
     }

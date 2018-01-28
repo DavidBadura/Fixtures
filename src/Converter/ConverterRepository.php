@@ -30,10 +30,10 @@ class ConverterRepository implements ConverterRepositoryInterface
         return isset($this->converters[$name]);
     }
 
-    public function getConverter(string $name): ?ConverterInterface
+    public function getConverter(string $name): ConverterInterface
     {
         if (!$this->hasConverter($name)) {
-            return null;
+            throw new FixtureException(sprintf('Converter with the name "%s" not found', $name));
         }
 
         return $this->converters[$name];

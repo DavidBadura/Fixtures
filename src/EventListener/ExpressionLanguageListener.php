@@ -38,7 +38,7 @@ class ExpressionLanguageListener
                         $name,
                         $key,
                         sprintf("Expression language error '%s'", $e->getMessage()),
-                        null,
+                        0,
                         $e
                     );
                 }
