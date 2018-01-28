@@ -32,10 +32,10 @@ class FixtureCollection implements \IteratorAggregate, \Countable
         $this->fixtures[$name] = $fixture;
     }
 
-    public function get(string $name): ?Fixture
+    public function get(string $name): Fixture
     {
         if (!isset($this->fixtures[$name])) {
-            return null;
+            throw new FixtureException(sprintf('fixture with the name "%s" not exists', $name));
         }
 
         return $this->fixtures[$name];

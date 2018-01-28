@@ -7,15 +7,12 @@ namespace DavidBadura\Fixtures\TestObjects;
  */
 class Group
 {
-
     /**
-     *
      * @var string
      */
     public $name;
 
     /**
-     *
      * @var User
      */
     public $leader;

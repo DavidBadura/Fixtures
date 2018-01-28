@@ -2,11 +2,13 @@
 
 namespace DavidBadura\Fixtures\Executor;
 
-use DavidBadura\Fixtures\Executor\Executor;
-use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
-use DavidBadura\Fixtures\Converter\DefaultConverter;
 use DavidBadura\Fixtures\Converter\ConverterRepository;
+use DavidBadura\Fixtures\Converter\DefaultConverter;
+use DavidBadura\Fixtures\Exception\CircularReferenceException;
+use DavidBadura\Fixtures\Exception\ReferenceNotFoundException;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\TestObjects\User;
 
 /**
  *
@@ -14,14 +16,10 @@ use DavidBadura\Fixtures\Converter\ConverterRepository;
  */
 class ExecutorTest extends AbstractFixtureTest
 {
-
     /**
-     *
-     * @var FixtureLoader
+     * @var Executor
      */
     private $executor;
-
-
 
     public function setUp()
     {
@@ -51,7 +49,7 @@ class ExecutorTest extends AbstractFixtureTest
         $fixtureData = $fixtures->get('user')->get('david');
         $this->assertTrue($fixtureData->hasObject());
         $object = $fixtureData->getObject();
-        $this->assertInstanceOf('DavidBadura\Fixtures\TestObjects\User', $object);
+        $this->assertInstanceOf(User::class, $object);
         $this->assertEquals('David Badura', $object->getName());
         $this->assertEquals('d.badura@gmx.de', $object->getEmail());
         $this->assertEquals($birthdate, $object->getBirthDate());
@@ -109,11 +107,9 @@ class ExecutorTest extends AbstractFixtureTest
         $this->assertEquals($david, $users->leader);
     }
 
-    /**
-     */
     public function testCircleReferenceException()
     {
-        $this->expectException(\DavidBadura\Fixtures\Exception\CircularReferenceException::class);
+        $this->expectException(CircularReferenceException::class);
 
 
         $userFixture = $this->createUserFixture([
@@ -135,11 +131,9 @@ class ExecutorTest extends AbstractFixtureTest
         $this->executor->execute($fixtures);
     }
 
-    /**
-     */
     public function testReferenceNotFoundException()
     {
-        $this->expectException(\DavidBadura\Fixtures\Exception\ReferenceNotFoundException::class);
+        $this->expectException(ReferenceNotFoundException::class);
 
 
         $userFixture = $this->createUserFixture([
@@ -150,7 +144,7 @@ class ExecutorTest extends AbstractFixtureTest
             ],
         ]);
 
-        $fixtures = new FixtureCollection([$userFixture, ]);
+        $fixtures = new FixtureCollection([$userFixture,]);
         $this->executor->execute($fixtures);
     }
 }

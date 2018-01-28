@@ -2,19 +2,16 @@
 
 namespace DavidBadura\Fixtures\EventListener;
 
-use DavidBadura\Fixtures\EventListener\ValidationListener;
-use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
-use Symfony\Component\Validator\ValidatorInterface;
-use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
+use DavidBadura\Fixtures\Event\FixtureCollectionEvent;
+use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class ValidationListenerTest extends AbstractFixtureTest
 {
-
     /**
      * @var ValidatorInterface
      */
@@ -22,14 +19,14 @@ class ValidationListenerTest extends AbstractFixtureTest
 
     /**
      *
-     * @var PersistListener
+     * @var ValidationListener
      */
     private $listener;
 
     public function setUp()
     {
         parent::setUp();
-        $this->validator = $this->createMock('Symfony\Component\Validator\ValidatorInterface');
+        $this->validator = $this->createMock(ValidatorInterface::class);
         $this->validator->expects($this->never())->method('validate')->will($this->returnValue([]));
 
         $this->listener = new ValidationListener($this->validator);

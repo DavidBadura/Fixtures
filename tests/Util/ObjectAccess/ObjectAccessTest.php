@@ -2,13 +2,12 @@
 
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
-use DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccess;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class ObjectAccessTest extends \PHPUnit\Framework\TestCase
+class ObjectAccessTest extends TestCase
 {
     public function testStdClass()
     {
@@ -30,7 +29,7 @@ class ObjectAccessTest extends \PHPUnit\Framework\TestCase
 
     public function testProtectdProperty()
     {
-        $this->expectException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -49,7 +48,7 @@ class ObjectAccessTest extends \PHPUnit\Framework\TestCase
 
     public function testProtectdSetterMethod()
     {
-        $this->expectException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -81,7 +80,7 @@ class ObjectAccessTest extends \PHPUnit\Framework\TestCase
 
     public function testProtectedAdderMethod()
     {
-        $this->expectException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -113,7 +112,7 @@ class ObjectAccessTest extends \PHPUnit\Framework\TestCase
 
     public function testNotExsistProperty()
     {
-        $this->expectException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);
@@ -143,7 +142,7 @@ class ObjectAccessTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidSetDateTimeMethod()
     {
-        $this->expectException('DavidBadura\Fixtures\Util\ObjectAccess\ObjectAccessException');
+        $this->expectException(ObjectAccessException::class);
 
         $object = new AccessObject();
         $access = new ObjectAccess($object);

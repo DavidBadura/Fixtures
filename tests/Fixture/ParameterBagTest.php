@@ -2,13 +2,12 @@
 
 namespace DavidBadura\Fixtures\Fixture;
 
-use DavidBadura\Fixtures\Fixture\ParameterBag;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-class ParameterBagTest extends \PHPUnit\Framework\TestCase
+class ParameterBagTest extends TestCase
 {
     public function testMainFunctionality()
     {

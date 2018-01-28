@@ -6,21 +6,13 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FilterLoaderTest extends AbstractFixtureTest
 {
-
-    /**
-     *
-     * @var FixtureLoader
-     */
-    private $loader;
-
     public function testFilterLoader()
     {
-        $mockLoader = $this->createMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $mockLoader = $this->createMock(LoaderInterface::class);
         $loader = new FilterLoader($mockLoader);
 
         $fixture1 = $this->createFixture('test1', [], [

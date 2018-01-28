@@ -2,19 +2,16 @@
 
 namespace DavidBadura\Fixtures\Loader;
 
-use DavidBadura\Fixtures\Loader\TomlLoader;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
+use DavidBadura\Fixtures\TestObjects\User;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class TomlLoaderTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
-     *
-     * @var FixtureLoader
+     * @var TomlLoader
      */
     private $loader;
 
@@ -27,52 +24,52 @@ class TomlLoaderTest extends \PHPUnit\Framework\TestCase
     {
         $expects = [
             'user' =>
-            [
-                'properties' =>
                 [
-                    'class' => 'DavidBadura\\Fixtures\\TestObjects\\User',
-                    'constructor' =>
-                    [
-                        0 => 'name',
-                        1 => 'email',
-                    ],
+                    'properties' =>
+                        [
+                            'class' => User::class,
+                            'constructor' =>
+                                [
+                                    0 => 'name',
+                                    1 => 'email',
+                                ],
+                        ],
+                    'data' =>
+                        [
+                            'david' =>
+                                [
+                                    'name' => 'David Badura',
+                                    'email' => 'd.badura@gmx.de',
+                                    'group' =>
+                                        [
+                                            0 => '@group:owner',
+                                            1 => '@group:developer',
+                                        ],
+                                    'role' =>
+                                        [
+                                            0 => '@role:admin',
+                                        ],
+                                ],
+                            'other' =>
+                                [
+                                    'name' => 'Somebody',
+                                    'email' => 'test@example.de',
+                                    'group' =>
+                                        [
+                                            0 => '@group:developer',
+                                        ],
+                                    'role' =>
+                                        [
+                                            0 => '@role:user',
+                                        ],
+                                ],
+                        ],
                 ],
-                'data' =>
-                [
-                    'david' =>
-                    [
-                        'name' => 'David Badura',
-                        'email' => 'd.badura@gmx.de',
-                        'group' =>
-                        [
-                            0 => '@group:owner',
-                            1 => '@group:developer',
-                        ],
-                        'role' =>
-                        [
-                            0 => '@role:admin',
-                        ],
-                    ],
-                    'other' =>
-                    [
-                        'name' => 'Somebody',
-                        'email' => 'test@example.de',
-                        'group' =>
-                        [
-                            0 => '@group:developer',
-                        ],
-                        'role' =>
-                        [
-                            0 => '@role:user',
-                        ],
-                    ],
-                ],
-            ],
         ];
 
         $collection = FixtureCollection::create($expects);
 
-        $data = $this->loader->load(__DIR__ . '/../TestResources/fixtures/user.toml');
+        $data = $this->loader->load(__DIR__.'/../TestResources/fixtures/user.toml');
 
         $this->assertEquals($collection, $data);
     }

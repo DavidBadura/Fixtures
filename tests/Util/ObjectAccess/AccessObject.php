@@ -5,7 +5,6 @@ namespace DavidBadura\Fixtures\Util\ObjectAccess;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class AccessObject

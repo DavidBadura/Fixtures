@@ -5,7 +5,6 @@ namespace DavidBadura\Fixtures\FixtureManager;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureManagerPublicMethods extends FixtureManager

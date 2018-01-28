@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
+use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
@@ -11,26 +12,21 @@ use DavidBadura\Fixtures\AbstractFixtureTest;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
 class FixtureManagerTest extends AbstractFixtureTest
 {
-
     /**
-     *
      * @var FixtureManagerPublicMethods
      */
     private $fixtureManager;
 
     /**
-     *
      * @var LoaderInterface
      */
     private $loader;
 
     /**
-     *
      * @var ExecutorInterface
      */
     private $executor;
@@ -41,13 +37,11 @@ class FixtureManagerTest extends AbstractFixtureTest
     private $persister;
 
     /**
-     *
      * @var ServiceProviderInterface
      */
     private $provider;
 
     /**
-     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -57,20 +51,20 @@ class FixtureManagerTest extends AbstractFixtureTest
     {
         parent::setUp();
 
-        $this->loader = $this->createMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->loader = $this->createMock(LoaderInterface::class);
         $this->loader->expects($this->any())->method('load')->will($this->returnValue(new FixtureCollection()));
 
-        $this->executor = $this->createMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
+        $this->executor = $this->createMock(ExecutorInterface::class);
         $this->executor->expects($this->any())->method('execute');
 
-        $this->persister = $this->createMock('DavidBadura\Fixtures\Persister\PersisterInterface');
+        $this->persister = $this->createMock(PersisterInterface::class);
         $this->persister->expects($this->any())->method('persist');
         $this->persister->expects($this->any())->method('flush');
 
-        $this->provider = $this->createMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
+        $this->provider = $this->createMock(ServiceProviderInterface::class);
         $this->provider->expects($this->any())->method('get');
 
-        $this->eventDispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->eventDispatcher->expects($this->any())->method('dispatch');
 
         $this->fixtureManager = new FixtureManagerPublicMethods(
@@ -89,12 +83,12 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->persister->expects($this->once())->method('flush');
         $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
 
-        $this->fixtureManager->load(null);
+        $this->fixtureManager->load();
     }
 
     public function testServiceProvider()
     {
-        $serviceProvicer = new \DavidBadura\Fixtures\ServiceProvider\ServiceProvider();
+        $serviceProvicer = new ServiceProvider();
         $fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor, $this->persister, $serviceProvicer, $this->eventDispatcher);
 
         $faker =  \Faker\Factory::create();

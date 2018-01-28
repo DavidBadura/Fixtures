@@ -6,16 +6,14 @@ use DavidBadura\Fixtures\Converter\DefaultConverter;
 use DavidBadura\Fixtures\Fixture\Fixture;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Fixture\ParameterBag;
+use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author David Badura <d.badura@gmx.de>
  */
-abstract class AbstractFixtureTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractFixtureTest extends TestCase
 {
-
     /**
-     *
      * @var DefaultConverter
      */
     protected $converter;
@@ -29,19 +27,19 @@ abstract class AbstractFixtureTest extends \PHPUnit\Framework\TestCase
     protected function createUserFixture($data = [])
     {
         return $this->createFixture('user', $data, [
-                'class' => 'DavidBadura\Fixtures\TestObjects\User',
+                'class' => TestObjects\User::class,
                 'constructor' => ['name', 'email'],
             ]);
     }
 
     protected function createGroupFixture($data = [])
     {
-        return $this->createFixture('group', $data, ['class' => 'DavidBadura\Fixtures\TestObjects\Group']);
+        return $this->createFixture('group', $data, ['class' => TestObjects\Group::class]);
     }
 
     protected function createRoleFixture($data = [])
     {
-        return $this->createFixture('role', $data, ['class' => 'DavidBadura\Fixtures\TestObjects\Role']);
+        return $this->createFixture('role', $data, ['class' => TestObjects\Role::class]);
     }
 
     protected function createFixture($name, $data = [], $properties = [])
@@ -56,11 +54,8 @@ abstract class AbstractFixtureTest extends \PHPUnit\Framework\TestCase
         return $fixture;
     }
 
-    /**
-     * @return FixtureManager\FixtureManagerInterface
-     */
     protected function createFixtureManagerMock()
     {
-        return $this->createMock('DavidBadura\Fixtures\FixtureManager\FixtureManagerInterface');
+        return $this->createMock(FixtureManager\FixtureManagerInterface::class);
     }
 }

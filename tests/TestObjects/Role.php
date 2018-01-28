@@ -7,9 +7,7 @@ namespace DavidBadura\Fixtures\TestObjects;
  */
 class Role
 {
-
     /**
-     *
      * @var string
      */
     public $name;
