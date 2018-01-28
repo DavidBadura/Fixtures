@@ -19,7 +19,7 @@ class FixtureCollectionTest extends TestCase
             [
                 'properties' =>
                 [
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\User',
+                    'class' => User::class,
                     'constructor' => ['name', 'email'],
                 ],
                 'data' =>
@@ -44,7 +44,7 @@ class FixtureCollectionTest extends TestCase
             [
                 'properties' =>
                 [
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Group',
+                    'class' => Group::class,
                     'tags' => ['install', 'test'],
                 ],
                 'data' =>
@@ -60,7 +60,7 @@ class FixtureCollectionTest extends TestCase
             [
                 'properties' =>
                 [
-                    'class' => 'DavidBadura\\Fixtures\\Tests\\TestObjects\\Role',
+                    'class' => Role::class,
                     'tags' => ['test'],
                 ],
                 'data' =>

@@ -57,6 +57,10 @@ class FixtureData
 
     public function getProperties(): ParameterBag
     {
+        if (!$this->fixture) {
+            throw new FixtureException("Fixture data has not a parent");
+        }
+
         return $this->fixture->getProperties();
     }
 

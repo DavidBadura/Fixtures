@@ -2,6 +2,7 @@
 
 namespace DavidBadura\Fixtures\Converter;
 
+use DavidBadura\Fixtures\Fixture\Fixture;
 use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\Fixture\ParameterBag;
 use DavidBadura\Fixtures\TestObjects\Post;
@@ -25,19 +26,19 @@ class DefaultConverterTest extends TestCase
 
     public function testDefaultConverterCreateObject()
     {
-        $data = $this->getMock(FixtureData::class, ['getProperties'], [
-            'test',
-            [
-                'name' => 'test_name',
-                'email' => 'test_email',
-                'groups' => ['xyz', 'abc'],
-            ],
+        $fixture = new Fixture('test');
+        $fixture->setProperties(new ParameterBag([
+            'class' => User::class,
+            'constructor' => ['name', 'email']
+        ]));
+
+        $data = new FixtureData('test', [
+            'name' => 'test_name',
+            'email' => 'test_email',
+            'groups' => ['xyz', 'abc'],
         ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
-            'class' => User::class,
-            'constructor' => ['name', 'email'],
-        ])));
+        $data->setFixture($fixture);
 
         $object = $this->converter->createObject($data);
 
@@ -52,19 +53,19 @@ class DefaultConverterTest extends TestCase
 
     public function testDefaultConverterCreateObject_UniqueId()
     {
-        $data = $this->getMock(FixtureData::class, ['getProperties'], [
-            'test',
-            [
-                'name' => 'test_name {unique_id}',
-                'email' => 'test_email',
-                'description' => 'test_description {unique_id}',
-            ],
+        $fixture = new Fixture('test');
+        $fixture->setProperties(new ParameterBag([
+            'class' => User::class,
+            'constructor' => ['name', 'email']
+        ]));
+
+        $data = new FixtureData('test', [
+            'name' => 'test_name {unique_id}',
+            'email' => 'test_email',
+            'description' => 'test_description {unique_id}',
         ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
-            'class' => User::class,
-            'constructor' => ['name', 'email'],
-        ])));
+        $data->setFixture($fixture);
 
         $object = $this->converter->createObject($data);
 
@@ -79,18 +80,18 @@ class DefaultConverterTest extends TestCase
 
     public function testDateTimeConstructor()
     {
-        $data = $this->getMock(FixtureData::class, ['getProperties'], [
-            'test',
-            [
-                'name' => 'test_name',
-                'date' => 'now',
-            ],
+        $fixture = new Fixture('test');
+        $fixture->setProperties(new ParameterBag([
+            'class' => Post::class,
+            'constructor' => ['name', 'date']
+        ]));
+
+        $data = new FixtureData('test', [
+            'name' => 'test_name',
+            'date' => 'now',
         ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
-            'class' => Post::class,
-            'constructor' => ['name', 'date'],
-        ])));
+        $data->setFixture($fixture);
 
         $object = $this->converter->createObject($data);
 
