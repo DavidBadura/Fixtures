@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony;
 
@@ -32,7 +32,7 @@ class LoaderFactory
      * @param KernelInterface $kernel
      * @param string[] $bundles
      */
-    public function __construct(KernelInterface $kernel, array $bundles = array())
+    public function __construct(KernelInterface $kernel, array $bundles = [])
     {
         $this->kernel = $kernel;
         $this->bundles = $bundles;

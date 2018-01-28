@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\ServiceProvider;
 
@@ -6,7 +6,7 @@ namespace DavidBadura\Fixtures\ServiceProvider;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ServiceProviderTest extends \PHPUnit_Framework_TestCase
+class ServiceProviderTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Converter;
 
@@ -21,7 +21,7 @@ class DefaultConverter implements ConverterInterface
     {
         $properties = $fixtureData->getProperties();
         $class = $properties->get('class');
-        $constructor = $properties->get('constructor', array());
+        $constructor = $properties->get('constructor', []);
         $data = $fixtureData->getData();
 
         if (!$class) {
@@ -37,19 +37,17 @@ class DefaultConverter implements ConverterInterface
             if ($reflection->hasMethod('__construct')) {
                 $constParams = $reflection->getMethod('__construct')->getParameters();
             } else {
-                $constParams = array();
+                $constParams = [];
             }
 
-            $args = array();
+            $args = [];
             foreach ($constructor as $key => $arg) {
-
                 $optional = (substr($arg, 0, 1) == '?');
                 $arg = ($optional) ? substr($arg, 1) : $arg;
 
                 if (!isset($data[$arg]) && !$optional) {
                     throw new ConverterException(sprintf('Missing "%s" attribute', $arg));
                 } elseif (isset($data[$arg])) {
-
                     $value = $data[$arg];
 
                     if (is_string($value)) {
@@ -83,8 +81,8 @@ class DefaultConverter implements ConverterInterface
         $properties = $fixtureData->getProperties();
         $data = $fixtureData->getData();
 
-        $constructor = $properties->get('constructor', array());
-        $args = array();
+        $constructor = $properties->get('constructor', []);
+        $args = [];
 
         if (!empty($constructor)) {
             foreach ($constructor as $key) {

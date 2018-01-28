@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -9,7 +9,7 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class TraceLoaderTest extends \PHPUnit_Framework_TestCase
+class TraceLoaderTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -22,12 +22,12 @@ class TraceLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockLoader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->mockLoader = $this->createMock('DavidBadura\Fixtures\Loader\LoaderInterface');
 
         $this->mockLoader->expects($this->any())->method('load')
-            ->with($this->anything())->will($this->returnCallback(function() {
+            ->with($this->anything())->will($this->returnCallback(function () {
                 return new FixtureCollection();
-        }));
+            }));
 
         $this->loader = new TraceLoader($this->mockLoader);
     }
@@ -38,11 +38,11 @@ class TraceLoaderTest extends \PHPUnit_Framework_TestCase
 
         $path = realpath(__DIR__ . '/../TestResources/chainFixtures');
 
-        $this->loader->load(array(
+        $this->loader->load([
             $path .'/roles.php',
             $path .'/user.yml',
-            $path .'/groups.json'
-        ));
+            $path .'/groups.json',
+        ]);
 
         $this->assertContains($path .'/roles.php', $this->loader->getTrace());
         $this->assertContains($path .'/user.yml', $this->loader->getTrace());
@@ -60,5 +60,4 @@ class TraceLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($path .'/user.yml', $this->loader->getTrace());
         $this->assertContains($path .'/groups.json', $this->loader->getTrace());
     }
-
 }

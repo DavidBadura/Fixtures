@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -14,13 +14,13 @@ class ChainLoader implements LoaderInterface
      *
      * @var LoaderInterface[]
      */
-    private $loaders = array();
+    private $loaders = [];
 
     /**
      *
      * @param LoaderInterface[] $loaders
      */
-    public function __construct(array $loaders = array())
+    public function __construct(array $loaders = [])
     {
         foreach ($loaders as $loader) {
             $this->add($loader);
@@ -42,7 +42,7 @@ class ChainLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         $collection = new FixtureCollection();
 

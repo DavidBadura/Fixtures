@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -17,7 +17,7 @@ class TomlLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         $data = Parser::fromFile($path);
 

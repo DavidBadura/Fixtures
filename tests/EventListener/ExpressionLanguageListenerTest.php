@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -30,20 +30,20 @@ class ExpressionLanguageListenerTest extends AbstractFixtureTest
     public function setUp()
     {
         parent::setUp();
-        $this->executor = $this->getMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
+        $this->executor = $this->createMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
         $this->listener = new ExpressionLanguageListener(new ExpressionLanguage($this->executor));
     }
 
     public function testExpressionLanguageListener()
     {
-        $fixtures = new FixtureCollection(array(
-            $this->createFixture('test1', array('key1' => array(
+        $fixtures = new FixtureCollection([
+            $this->createFixture('test1', ['key1' => [
                 'foo' => '@expr(1 + 4)',
-            ))),
-            $this->createFixture('test2', array('key2' => array(
-                'test' => '@expr("foo" ~ "bar")'
-            )))
-        ));
+            ]]),
+            $this->createFixture('test2', ['key2' => [
+                'test' => '@expr("foo" ~ "bar")',
+            ]]),
+        ]);
 
         $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $fixtures);
         $this->listener->onPreExecute($event);
@@ -56,15 +56,16 @@ class ExpressionLanguageListenerTest extends AbstractFixtureTest
     }
 
     /**
-     * @expectedException DavidBadura\Fixtures\Exception\RuntimeException
-     */ 
+     */
     public function testExpressionLanguageException()
     {
-        $fixtures = new FixtureCollection(array(
-            $this->createFixture('test1', array('key1' => array(
+        $this->expectException(\DavidBadura\Fixtures\Exception\RuntimeException::class);
+
+        $fixtures = new FixtureCollection([
+            $this->createFixture('test1', ['key1' => [
                 'foo' => '@expr(1 + adsd +/ 2)',
-            ))),
-            ));
+            ]]),
+            ]);
 
         $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $fixtures);
         $this->listener->onPreExecute($event);
@@ -72,19 +73,19 @@ class ExpressionLanguageListenerTest extends AbstractFixtureTest
 
     public function testExpressionLanguageListenerCreateObject()
     {
-        $fixtures = new FixtureCollection(array(
-            $this->createFixture('test1', array('key1' => array(
+        $fixtures = new FixtureCollection([
+            $this->createFixture('test1', ['key1' => [
                 'foo' => '@expr(object("test2", "key2").test)',
-            ))),
-            $this->createFixture('test2', array('key2' => array(
-                'test' => '@expr("foo" ~ "bar")'
-            )))
-        ));
+            ]]),
+            $this->createFixture('test2', ['key2' => [
+                'test' => '@expr("foo" ~ "bar")',
+            ]]),
+        ]);
 
         $this->executor
             ->expects($this->once())
             ->method('createObject')
-            ->will($this->returnValue((object) array('test' => 'foobar')))
+            ->will($this->returnValue((object) ['test' => 'foobar']))
         ;
 
         $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $fixtures);
@@ -96,7 +97,4 @@ class ExpressionLanguageListenerTest extends AbstractFixtureTest
         $this->assertEquals('foobar', $data1['foo']);
         $this->assertEquals('foobar', $data2['test']);
     }
-
-
-
 }

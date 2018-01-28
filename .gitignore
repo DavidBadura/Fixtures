@@ -2,4 +2,5 @@ phpunit.xml
 coverage
 vendor
 composer.phar
+php-cs-fixer.phar
 composer.lock

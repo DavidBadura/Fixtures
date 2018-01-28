@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
@@ -14,13 +14,13 @@ class FixtureCollection implements \IteratorAggregate, \Countable
      *
      * @var Fixture[]
      */
-    protected $fixtures = array();
+    protected $fixtures = [];
 
     /**
      *
      * @param array $fixtures
      */
-    public function __construct(array $fixtures = array())
+    public function __construct(array $fixtures = [])
     {
         foreach ($fixtures as $fixture) {
             $this->add($fixture);

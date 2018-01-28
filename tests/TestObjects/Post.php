@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -41,5 +41,4 @@ class Post
     {
         return $this->date;
     }
-    
 }

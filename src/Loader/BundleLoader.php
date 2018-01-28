@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -35,7 +35,7 @@ class BundleLoader implements LoaderInterface
      * @param KernelInterface $kernel
      * @param array $bundles
      */
-    public function __construct(LoaderInterface $loader, KernelInterface $kernel, array $bundles = array())
+    public function __construct(LoaderInterface $loader, KernelInterface $kernel, array $bundles = [])
     {
         $this->loader = $loader;
         $this->kernel = $kernel;
@@ -52,7 +52,7 @@ class BundleLoader implements LoaderInterface
             throw new \RuntimeException('Bundles are not defined');
         }
 
-        $paths = array();
+        $paths = [];
 
         foreach ($this->bundles as $name) {
             $bundle = $this->kernel->getBundle($name);
@@ -73,12 +73,12 @@ class BundleLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         if (empty($path)) {
             $path = $this->getFixturesByBundles();
         } elseif (!is_array($path)) {
-            $path = array($path);
+            $path = [$path];
         }
 
         $collection = new FixtureCollection();
@@ -89,5 +89,4 @@ class BundleLoader implements LoaderInterface
 
         return $collection;
     }
-
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -16,5 +16,5 @@ interface LoaderInterface
      * @param  array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array());
+    public function load($path, array $options = []);
 }

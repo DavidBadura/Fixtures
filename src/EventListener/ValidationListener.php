@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -45,7 +45,6 @@ class ValidationListener
         $collection = $event->getCollection();
 
         foreach ($collection as $fixture) {
-
             $validationEnabled = $fixture->getProperties()->get('validation_enabled', false);
 
             if (!$validationEnabled) {

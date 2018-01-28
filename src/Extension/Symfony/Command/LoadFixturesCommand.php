@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony\Command;
 
@@ -38,10 +38,20 @@ class LoadFixturesCommand extends Command
         $this
             ->setName('davidbadura:fixtures:load')
             ->setDescription('Load data fixtures and save it.')
-            ->addOption('fixture', 'f', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'The directory or file to load data fixtures from.', array())
-            ->addOption('tag', 't', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Load fixtures by tag',
-                array())
+            ->addOption(
+                'fixture',
+                'f',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'The directory or file to load data fixtures from.',
+                []
+            )
+            ->addOption(
+                'tag',
+                't',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Load fixtures by tag',
+                []
+            )
             ->addOption('dry_run', null, InputOption::VALUE_NONE, 'Test process (dont save fixtures)');
     }
 
@@ -52,9 +62,9 @@ class LoadFixturesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->fixtureManager->load($input->getOption('fixture'), array(
+        $this->fixtureManager->load($input->getOption('fixture'), [
             'tags' => $input->getOption('tag'),
-            'dry_run' => $input->getOption('dry_run')
-        ));
+            'dry_run' => $input->getOption('dry_run'),
+        ]);
     }
 }

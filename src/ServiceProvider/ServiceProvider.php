@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\ServiceProvider;
 
@@ -14,7 +14,7 @@ class ServiceProvider implements ServiceProviderInterface
      *
      * @var array
      */
-    protected $services = array();
+    protected $services = [];
 
     /**
      *

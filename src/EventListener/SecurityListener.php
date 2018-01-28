@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -45,7 +45,6 @@ class SecurityListener
         $fixtures = $event->getCollection();
 
         foreach ($fixtures as $fixture) {
-
             $properties = $fixture->getProperties();
 
             if (!isset($properties['security']) || $properties['security'] == false) {
@@ -65,8 +64,10 @@ class SecurityListener
                 $encoder = $this->factory->getEncoder($object);
                 $access = new ObjectAccess($object);
 
-                $password = $encoder->encodePassword($access->readProperty($passwordField),
-                    $access->readProperty($saltField));
+                $password = $encoder->encodePassword(
+                    $access->readProperty($passwordField),
+                    $access->readProperty($saltField)
+                );
                 $access->writeProperty($passwordField, $password);
             }
         }

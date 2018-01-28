@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Executor;
 
@@ -18,7 +18,7 @@ class Executor implements ExecutorInterface
      *
      * @var array
      */
-    private $stack = array();
+    private $stack = [];
 
     /**
      *
@@ -78,7 +78,7 @@ class Executor implements ExecutorInterface
      */
     private function createObjects(FixtureCollection $collection)
     {
-        $this->stack = array();
+        $this->stack = [];
 
         foreach ($collection as $fixture) {
             foreach ($fixture as $data) {
@@ -148,7 +148,6 @@ class Executor implements ExecutorInterface
 
         array_walk_recursive($data, function (&$value, $key) use ($executor, $collection) {
             if (is_string($value) && preg_match('/^@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
-
                 if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
                     throw new ReferenceNotFoundException($hit[1], $hit[2]);
                 }
@@ -204,13 +203,11 @@ class Executor implements ExecutorInterface
     protected function prepareDataForFinalize($data, FixtureCollection $collection)
     {
         array_walk_recursive($data, function (&$value, $key) use ($collection) {
-
             if (!is_string($value)) {
                 return;
             }
 
             if (preg_match('/^@@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
-
                 if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
                     throw new ReferenceNotFoundException($hit[1], $hit[2]);
                 }

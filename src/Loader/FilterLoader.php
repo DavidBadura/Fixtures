@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -31,7 +31,7 @@ class FilterLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         $collection = $this->loader->load($path, $options);
 
@@ -42,7 +42,7 @@ class FilterLoader implements LoaderInterface
         $filter = $options['tags'];
 
         if (!is_array($filter)) {
-            $filter = array($filter);
+            $filter = [$filter];
         }
 
         if (empty($filter)) {
@@ -50,7 +50,6 @@ class FilterLoader implements LoaderInterface
         }
 
         foreach ($collection as $fixture) {
-
             $tags = $fixture->getProperties()->get('tags');
 
             if (!$tags || !is_array($tags)) {

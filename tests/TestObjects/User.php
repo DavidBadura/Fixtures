@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -29,13 +29,13 @@ class User
      *
      * @var array
      */
-    private $roles = array();
+    private $roles = [];
 
     /**
      *
      * @var array
      */
-    private $groups = array();
+    private $groups = [];
 
     /**
      * @var DateTime
@@ -123,5 +123,4 @@ class User
     {
         return $this->birthdate;
     }
-
 }

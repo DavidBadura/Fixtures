@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection;
 
@@ -26,7 +26,7 @@ class Configuration
             ->children()
                 ->arrayNode('bundles')
                     ->prototype('scalar')->isRequired()->end()
-                    ->defaultValue(array())
+                    ->defaultValue([])
                 ->end()
                 ->scalarNode('persister')->defaultValue('orm')->end()
                 ->scalarNode('persister_id')->defaultValue(null)->end()

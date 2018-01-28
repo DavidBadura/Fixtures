@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -29,7 +29,7 @@ class TraceLoader implements LoaderInterface
     public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
-        $this->trace = array();
+        $this->trace = [];
     }
 
     /**
@@ -37,7 +37,7 @@ class TraceLoader implements LoaderInterface
      */
     public function reset()
     {
-        $this->trace = array();
+        $this->trace = [];
     }
 
     /**
@@ -55,7 +55,7 @@ class TraceLoader implements LoaderInterface
      * @param  array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         if (is_array($path)) {
             $this->trace = array_merge($this->trace, $path);

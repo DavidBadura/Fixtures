@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Converter;
 
@@ -9,7 +9,7 @@ use DavidBadura\Fixtures\Fixture\ParameterBag;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class DefaultConverterTest extends \PHPUnit_Framework_TestCase
+class DefaultConverterTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -25,20 +25,19 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultConverterCreateObject()
     {
-
-        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', ['getProperties'], [
             'test',
-            array(
+            [
                 'name' => 'test_name',
                 'email' => 'test_email',
-                'groups' => array('xyz', 'abc')
-            )
-        ));
+                'groups' => ['xyz', 'abc'],
+            ],
+        ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
             'class' => 'DavidBadura\Fixtures\TestObjects\User',
-            'constructor' => array('name', 'email')
-        ))));
+            'constructor' => ['name', 'email'],
+        ])));
 
         $object = $this->converter->createObject($data);
 
@@ -48,25 +47,24 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->converter->finalizeObject($object, $data);
 
-        $this->assertEquals(array('xyz', 'abc'), $object->getGroups());
+        $this->assertEquals(['xyz', 'abc'], $object->getGroups());
     }
 
     public function testDefaultConverterCreateObject_UniqueId()
     {
-
-        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', ['getProperties'], [
             'test',
-            array(
+            [
                 'name' => 'test_name {unique_id}',
                 'email' => 'test_email',
-                'description'   => 'test_description {unique_id}'
-            )
-        ));
+                'description'   => 'test_description {unique_id}',
+            ],
+        ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
             'class' => 'DavidBadura\Fixtures\TestObjects\User',
-            'constructor' => array('name', 'email')
-        ))));
+            'constructor' => ['name', 'email'],
+        ])));
 
         $object = $this->converter->createObject($data);
 
@@ -81,19 +79,18 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testDateTimeConstructor()
     {
-
-        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', array('getProperties'), array(
+        $data = $this->getMock('DavidBadura\Fixtures\Fixture\FixtureData', ['getProperties'], [
             'test',
-            array(
+            [
                 'name' => 'test_name',
-                'date' => 'now'
-            )
-        ));
+                'date' => 'now',
+            ],
+        ]);
 
-        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag(array(
+        $data->expects($this->any())->method('getProperties')->will($this->returnValue(new ParameterBag([
             'class' => 'DavidBadura\Fixtures\TestObjects\Post',
-            'constructor' => array('name', 'date')
-        ))));
+            'constructor' => ['name', 'date'],
+        ])));
 
         $object = $this->converter->createObject($data);
 
@@ -101,5 +98,4 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test_name', $object->getName());
         $this->assertInstanceOf('DateTime', $object->getDate());
     }
-
 }

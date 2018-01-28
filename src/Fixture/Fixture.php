@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
@@ -15,7 +15,7 @@ class Fixture implements \IteratorAggregate, \Countable
      *
      * @var array
      */
-    protected static $defaultParameters = array();
+    protected static $defaultParameters = [];
 
     /**
      *
@@ -39,13 +39,13 @@ class Fixture implements \IteratorAggregate, \Countable
      *
      * @var array
      */
-    private $properties = array();
+    private $properties = [];
 
     /**
      *
      * @var FixtureData[]
      */
-    private $fixtureData = array();
+    private $fixtureData = [];
 
     /**
      *
@@ -58,7 +58,7 @@ class Fixture implements \IteratorAggregate, \Countable
         $this->name = $name;
         $this->converter = ($converter) ?: self::$defaultConverter;
 
-        $params = ($properties) ? $properties->toArray() : array();
+        $params = ($properties) ? $properties->toArray() : [];
         $this->properties = new ParameterBag(array_merge(self::$defaultParameters, $params));
     }
 
@@ -99,8 +99,11 @@ class Fixture implements \IteratorAggregate, \Countable
     public function get($key)
     {
         if (!$this->has($key)) {
-            throw new FixtureException(sprintf('Fixture data with key "%s" does not exist in "%s" fixture', $key,
-                    $this->name));
+            throw new FixtureException(sprintf(
+                'Fixture data with key "%s" does not exist in "%s" fixture',
+                $key,
+                    $this->name
+            ));
         }
 
         return $this->fixtureData[$key];
@@ -116,8 +119,11 @@ class Fixture implements \IteratorAggregate, \Countable
     {
         $key = $fixtureData->getKey();
         if ($this->has($key)) {
-            throw new FixtureException(sprintf('fixture data with key "%s" already exists in "%s" fixture', $key,
-                    $this->name));
+            throw new FixtureException(sprintf(
+                'fixture data with key "%s" already exists in "%s" fixture',
+                $key,
+                    $this->name
+            ));
         }
 
         $this->fixtureData[$key] = $fixtureData;
@@ -211,7 +217,7 @@ class Fixture implements \IteratorAggregate, \Countable
      *
      * @param array $params
      */
-    public static function setDefaultParameters(array $params = array())
+    public static function setDefaultParameters(array $params = [])
     {
         self::$defaultParameters = $params;
     }

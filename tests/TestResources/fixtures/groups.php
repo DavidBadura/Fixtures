@@ -1,19 +1,18 @@
-<?php
-
-return array(
+<?php declare(strict_types=1);
+return [
             'group' =>
-            array(
+            [
                 'properties' =>
-                array(
+                [
                     'class' => 'DavidBadura\\Fixtures\\TestObjects\\Group',
-                ),
+                ],
                 'data' =>
-                array(
+                [
                     'developer' =>
-                    array(
+                    [
                         'name' => 'Developer',
                         'leader' => '@@user:david',
-                    ),
-                ),
-            )
-        );
+                    ],
+                ],
+            ],
+        ];

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -32,7 +32,7 @@ class DirectoryLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         if (!file_exists($path)) {
             throw new \RuntimeException(sprintf('"%s" dir or file not found', $path));

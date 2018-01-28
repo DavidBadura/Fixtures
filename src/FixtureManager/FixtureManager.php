@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
@@ -178,7 +178,7 @@ class FixtureManager implements FixtureManagerInterface
      * @param string $path
      * @param array $options
      */
-    public function load($path = null, array $options = array())
+    public function load($path = null, array $options = [])
     {
         $event = new FixtureEvent($this, $options);
         $this->eventDispatcher->dispatch(FixtureEvents::onPreLoad, $event);
@@ -244,19 +244,17 @@ class FixtureManager implements FixtureManagerInterface
                 $data = $fixtureData->getData();
 
                 array_walk_recursive($data, function (&$item, &$key) use ($provider) {
-                    $matches = array();
+                    $matches = [];
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
                         $attributes = explode(',', $matches[3]);
-                        $item = call_user_func_array(array($service, $matches[2]), $attributes);
+                        $item = call_user_func_array([$service, $matches[2]], $attributes);
                     }
                 });
 
                 $fixtureData->setData($data);
-
             }
         }
-
     }
 
     /**
@@ -268,9 +266,8 @@ class FixtureManager implements FixtureManagerInterface
     {
         foreach ($collection as $fixture) {
             foreach ($fixture as $fixtureData) {
-                $matches = array();
+                $matches = [];
                 if (preg_match(FixtureManager::MULTI_PLACEHOLDER_PATTERN, $fixtureData->getKey(), $matches)) {
-
                     $from = $matches[1];
                     $to = $matches[2];
 
@@ -322,5 +319,4 @@ class FixtureManager implements FixtureManagerInterface
 
         return new self($loader, $executor, $persister);
     }
-
 }

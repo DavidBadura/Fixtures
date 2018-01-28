@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
@@ -10,7 +10,6 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  */
 class FixtureManagerPublicMethods extends FixtureManager
 {
-
     public function publicReplaceServicePlaceholder(FixtureCollection $collection)
     {
         $this->replaceServicePlaceholder($collection);
@@ -20,5 +19,4 @@ class FixtureManagerPublicMethods extends FixtureManager
     {
         $this->replaceMultiPlaceholder($collection);
     }
-
 }

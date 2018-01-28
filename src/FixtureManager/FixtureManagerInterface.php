@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
@@ -13,5 +13,5 @@ interface FixtureManagerInterface
      * @param string|array $path
      * @param array $options
      */
-    public function load($path = null, array $options = array());
+    public function load($path = null, array $options = []);
 }

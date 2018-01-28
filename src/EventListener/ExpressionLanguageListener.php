@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -50,8 +50,13 @@ class ExpressionLanguageListener
                 try {
                     $this->executeExpression($data, $collection);
                 } catch (\Exception $e) {
-                    throw new RuntimeException($name, $key,
-                        sprintf("Expression language error '%s'", $e->getMessage()), null, $e);
+                    throw new RuntimeException(
+                        $name,
+                        $key,
+                        sprintf("Expression language error '%s'", $e->getMessage()),
+                        null,
+                        $e
+                    );
                 }
             }
         }
@@ -72,9 +77,9 @@ class ExpressionLanguageListener
             if (preg_match('/^@expr\((.*)\)$/', $value, $hit)) {
                 $expr = substr($value, 6, -1);
 
-                $value = $lang->evaluate($expr, array(
-                    'collection' => $collection
-                ));
+                $value = $lang->evaluate($expr, [
+                    'collection' => $collection,
+                ]);
             }
         });
 

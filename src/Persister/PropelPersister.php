@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Persister;
 
@@ -14,7 +14,7 @@ class PropelPersister implements PersisterInterface
      *
      * @var array
      */
-    protected $objects = array();
+    protected $objects = [];
 
     /**
      *

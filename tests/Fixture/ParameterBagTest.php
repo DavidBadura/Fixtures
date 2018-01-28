@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Fixture;
 
@@ -8,15 +8,14 @@ use DavidBadura\Fixtures\Fixture\ParameterBag;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ParameterBagTest extends \PHPUnit_Framework_TestCase
+class ParameterBagTest extends \PHPUnit\Framework\TestCase
 {
-
     public function testMainFunctionality()
     {
-        $bag = new ParameterBag(array(
+        $bag = new ParameterBag([
             'foo' => 'bar',
-            'test' => 123
-        ));
+            'test' => 123,
+        ]);
 
         $this->assertEquals('bar', $bag->get('foo'));
         $this->assertEquals(123, $bag->get('test'));
@@ -34,5 +33,4 @@ class ParameterBagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $bag->get('foo'));
         $this->assertEquals(123, $bag->get('test'));
     }
-
 }

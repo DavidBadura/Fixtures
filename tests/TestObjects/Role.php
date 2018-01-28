@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\TestObjects;
 
@@ -13,5 +13,4 @@ class Role
      * @var string
      */
     public $name;
-
 }

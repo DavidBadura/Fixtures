@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -12,7 +12,7 @@ use DavidBadura\Fixtures\Fixture\FixtureCollection;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class MatchLoaderTest extends \PHPUnit_Framework_TestCase
+class MatchLoaderTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -33,89 +33,89 @@ class MatchLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadFixtures()
     {
-        $user = array(
+        $user = [
             'user' =>
-            array(
+            [
                 'properties' =>
-                array(
+                [
                     'class' => 'DavidBadura\\Fixtures\\TestObjects\\User',
                     'constructor' =>
-                    array(
+                    [
                         0 => 'name',
                         1 => 'email',
-                    ),
-                ),
+                    ],
+                ],
                 'data' =>
-                array(
+                [
                     'david' =>
-                    array(
+                    [
                         'name' => 'David Badura',
                         'email' => 'd.badura@gmx.de',
                         'group' =>
-                        array(
+                        [
                             0 => '@group:owner',
                             1 => '@group:developer',
-                        ),
+                        ],
                         'role' =>
-                        array(
+                        [
                             0 => '@role:admin',
-                        ),
-                    ),
+                        ],
+                    ],
                     'other' =>
-                    array(
+                    [
                         'name' => 'Somebody',
                         'email' => 'test@example.de',
                         'group' =>
-                        array(
+                        [
                             0 => '@group:developer',
-                        ),
+                        ],
                         'role' =>
-                        array(
+                        [
                             0 => '@role:user',
-                        ),
-                    ),
-                ),
-            )
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
-        $group = array(
+        $group = [
             'group' =>
-            array(
+            [
                 'properties' =>
-                array(
+                [
                     'class' => 'DavidBadura\\Fixtures\\TestObjects\\Group',
-                ),
+                ],
                 'data' =>
-                array(
+                [
                     'developer' =>
-                    array(
+                    [
                         'name' => 'Developer',
                         'leader' => '@@user:david',
-                    ),
-                ),
-            )
-        );
+                    ],
+                ],
+            ],
+        ];
 
-        $role = array(
+        $role = [
             'role' =>
-            array(
+            [
                 'properties' =>
-                array(
+                [
                     'class' => 'DavidBadura\\Fixtures\\TestObjects\\Role',
-                ),
+                ],
                 'data' =>
-                array(
+                [
                     'admin' =>
-                    array(
+                    [
                         'name' => 'Admin',
-                    ),
+                    ],
                     'user' =>
-                    array(
+                    [
                         'name' => 'User',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertEquals(
             FixtureCollection::create($user),
@@ -132,5 +132,4 @@ class MatchLoaderTest extends \PHPUnit_Framework_TestCase
             $this->loader->load(__DIR__ . '/../TestResources/chainFixtures/roles.php')
         );
     }
-
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Converter;
 
@@ -8,7 +8,7 @@ use DavidBadura\Fixtures\Converter\ConverterRepository;
  *
  * @author David Badura <d.badura@gmx.de>
  */
-class ConverterRepositoryTest extends \PHPUnit_Framework_TestCase
+class ConverterRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -24,11 +24,10 @@ class ConverterRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testConverterRepository()
     {
-
-        $converter1 = $this->getMock('DavidBadura\Fixtures\Converter\ConverterInterface');
+        $converter1 = $this->createMock('DavidBadura\Fixtures\Converter\ConverterInterface');
         $converter1->expects($this->any())->method('getName')->will($this->returnValue('conv1'));
 
-        $converter2 = $this->getMock('DavidBadura\Fixtures\Converter\ConverterInterface');
+        $converter2 = $this->createMock('DavidBadura\Fixtures\Converter\ConverterInterface');
         $converter2->expects($this->any())->method('getName')->will($this->returnValue('conv2'));
 
         $this->assertFalse($this->repository->hasConverter('conv1'));
@@ -52,6 +51,5 @@ class ConverterRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->repository->removeConverter('conv2');
         $this->assertFalse($this->repository->hasConverter('conv1'));
         $this->assertFalse($this->repository->hasConverter('conv2'));
-
     }
 }

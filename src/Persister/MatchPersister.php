@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Persister;
 
@@ -15,7 +15,7 @@ class MatchPersister implements PersisterInterface
      *
      * @var array
      */
-    private $mapping = array();
+    private $mapping = [];
 
     /**
      *
@@ -24,10 +24,10 @@ class MatchPersister implements PersisterInterface
      */
     public function add(PersisterInterface $persister, $pattern)
     {
-        $this->mapping[] = array(
+        $this->mapping[] = [
             'persister' => $persister,
-            'pattern' => $pattern
-        );
+            'pattern' => $pattern,
+        ];
 
         return $this;
     }
@@ -43,7 +43,6 @@ class MatchPersister implements PersisterInterface
         $class = get_class($object);
 
         foreach ($this->mapping as $mapping) {
-
             if (!Matcher::match($class, $mapping['pattern'])) {
                 continue;
             }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\FixtureManager;
 
@@ -57,24 +57,29 @@ class FixtureManagerTest extends AbstractFixtureTest
     {
         parent::setUp();
 
-        $this->loader = $this->getMock('DavidBadura\Fixtures\Loader\LoaderInterface');
+        $this->loader = $this->createMock('DavidBadura\Fixtures\Loader\LoaderInterface');
         $this->loader->expects($this->any())->method('load')->will($this->returnValue(new FixtureCollection()));
 
-        $this->executor = $this->getMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
+        $this->executor = $this->createMock('DavidBadura\Fixtures\Executor\ExecutorInterface');
         $this->executor->expects($this->any())->method('execute');
 
-        $this->persister = $this->getMock('DavidBadura\Fixtures\Persister\PersisterInterface');
+        $this->persister = $this->createMock('DavidBadura\Fixtures\Persister\PersisterInterface');
         $this->persister->expects($this->any())->method('persist');
         $this->persister->expects($this->any())->method('flush');
 
-        $this->provider = $this->getMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
+        $this->provider = $this->createMock('DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface');
         $this->provider->expects($this->any())->method('get');
 
-        $this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->eventDispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->eventDispatcher->expects($this->any())->method('dispatch');
 
-        $this->fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor,
-            $this->persister, $this->provider, $this->eventDispatcher);
+        $this->fixtureManager = new FixtureManagerPublicMethods(
+            $this->loader,
+            $this->executor,
+            $this->persister,
+            $this->provider,
+            $this->eventDispatcher
+        );
     }
 
     public function testFixtureManager()
@@ -95,21 +100,21 @@ class FixtureManagerTest extends AbstractFixtureTest
         $faker =  \Faker\Factory::create();
         $fixtureManager->addService('faker', $faker);
 
-        $data = array(
+        $data = [
             'user' =>
-            array(
+            [
                 'data' =>
-                array(
+                [
                     'user{0..2}' =>
-                    array(
+                    [
                         'name' => '<faker::name()>',
                         'email' => '<faker::email()>',
                         'random' => 'blubbtest',
-                        'text' => '<faker::sentence(3)>'
-                    ),
-                ),
-            ),
-        );
+                        'text' => '<faker::sentence(3)>',
+                    ],
+                ],
+            ],
+        ];
 
         $collection = FixtureCollection::create($data);
 
@@ -127,5 +132,4 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->assertTrue(strpos($user1['email'], '@') !== false);
         $this->assertTrue(strpos($user2['email'], '@') !== false);
     }
-
 }

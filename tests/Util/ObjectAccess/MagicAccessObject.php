@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
@@ -8,8 +8,7 @@ namespace DavidBadura\Fixtures\Util\ObjectAccess;
  */
 class MagicAccessObject
 {
-
-    protected $array = array();
+    protected $array = [];
 
     public function __set($property, $value)
     {

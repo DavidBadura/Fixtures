@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Event;
 
@@ -28,7 +28,7 @@ class FixtureEvent extends Event
      * @param FixtureManagerInterface $fixtureManager
      * @param array $options
      */
-    public function __construct(FixtureManagerInterface $fixtureManager, array $options = array())
+    public function __construct(FixtureManagerInterface $fixtureManager, array $options = [])
     {
         $this->fixtureManager = $fixtureManager;
         $this->options = $options;

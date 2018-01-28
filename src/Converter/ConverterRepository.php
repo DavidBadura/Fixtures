@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Converter;
 
@@ -15,7 +15,7 @@ class ConverterRepository implements ConverterRepositoryInterface
      *
      * @var ConverterInterface[]
      */
-    protected $converters = array();
+    protected $converters = [];
 
     /**
      *
@@ -74,5 +74,4 @@ class ConverterRepository implements ConverterRepositoryInterface
 
         return $this;
     }
-
 }

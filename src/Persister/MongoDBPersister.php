@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Persister;
 
@@ -44,6 +44,6 @@ class MongoDBPersister implements PersisterInterface
     public function flush()
     {
         $this->dm->getSchemaManager()->ensureIndexes();
-        $this->dm->flush(null, array('safe' => true));
+        $this->dm->flush(null, ['safe' => true]);
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Extension\Symfony\DependencyInjection\Compiler;
 
@@ -12,17 +12,15 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ConverterPass implements CompilerPassInterface
 {
-
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('davidbadura_fixtures.converter_repository')) {
             return;
         }
 
-        $converters = array();
+        $converters = [];
         foreach ($container->findTaggedServiceIds('davidbadura_fixtures.converter') as $id => $attributes) {
-            $container->getDefinition('davidbadura_fixtures.converter_repository')->addMethodCall('addConverter', array(new Reference($id)));
+            $container->getDefinition('davidbadura_fixtures.converter_repository')->addMethodCall('addConverter', [new Reference($id)]);
         }
     }
-
 }

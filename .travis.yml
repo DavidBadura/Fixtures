@@ -24,7 +24,6 @@ before_install:
   - echo 'date.timezone = "Europe/Berlin"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install:
-  - 'composer self-update'
   - 'wget https://github.com/phpstan/phpstan/releases/download/0.9.1/phpstan.phar'
   - 'php phpstan.phar --version'
   - 'wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar && mv php-cs-fixer-v2.phar php-cs-fixer.phar'

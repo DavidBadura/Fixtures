@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Exception;
 
@@ -24,10 +24,13 @@ class ValidationException extends RuntimeException
      */
     public function __construct($name, $key, ConstraintViolationList $violationList)
     {
-        parent::__construct($name, $key, sprintf('%s: %s. By fixture data %s:%s',
+        parent::__construct($name, $key, sprintf(
+            '%s: %s. By fixture data %s:%s',
             $violationList[0]->getPropertyPath(),
             $violationList[0]->getMessage(),
-            $name, $key));
+            $name,
+            $key
+        ));
 
         $this->violationList = $violationList;
     }

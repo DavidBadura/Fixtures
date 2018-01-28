@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Event;
 
@@ -25,7 +25,7 @@ class FixtureCollectionEvent extends FixtureEvent
     public function __construct(
         FixtureManagerInterface $fixtureManager,
         FixtureCollection $collection,
-        array $options = array()
+        array $options = []
     ) {
         parent::__construct($fixtureManager, $options);
         $this->collection = $collection;

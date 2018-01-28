@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Loader;
 
@@ -17,7 +17,7 @@ class MatchLoader implements LoaderInterface
      *
      * @var array
      */
-    private $mapping = array();
+    private $mapping = [];
 
     /**
      *
@@ -26,10 +26,10 @@ class MatchLoader implements LoaderInterface
      */
     public function add(LoaderInterface $loader, $pattern)
     {
-        $this->mapping[] = array(
+        $this->mapping[] = [
             'loader'  => $loader,
-            'pattern' => $pattern
-        );
+            'pattern' => $pattern,
+        ];
 
         return $this;
     }
@@ -40,10 +40,9 @@ class MatchLoader implements LoaderInterface
      * @param array $options
      * @return FixtureCollection
      */
-    public function load($path, array $options = array())
+    public function load($path, array $options = [])
     {
         foreach ($this->mapping as $mapping) {
-
             if (!Matcher::match($path, $mapping['pattern'])) {
                 continue;
             }

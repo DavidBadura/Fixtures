@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\Util\ObjectAccess;
 
@@ -38,7 +38,7 @@ class ObjectAccess
      */
     public function writeProperty($property, $value)
     {
-        $noPublic = array();
+        $noPublic = [];
 
         $camelizeProperty = $this->camelize($property);
 
@@ -50,7 +50,6 @@ class ObjectAccess
          * try with setter method (set*)
          */
         if ($this->reflClass->hasMethod($setter)) {
-
             if ($this->reflClass->getMethod($setter)->isPublic()) {
                 $this->object->$setter($this->prepareValue($value, $setter));
 
@@ -64,9 +63,7 @@ class ObjectAccess
          * try with adder method
          */
         if (is_array($value)) {
-
             if ($this->reflClass->hasMethod($adder)) {
-
                 if ($this->reflClass->getMethod($adder)->isPublic()) {
                     foreach ($value as $val) {
                         $this->object->$adder($this->prepareValue($val, $adder));
@@ -86,7 +83,6 @@ class ObjectAccess
                 $singularAdder = 'add' . $this->camelize(substr($property, 0, -1));
 
                 if ($this->reflClass->hasMethod($singularAdder)) {
-
                     if ($this->reflClass->getMethod($singularAdder)->isPublic()) {
                         foreach ($value as $val) {
                             $this->object->$singularAdder($this->prepareValue($val, $singularAdder));
@@ -181,7 +177,7 @@ class ObjectAccess
     public function readProperty($property)
     {
         $getter = 'get' . $this->camelize($property);
-        $noPublic = array();
+        $noPublic = [];
 
         /*
          * try with getter method (get*)
@@ -279,7 +275,6 @@ class ObjectAccess
         $class = $params[$parameter]->getClass()->getName();
 
         if ($class == 'DateTime') {
-
             try {
                 return new \DateTime($value);
             } catch (\Exception $e) {
@@ -294,7 +289,6 @@ class ObjectAccess
                     $e
                 );
             }
-
         }
 
         return $value;

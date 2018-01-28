@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DavidBadura\Fixtures\EventListener;
 
@@ -29,21 +29,20 @@ class ValidationListenerTest extends AbstractFixtureTest
     public function setUp()
     {
         parent::setUp();
-        $this->validator = $this->getMock('Symfony\Component\Validator\ValidatorInterface');
-        $this->validator->expects($this->never())->method('validate')->will($this->returnValue(array()));
+        $this->validator = $this->createMock('Symfony\Component\Validator\ValidatorInterface');
+        $this->validator->expects($this->never())->method('validate')->will($this->returnValue([]));
 
         $this->listener = new ValidationListener($this->validator);
     }
 
     public function testValidationListener()
     {
-        $fixtures = new FixtureCollection(array(
-            $this->createFixture('test1', array('key1' => 'data1')),
-            $this->createFixture('test2', array('key2' => 'data2'))
-        ));
+        $fixtures = new FixtureCollection([
+            $this->createFixture('test1', ['key1' => 'data1']),
+            $this->createFixture('test2', ['key2' => 'data2']),
+        ]);
 
         $event = new FixtureCollectionEvent($this->createFixtureManagerMock(), $fixtures);
         $this->listener->onPostExecute($event);
     }
-
 }
