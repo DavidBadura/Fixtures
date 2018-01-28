@@ -20,7 +20,8 @@
         "fzaninotto/faker": "~1.1",
         "doctrine/common": "^2.0",
         "jamesmoss/toml": "^1.1",
-        "symfony/expression-language": "^3.4|^4.0"
+        "symfony/expression-language": "^3.4|^4.0",
+        "phpunit/phpunit": "^6.5"
     },
     "suggest": {
         "symfony/yaml" : "^3.4|^4.0",
