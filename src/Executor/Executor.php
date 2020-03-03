@@ -99,7 +99,7 @@ class Executor implements ExecutorInterface
         $executor = $this;
 
         array_walk_recursive($data, function (&$value, $key) use ($executor, $collection) {
-            if (is_string($value) && preg_match('/^@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
+            if (is_string($value) && preg_match('/^@([-_\w]*):([-_\w]*)$/', $value, $hit)) {
                 if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
                     throw new ReferenceNotFoundException($hit[1], $hit[2]);
                 }
@@ -146,7 +146,7 @@ class Executor implements ExecutorInterface
                 return;
             }
 
-            if (preg_match('/^@@([\w-_]*):([\w-_]*)$/', $value, $hit)) {
+            if (preg_match('/^@@([-_\w]*):([-_\w]*)$/', $value, $hit)) {
                 if (!$collection->has($hit[1]) || !$collection->get($hit[1])->get($hit[2])) {
                     throw new ReferenceNotFoundException($hit[1], $hit[2]);
                 }
