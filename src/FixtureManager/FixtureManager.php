@@ -159,6 +159,9 @@ class FixtureManager implements FixtureManagerInterface
                 $data = $fixtureData->getData();
 
                 array_walk_recursive($data, function (&$item, &$key) use ($provider) {
+                    if (!is_string($item)) {
+                        return;
+                    }
                     $matches = [];
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
