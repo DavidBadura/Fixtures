@@ -183,8 +183,6 @@ class FixtureManager implements FixtureManagerInterface
                             )
                         );
 
-                        dump($matches[2], $parameters);
-
                         $item = call_user_func_array([$service, $matches[2]], $parameters);
                     }
                 });
