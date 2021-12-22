@@ -18,8 +18,8 @@
         "symfony/yaml" : "^4.4|^5.3|^6.0",
         "symfony/validator": "^4.4|^5.3|^6.0",
         "symfony/http-kernel": "^4.4|^5.3|^6.0",
-        "fzaninotto/faker": "^1.1.0",
-        "doctrine/common": "^2.0|^3.0",
+        "fakerphp/faker": "^1.10",
+        "doctrine/common": "^2.9|^3.0",
         "doctrine/collections": "^1.6",
         "jamesmoss/toml": "^1.1",
         "symfony/expression-language": "^4.4|^5.3|^6.0",
@@ -36,11 +36,19 @@
         "symfony/yaml" : "^4.4|^5.3|^6.0",
         "symfony/validator": "^4.4|^5.3|^6.0",
         "symfony/http-kernel": "^4.4|^5.3|^6.0",
-        "fzaninotto/faker": "~1.1",
+        "fakerphp/faker": "^1.10",
         "doctrine/orm": "^2.0|3.0",
         "doctrine/mongodb-odm": "^1.2",
         "jamesmoss/toml": "^1.1",
         "symfony/expression-language": "^4.4|^5.3|^6.0"
+    },
+    "conflict": {
+        "doctrine/common": "<2.9",
+        "symfony/yaml": "<2.9",
+        "symfony/validator": "<4.4",
+        "symfony/http-kernel": "<4.4",
+        "fzaninotto/faker": "*",
+        "fakerphp/faker": "<1.10"
     },
     "autoload": {
         "psr-4": {

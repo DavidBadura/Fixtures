@@ -3,7 +3,7 @@
 namespace DavidBadura\Fixtures\Persister;
 
 use DavidBadura\Fixtures\Fixture\FixtureData;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @author David Badura <d.badura@gmx.de>

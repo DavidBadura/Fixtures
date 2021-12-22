@@ -16,7 +16,7 @@ use DavidBadura\Fixtures\Persister\MongoDBPersister;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -108,13 +108,13 @@ class FixtureManager implements FixtureManagerInterface
     public function load($path = null, array $options = [])
     {
         $event = new FixtureEvent($this, $options);
-        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreLoad);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreLoad);
         $options = $event->getOptions();
 
         $collection = $this->loader->load($path);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreExecute);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -122,14 +122,14 @@ class FixtureManager implements FixtureManagerInterface
         $this->replaceServicePlaceholder($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreExecute);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
         $this->executor->execute($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch($event,FixtureEvents::onPostExecute);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPostExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -140,7 +140,7 @@ class FixtureManager implements FixtureManagerInterface
         $this->persist($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch($event,FixtureEvents::onPostPersist);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPostPersist);
     }
 
     protected function persist(FixtureCollection $collection)
@@ -166,17 +166,61 @@ class FixtureManager implements FixtureManagerInterface
                     if (!is_string($item)) {
                         return;
                     }
+
                     $matches = [];
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
-                        $attributes = explode(',', $matches[3]);
-                        $item = call_user_func_array([$service, $matches[2]], $attributes);
+
+                        $parameters = array_map(
+                            function ($value) {
+                                return $this->normalizeParameter($value);
+                            },
+                            array_filter(
+                                explode(',', $matches[3]),
+                                function ($value) {
+                                    return $value !== "";
+                                }
+                            )
+                        );
+
+                        dump($matches[2], $parameters);
+
+                        $item = call_user_func_array([$service, $matches[2]], $parameters);
                     }
                 });
 
                 $fixtureData->setData($data);
             }
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function normalizeParameter($value)
+    {
+        if ($value === "true") {
+            return true;
+        }
+
+        if ($value === "false") {
+            return false;
+        }
+
+        if ($value === "null") {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            if (strpos($value, '.') !== false) {
+                return (float)$value;
+            }
+
+            return (int)$value;
+        }
+
+        return $value;
     }
 
     protected function replaceMultiPlaceholder(FixtureCollection $collection)
