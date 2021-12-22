@@ -16,8 +16,9 @@ use DavidBadura\Fixtures\Persister\MongoDBPersister;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use PackageVersions\Versions;
+use RuntimeException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -231,7 +232,7 @@ class FixtureManager implements FixtureManagerInterface
                     $to = $matches[2];
 
                     if ($from > $to) {
-                        throw new \RuntimeException();
+                        throw new RuntimeException();
                     }
 
                     for ($i = $from; $i <= $to; $i++) {
@@ -261,14 +262,24 @@ class FixtureManager implements FixtureManagerInterface
 
         $executor = Executor::createDefaultExecutor();
 
+        $version = ltrim(Versions::getVersion('doctrine/common'), 'v');
+
+        if ($version[0] === '3') {
+            $namespace = \Doctrine\Persistence\ObjectManager::class;
+        } elseif ($version[0] === '2') {
+            $namespace = \Doctrine\Common\Persistence\ObjectManager::class;
+        } else {
+            throw new RuntimeException('Could not determinate doctrine/common package version. Required version: 2.9 or 3.x . Given: '. $version[0]);
+        }
+
         if ($objectManager instanceof PersisterInterface) {
             $persister = $objectManager;
         } elseif ($objectManager instanceof DocumentManager) {
             $persister = new MongoDBPersister($objectManager);
-        } elseif ($objectManager instanceof ObjectManager) {
+        } elseif ($objectManager instanceof $namespace) {
             $persister = new DoctrinePersister($objectManager);
         } else {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
 
         return new self($loader, $executor, $persister);

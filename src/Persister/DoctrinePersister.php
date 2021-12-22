@@ -3,7 +3,6 @@
 namespace DavidBadura\Fixtures\Persister;
 
 use DavidBadura\Fixtures\Fixture\FixtureData;
-use Doctrine\Persistence\ObjectManager;
 
 /**
  * @author David Badura <d.badura@gmx.de>
@@ -12,7 +11,7 @@ class DoctrinePersister implements PersisterInterface
 {
     private $om;
 
-    public function __construct(ObjectManager $om)
+    public function __construct($om)
     {
         $this->om = $om;
     }
