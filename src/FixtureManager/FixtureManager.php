@@ -11,9 +11,13 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\FixtureEvents;
 use DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
+use DavidBadura\Fixtures\Persister\DoctrinePersister;
+use DavidBadura\Fixtures\Persister\MongoDBPersister;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -104,13 +108,13 @@ class FixtureManager implements FixtureManagerInterface
     public function load($path = null, array $options = [])
     {
         $event = new FixtureEvent($this, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreLoad, $event);
+        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreLoad);
         $options = $event->getOptions();
 
         $collection = $this->loader->load($path);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
+        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -118,14 +122,14 @@ class FixtureManager implements FixtureManagerInterface
         $this->replaceServicePlaceholder($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
+        $this->eventDispatcher->dispatch($event,FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
         $this->executor->execute($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPostExecute, $event);
+        $this->eventDispatcher->dispatch($event,FixtureEvents::onPostExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -136,7 +140,7 @@ class FixtureManager implements FixtureManagerInterface
         $this->persist($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPostPersist, $event);
+        $this->eventDispatcher->dispatch($event,FixtureEvents::onPostPersist);
     }
 
     protected function persist(FixtureCollection $collection)
@@ -217,10 +221,10 @@ class FixtureManager implements FixtureManagerInterface
 
         if ($objectManager instanceof PersisterInterface) {
             $persister = $objectManager;
-        } elseif ($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
-            $persister = new \DavidBadura\Fixtures\Persister\MongoDBPersister($objectManager);
-        } elseif ($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
-            $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
+        } elseif ($objectManager instanceof DocumentManager) {
+            $persister = new MongoDBPersister($objectManager);
+        } elseif ($objectManager instanceof ObjectManager) {
+            $persister = new DoctrinePersister($objectManager);
         } else {
             throw new \RuntimeException();
         }
