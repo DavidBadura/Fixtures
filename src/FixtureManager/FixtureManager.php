@@ -193,7 +193,7 @@ class FixtureManager implements FixtureManagerInterface
                     }
 
                     for ($i = $from; $i <= $to; $i++) {
-                        $newKey = str_replace($matches[0], $i, $fixtureData->getKey());
+                        $newKey = str_replace($matches[0], (string)$i, $fixtureData->getKey());
                         $newFixture = new FixtureData($newKey, $fixtureData->getData());
                         $fixture->add($newFixture);
                     }
