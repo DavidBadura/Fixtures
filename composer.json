@@ -14,7 +14,6 @@
         "symfony/finder" : "^4.4|^5.3|^6.0"
     },
     "require-dev": {
-        "patchlevel/coding-standard": "^1.1.1",
         "symfony/yaml" : "^4.4|^5.3|^6.0",
         "symfony/validator": "^4.4|^5.3|^6.0",
         "symfony/http-kernel": "^4.4|^5.3|^6.0",
@@ -29,8 +28,6 @@
         "symfony/dependency-injection": "^4.4|^5.3|^6.0",
         "symfony/console": "^4.4|^5.3|^6.0",
         "phpspec/prophecy-phpunit": "^2.0.1",
-        "phpstan/phpstan": "^1.2.0",
-        "vimeo/psalm": "^4.13.1"
     },
     "suggest": {
         "symfony/yaml" : "^4.4|^5.3|^6.0",
