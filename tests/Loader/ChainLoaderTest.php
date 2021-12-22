@@ -19,7 +19,7 @@ class ChainLoaderTest extends TestCase
 
     private $mock2;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mock1 = $this->createMock(LoaderInterface::class);
         $this->mock2 = $this->createMock(LoaderInterface::class);

@@ -47,7 +47,7 @@ class FixtureManagerTest extends AbstractFixtureTest
     private $eventDispatcher;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

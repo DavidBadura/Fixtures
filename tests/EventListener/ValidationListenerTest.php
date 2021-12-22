@@ -23,7 +23,7 @@ class ValidationListenerTest extends AbstractFixtureTest
      */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->validator = $this->createMock(ValidatorInterface::class);
