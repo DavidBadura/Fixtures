@@ -11,14 +11,14 @@
     "require": {
         "php": ">=7.1",
         "symfony/event-dispatcher" : "^3.4|^4.0",
-        "symfony/finder" : "^3.4|^4.0"
+        "symfony/finder" : "^3.4|^4.0",
+	    "doctrine/common" : "^2.0"
     },
     "require-dev": {
         "symfony/yaml" : "^3.4|^4.0",
         "symfony/validator": "^3.4|^4.0",
         "symfony/http-kernel": "^3.4|^4.0",
         "fzaninotto/faker": "~1.1",
-        "doctrine/common": "^2.0",
         "jamesmoss/toml": "^1.1",
         "symfony/expression-language": "^3.4|^4.0",
         "phpunit/phpunit": "^6.5",
