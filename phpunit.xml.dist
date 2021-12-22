@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="DavidBaduraFixtures">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="unit">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <report>
+            <html outputDirectory="./coverage"/>
+            <text outputFile="php://stdout"/>
+        </report>
+    </coverage>
+
+    <php>
+        <env name="COLUMNS" value="120"/>
+        <ini name="error_reporting" value="E_ALL"/>
+    </php>
 </phpunit>
