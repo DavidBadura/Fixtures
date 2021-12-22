@@ -70,12 +70,12 @@ class DefaultConverterTest extends TestCase
         $object = $this->converter->createObject($data);
 
         $this->assertInstanceOf(User::class, $object);
-        $this->assertRegExp('/test_name .{13}/', $object->getName());
+        $this->assertMatchesRegularExpression('/test_name .{13}/', $object->getName());
         $this->assertEquals('test_email', $object->getEmail());
 
         $this->converter->finalizeObject($object, $data);
 
-        $this->assertRegExp('/test_description .{13}/', $object->getDescription());
+        $this->assertMatchesRegularExpression('/test_description .{13}/', $object->getDescription());
     }
 
     public function testDateTimeConstructor()
