@@ -50,6 +50,7 @@ class ParameterBag implements \ArrayAccess
         return $this->has((string)$offset);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get((string)$offset);

@@ -20,6 +20,7 @@
         "symfony/http-kernel": "^4.4|^5.3|^6.0",
         "fzaninotto/faker": "^1.1.0",
         "doctrine/common": "^2.0|^3.0",
+        "doctrine/collections": "^1.6",
         "jamesmoss/toml": "^1.1",
         "symfony/expression-language": "^4.4|^5.3|^6.0",
         "phpunit/phpunit": "^9.5.4",
