@@ -40,8 +40,8 @@ class DirectoryLoaderTest extends TestCase
         $this->loader->load($path);
 
         $this->assertCount(3, $files);
-        $this->assertEquals($path.'/groups.json', $files[0]);
-        $this->assertEquals($path.'/roles.php', $files[1]);
-        $this->assertEquals($path.'/user.yml', $files[2]);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'groups.json', $files);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'roles.php', $files);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'user.yml', $files);
     }
 }
