@@ -14,7 +14,7 @@ class ConverterRepositoryTest extends TestCase
      */
     protected $repository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->repository = new ConverterRepository();
     }

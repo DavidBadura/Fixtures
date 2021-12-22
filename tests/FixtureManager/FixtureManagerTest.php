@@ -47,7 +47,7 @@ class FixtureManagerTest extends AbstractFixtureTest
     private $eventDispatcher;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -88,8 +88,14 @@ class FixtureManagerTest extends AbstractFixtureTest
 
     public function testServiceProvider()
     {
-        $serviceProvicer = new ServiceProvider();
-        $fixtureManager = new FixtureManagerPublicMethods($this->loader, $this->executor, $this->persister, $serviceProvicer, $this->eventDispatcher);
+        $serviceProvider = new ServiceProvider();
+        $fixtureManager = new FixtureManagerPublicMethods(
+            $this->loader,
+            $this->executor,
+            $this->persister,
+            $serviceProvider,
+            $this->eventDispatcher
+        );
 
         $faker =  \Faker\Factory::create();
         $fixtureManager->addService('faker', $faker);

@@ -21,7 +21,7 @@ class ExecutorTest extends AbstractFixtureTest
      */
     private $executor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $repository = new ConverterRepository();
