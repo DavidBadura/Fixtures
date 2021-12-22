@@ -162,7 +162,7 @@ class FixtureManager implements FixtureManagerInterface
             foreach ($fixture as $fixtureData) {
                 $data = $fixtureData->getData();
 
-                array_walk_recursive($data, function (&$item, &$key) use ($provider) {
+                array_walk_recursive($data, function (&$item) use ($provider) {
                     if (!is_string($item)) {
                         return;
                     }
