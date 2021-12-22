@@ -11,9 +11,13 @@ use DavidBadura\Fixtures\Fixture\FixtureData;
 use DavidBadura\Fixtures\FixtureEvents;
 use DavidBadura\Fixtures\Loader;
 use DavidBadura\Fixtures\Loader\LoaderInterface;
+use DavidBadura\Fixtures\Persister\DoctrinePersister;
+use DavidBadura\Fixtures\Persister\MongoDBPersister;
 use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProvider;
 use DavidBadura\Fixtures\ServiceProvider\ServiceProviderInterface;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -104,13 +108,13 @@ class FixtureManager implements FixtureManagerInterface
     public function load($path = null, array $options = [])
     {
         $event = new FixtureEvent($this, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreLoad, $event);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreLoad);
         $options = $event->getOptions();
 
         $collection = $this->loader->load($path);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -118,14 +122,14 @@ class FixtureManager implements FixtureManagerInterface
         $this->replaceServicePlaceholder($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPreExecute, $event);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
         $this->executor->execute($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPostExecute, $event);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPostExecute);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
@@ -136,7 +140,7 @@ class FixtureManager implements FixtureManagerInterface
         $this->persist($collection);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch(FixtureEvents::onPostPersist, $event);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPostPersist);
     }
 
     protected function persist(FixtureCollection $collection)
@@ -158,21 +162,63 @@ class FixtureManager implements FixtureManagerInterface
             foreach ($fixture as $fixtureData) {
                 $data = $fixtureData->getData();
 
-                array_walk_recursive($data, function (&$item, &$key) use ($provider) {
+                array_walk_recursive($data, function (&$item) use ($provider) {
                     if (!is_string($item)) {
                         return;
                     }
+
                     $matches = [];
                     if (preg_match(FixtureManager::SERVICE_PLACEHOLDER_PATTERN, $item, $matches)) {
                         $service = $provider->get($matches[1]);
-                        $attributes = explode(',', $matches[3]);
-                        $item = call_user_func_array([$service, $matches[2]], $attributes);
+
+                        $parameters = array_map(
+                            function ($value) {
+                                return $this->normalizeParameter($value);
+                            },
+                            array_filter(
+                                explode(',', $matches[3]),
+                                function ($value) {
+                                    return $value !== "";
+                                }
+                            )
+                        );
+
+                        $item = call_user_func_array([$service, $matches[2]], $parameters);
                     }
                 });
 
                 $fixtureData->setData($data);
             }
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function normalizeParameter($value)
+    {
+        if ($value === "true") {
+            return true;
+        }
+
+        if ($value === "false") {
+            return false;
+        }
+
+        if ($value === "null") {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            if (strpos($value, '.') !== false) {
+                return (float)$value;
+            }
+
+            return (int)$value;
+        }
+
+        return $value;
     }
 
     protected function replaceMultiPlaceholder(FixtureCollection $collection)
@@ -189,7 +235,7 @@ class FixtureManager implements FixtureManagerInterface
                     }
 
                     for ($i = $from; $i <= $to; $i++) {
-                        $newKey = str_replace($matches[0], $i, $fixtureData->getKey());
+                        $newKey = str_replace($matches[0], (string)$i, $fixtureData->getKey());
                         $newFixture = new FixtureData($newKey, $fixtureData->getData());
                         $fixture->add($newFixture);
                     }
@@ -217,10 +263,10 @@ class FixtureManager implements FixtureManagerInterface
 
         if ($objectManager instanceof PersisterInterface) {
             $persister = $objectManager;
-        } elseif ($objectManager instanceof \Doctrine\ODM\MongoDB\DocumentManager) {
-            $persister = new \DavidBadura\Fixtures\Persister\MongoDBPersister($objectManager);
-        } elseif ($objectManager instanceof \Doctrine\Common\Persistence\ObjectManager) {
-            $persister = new \DavidBadura\Fixtures\Persister\DoctrinePersister($objectManager);
+        } elseif ($objectManager instanceof DocumentManager) {
+            $persister = new MongoDBPersister($objectManager);
+        } elseif ($objectManager instanceof ObjectManager) {
+            $persister = new DoctrinePersister($objectManager);
         } else {
             throw new \RuntimeException();
         }

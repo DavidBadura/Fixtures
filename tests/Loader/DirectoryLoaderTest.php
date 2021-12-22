@@ -18,7 +18,7 @@ class DirectoryLoaderTest extends TestCase
 
     private $mockLoader;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockLoader = $this->createMock(LoaderInterface::class);
         $this->loader = new DirectoryLoader($this->mockLoader);
@@ -39,8 +39,9 @@ class DirectoryLoaderTest extends TestCase
 
         $this->loader->load($path);
 
-        $this->assertContains($path.'/roles.php', $files);
-        $this->assertContains($path.'/user.yml', $files);
-        $this->assertContains($path.'/groups.json', $files);
+        $this->assertCount(3, $files);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'groups.json', $files);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'roles.php', $files);
+        $this->assertContains($path.DIRECTORY_SEPARATOR.'user.yml', $files);
     }
 }

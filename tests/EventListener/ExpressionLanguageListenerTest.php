@@ -25,7 +25,7 @@ class ExpressionLanguageListenerTest extends AbstractFixtureTest
      */
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->executor = $this->createMock(ExecutorInterface::class);

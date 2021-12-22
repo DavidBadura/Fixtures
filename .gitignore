@@ -1,8 +1,5 @@
 phpunit.xml
 coverage
 vendor
-composer.phar
 composer.lock
-php-cs-fixer.phar
-.php_cs.cache
-phpstan.phar
+.phpunit.result.cache

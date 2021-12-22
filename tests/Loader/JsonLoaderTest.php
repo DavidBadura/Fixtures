@@ -16,7 +16,7 @@ class JsonLoaderTest extends TestCase
      */
     private $loader;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->loader = new JsonLoader();
     }

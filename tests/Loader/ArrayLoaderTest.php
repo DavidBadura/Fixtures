@@ -17,7 +17,7 @@ class ArrayLoaderTest extends TestCase
 
     private $mockLoader;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockLoader = $this->createMock(LoaderInterface::class);
         $this->loader = new ArrayLoader($this->mockLoader);
