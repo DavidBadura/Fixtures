@@ -114,7 +114,7 @@ class FixtureManager implements FixtureManagerInterface
         $collection = $this->loader->load($path);
 
         $event = new FixtureCollectionEvent($this, $collection, $options);
-        $this->eventDispatcher->dispatch($event, FixtureEvents::onPreExecute);
+        $this->eventDispatcher->dispatch($event, FixtureEvents::onPostLoad);
         $collection = $event->getCollection();
         $options = $event->getOptions();
 
