@@ -9,6 +9,8 @@ use DavidBadura\Fixtures\Persister\PersisterInterface;
 use DavidBadura\Fixtures\Executor\ExecutorInterface;
 use DavidBadura\Fixtures\Fixture\FixtureCollection;
 use DavidBadura\Fixtures\AbstractFixtureTest;
+use DavidBadura\Fixtures\Event\FixtureEvent;
+use DavidBadura\Fixtures\FixtureEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -81,7 +83,17 @@ class FixtureManagerTest extends AbstractFixtureTest
         $this->loader->expects($this->once())->method('load')->will($this->returnValue(new FixtureCollection()));
         $this->executor->expects($this->once())->method('execute');
         $this->persister->expects($this->once())->method('flush');
-        $this->eventDispatcher->expects($this->exactly(5))->method('dispatch');
+        $this->eventDispatcher
+            ->expects($this->exactly(5))
+            ->method('dispatch')
+            ->withConsecutive(
+                [$this->isInstanceOf(FixtureEvent::class), FixtureEvents::onPreLoad],
+                [$this->isInstanceOf(FixtureEvent::class), FixtureEvents::onPostLoad],
+                [$this->isInstanceOf(FixtureEvent::class), FixtureEvents::onPreExecute],
+                [$this->isInstanceOf(FixtureEvent::class), FixtureEvents::onPostExecute],
+                [$this->isInstanceOf(FixtureEvent::class), FixtureEvents::onPostPersist]
+            )
+        ;
 
         $this->fixtureManager->load();
     }
