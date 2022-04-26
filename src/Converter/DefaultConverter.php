@@ -39,11 +39,11 @@ class DefaultConverter implements ConverterInterface
             $optional = (substr($arg, 0, 1) == '?');
             $arg = ($optional) ? substr($arg, 1) : $arg;
 
-            if (!isset($data[$arg]) && !$optional) {
+            if (!\array_key_exists($arg, $data) && !$optional) {
                 throw new ConverterException(sprintf('Missing "%s" attribute', $arg));
             }
 
-            if (isset($data[$arg])) {
+            if (\array_key_exists($arg, $data)) {
                 $value = $data[$arg];
 
                 if (is_string($value)) {

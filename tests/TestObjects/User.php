@@ -14,7 +14,7 @@ class User
     private $groups = [];
     private $birthdate;
 
-    public function __construct(string $name, string $email)
+    public function __construct(string $name, ?string $email)
     {
         $this->name = $name;
         $this->email = $email;
@@ -30,12 +30,12 @@ class User
         $this->name = $name;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }

@@ -99,4 +99,26 @@ class DefaultConverterTest extends TestCase
         $this->assertEquals('test_name', $object->getName());
         $this->assertInstanceOf('DateTime', $object->getDate());
     }
+
+    public function testnullableCostructorArgument()
+    {
+        $fixture = new Fixture('test');
+        $fixture->setProperties(new ParameterBag([
+            'class' => User::class,
+            'constructor' => ['name', 'email'],
+        ]));
+
+        $data = new FixtureData('test', [
+            'name' => 'test_name',
+            'email' => null,
+        ]);
+
+        $data->setFixture($fixture);
+
+        $object = $this->converter->createObject($data);
+
+        $this->assertInstanceOf(User::class, $object);
+        $this->assertEquals('test_name', $object->getName());
+        $this->assertNull($object->getEmail());
+    }
 }
