@@ -10,23 +10,23 @@
     }],
     "require": {
         "php": "^7.4|^8.0",
-        "symfony/event-dispatcher" : "^4.4|^5.3|^6.0",
-        "symfony/finder" : "^4.4|^5.3|^6.0"
+        "symfony/event-dispatcher" : "7.0.3",
+        "symfony/finder" : "7.0.0"
     },
     "require-dev": {
-        "symfony/yaml" : "^4.4.34|^5.3|^6.0",
-        "symfony/validator": "^4.4.34|^5.3|^6.0",
-        "symfony/http-kernel": "^4.4.34|^5.3|^6.0",
+        "symfony/yaml" : "7.0.3",
+        "symfony/validator": "7.0.5",
+        "symfony/http-kernel": "7.0.5",
         "fakerphp/faker": "^1.10",
         "doctrine/common": "^2.9|^3.0",
         "doctrine/collections": "^1.6",
         "jamesmoss/toml": "^1.1",
-        "symfony/expression-language": "^4.4.34|^5.3|^6.0",
+        "symfony/expression-language": "7.0.3",
         "phpunit/phpunit": "^9.5.4",
-        "symfony/config": "^4.4.34|^5.3|^6.0",
-        "symfony/security-core": "^4.4.34|^5.3|^6.0",
-        "symfony/dependency-injection": "^4.4.34|^5.3|^6.0",
-        "symfony/console": "^4.4.34|^5.3|^6.0",
+        "symfony/config": "7.0.4",
+        "symfony/security-core": "7.0.3",
+        "symfony/dependency-injection": "7.0.4",
+        "symfony/console": "7.0.4",
         "phpspec/prophecy-phpunit": "^2.0.1"
     },
     "suggest": {
